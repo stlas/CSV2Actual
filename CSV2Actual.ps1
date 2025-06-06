@@ -20,12 +20,14 @@ $OutputEncoding = [System.Text.Encoding]::UTF8
 . "$PSScriptRoot/modules/Config.ps1"
 . "$PSScriptRoot/modules/I18n.ps1"
 . "$PSScriptRoot/modules/CsvValidator.ps1"
+. "$PSScriptRoot/modules/CommunityLoader.ps1"
 
 # Initialize configuration and internationalization
 try {
     $global:config = [Config]::new("$PSScriptRoot/config.json")
     $langDir = $global:config.Get("paths.languageDir")
     $global:i18n = [I18n]::new($langDir, $Language)
+    $global:communityLoader = [CommunityLoader]::new("$PSScriptRoot/community", $global:i18n)
 }
 catch {
     Write-Host "ERROR: Could not load configuration or language files. Please ensure config.json and lang/ folder exist." -ForegroundColor Red
@@ -110,7 +112,7 @@ function Wait-UserInput {
 }
 
 function Step1-Preparation {
-    Write-StepHeader "wizard.step1_title" 1 4
+    Write-StepHeader "wizard.step1_title" 1 5
     
     Write-Host (t "instructions.place_csv") -ForegroundColor White
     Write-Host (t "instructions.expected_format") -ForegroundColor Gray
@@ -145,10 +147,114 @@ function Step1-Preparation {
     return $csvFiles
 }
 
-function Step2-Validation {
+function Step2-CommunitySettings {
+    Write-StepHeader "wizard.step2_title" 2 5
+    
+    $communityStats = $global:communityLoader.GetCommunityStats()
+    
+    if ($communityStats.totalContributions -eq 0) {
+        Write-Host (t "community.no_contributions") -ForegroundColor Gray
+        Write-Host (t "community.using_defaults") -ForegroundColor White
+        Write-Host ""
+        Wait-UserInput
+        return @{
+            selectedBankFormat = $null
+            selectedCategorySet = $null
+        }
+    }
+    
+    Write-Host (t "community.available_content") -ForegroundColor White
+    Write-Host "  $(t 'community.csv_formats'): $($communityStats.csvFormats)" -ForegroundColor Gray
+    Write-Host "  $(t 'community.category_sets'): $($communityStats.categorySets)" -ForegroundColor Gray
+    Write-Host ""
+    
+    # Bank format selection
+    $selectedBankFormat = $null
+    $csvFormats = $global:communityLoader.GetAvailableCSVFormats($Language)
+    
+    if ($csvFormats.Count -gt 0) {
+        Write-Host (t "community.select_bank_format") -ForegroundColor Yellow
+        Write-Host "0. $(t 'community.use_default')" -ForegroundColor White
+        
+        for ($i = 0; $i -lt $csvFormats.Count; $i++) {
+            $format = $csvFormats[$i]
+            Write-Host "$($i + 1). $($format.name)" -ForegroundColor White
+            if ($format.description) {
+                Write-Host "   $($format.description)" -ForegroundColor Gray
+            }
+        }
+        Write-Host ""
+        
+        do {
+            $choice = Read-Host (t "community.enter_choice") 
+            try {
+                $choiceNum = [int]$choice
+                if ($choiceNum -eq 0) {
+                    $selectedBankFormat = $null
+                    break
+                } elseif ($choiceNum -ge 1 -and $choiceNum -le $csvFormats.Count) {
+                    $selectedBankFormat = $csvFormats[$choiceNum - 1].id
+                    Write-Host "$(t 'community.selected'): $($csvFormats[$choiceNum - 1].name)" -ForegroundColor Green
+                    break
+                } else {
+                    Write-Host (t "community.invalid_choice") -ForegroundColor Red
+                }
+            } catch {
+                Write-Host (t "community.invalid_choice") -ForegroundColor Red
+            }
+        } while ($true)
+    }
+    
+    Write-Host ""
+    
+    # Category set selection
+    $selectedCategorySet = $null
+    $categorySets = $global:communityLoader.GetAvailableCategorySets($Language)
+    
+    if ($categorySets.Count -gt 0) {
+        Write-Host (t "community.select_category_set") -ForegroundColor Yellow
+        Write-Host "0. $(t 'community.use_default')" -ForegroundColor White
+        
+        for ($i = 0; $i -lt $categorySets.Count; $i++) {
+            $categorySet = $categorySets[$i]
+            Write-Host "$($i + 1). $($categorySet.name)" -ForegroundColor White
+            if ($categorySet.description) {
+                Write-Host "   $($categorySet.description)" -ForegroundColor Gray
+            }
+        }
+        Write-Host ""
+        
+        do {
+            $choice = Read-Host (t "community.enter_choice")
+            try {
+                $choiceNum = [int]$choice
+                if ($choiceNum -eq 0) {
+                    $selectedCategorySet = $null
+                    break
+                } elseif ($choiceNum -ge 1 -and $choiceNum -le $categorySets.Count) {
+                    $selectedCategorySet = $categorySets[$choiceNum - 1].id
+                    Write-Host "$(t 'community.selected'): $($categorySets[$choiceNum - 1].name)" -ForegroundColor Green
+                    break
+                } else {
+                    Write-Host (t "community.invalid_choice") -ForegroundColor Red
+                }
+            } catch {
+                Write-Host (t "community.invalid_choice") -ForegroundColor Red
+            }
+        } while ($true)
+    }
+    
+    Wait-UserInput
+    return @{
+        selectedBankFormat = $selectedBankFormat
+        selectedCategorySet = $selectedCategorySet
+    }
+}
+
+function Step3-Validation {
     param([array]$csvFiles)
     
-    Write-StepHeader "wizard.step2_title" 2 4
+    Write-StepHeader "wizard.step3_title" 3 5
     
     $validator = [CsvValidator]::new($global:i18n)
     $allValid = $true
@@ -208,8 +314,8 @@ function Step2-Validation {
     return $validationResults
 }
 
-function Step3-Processing {
-    Write-StepHeader "wizard.step3_title" 3 4
+function Step4-Processing {
+    Write-StepHeader "wizard.step4_title" 4 5
     
     $params = @()
     if ($DryRun) { $params += "-DryRun" }
@@ -245,8 +351,8 @@ function Step3-Processing {
     Wait-UserInput
 }
 
-function Step4-ImportGuide {
-    Write-StepHeader "wizard.step4_title" 4 4
+function Step5-ImportGuide {
+    Write-StepHeader "wizard.step5_title" 5 5
     
     $nextSteps = t 'instructions.next_steps'
     Write-Host (t 'messages.guide_next_steps') -ForegroundColor Cyan
@@ -293,9 +399,10 @@ try {
         Write-Host ""
         
         $csvFiles = Step1-Preparation
-        $validationResults = Step2-Validation $csvFiles
-        Step3-Processing
-        Step4-ImportGuide
+        $communitySettings = Step2-CommunitySettings
+        $validationResults = Step3-Validation $csvFiles
+        Step4-Processing
+        Step5-ImportGuide
     }
     else {
         # Direct execution without wizard

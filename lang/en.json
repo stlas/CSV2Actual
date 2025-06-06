@@ -12,12 +12,14 @@
   "wizard": {
     "step1_title": "Step 1: Preparation",
     "step1_desc": "Let's prepare your CSV files for conversion",
-    "step2_title": "Step 2: Validation", 
-    "step2_desc": "Checking your CSV files for compatibility",
-    "step3_title": "Step 3: Processing",
-    "step3_desc": "Converting your bank data to Actual Budget format",
-    "step4_title": "Step 4: Import Guide",
-    "step4_desc": "Setting up categories and importing to Actual Budget"
+    "step2_title": "Step 2: Community Settings", 
+    "step2_desc": "Select bank format and category set from community contributions",
+    "step3_title": "Step 3: Validation",
+    "step3_desc": "Checking your CSV files for compatibility",
+    "step4_title": "Step 4: Processing",
+    "step4_desc": "Converting your bank data to Actual Budget format",
+    "step5_title": "Step 5: Import Guide",
+    "step5_desc": "Setting up categories and importing to Actual Budget"
   },
   "messages": {
     "checking_files": "Checking CSV files in source folder...",
@@ -121,6 +123,19 @@
     "file_empty_warning": "WARNING: File is empty",
     "balance_convert_error": "ERROR: Could not convert balance '{0}'",
     "no_balance_warning": "WARNING: No balance found"
+  },
+  "community": {
+    "no_contributions": "No community contributions found.",
+    "using_defaults": "Using built-in formats and categories.",
+    "available_content": "Available community contributions:",
+    "csv_formats": "CSV formats",
+    "category_sets": "Category sets",
+    "select_bank_format": "Select bank CSV format:",
+    "select_category_set": "Select category set:",
+    "use_default": "Use built-in default",
+    "enter_choice": "Enter your choice (0-{0})",
+    "selected": "Selected",
+    "invalid_choice": "Invalid choice. Please try again."
   },
   "system": {
     "config_load_error": "ERROR: Could not load configuration. Please ensure config.json exists.",

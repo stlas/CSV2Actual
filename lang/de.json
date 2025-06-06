@@ -12,12 +12,14 @@
   "wizard": {
     "step1_title": "Schritt 1: Vorbereitung",
     "step1_desc": "Bereiten wir Ihre CSV-Dateien für die Konvertierung vor",
-    "step2_title": "Schritt 2: Validierung", 
-    "step2_desc": "Prüfung Ihrer CSV-Dateien auf Kompatibilität",
-    "step3_title": "Schritt 3: Verarbeitung",
-    "step3_desc": "Konvertierung Ihrer Bankdaten ins Actual Budget Format",
-    "step4_title": "Schritt 4: Import-Anleitung",
-    "step4_desc": "Kategorien anlegen und Import in Actual Budget"
+    "step2_title": "Schritt 2: Community-Einstellungen", 
+    "step2_desc": "Bank-Format und Kategorien aus Community-Beiträgen auswählen",
+    "step3_title": "Schritt 3: Validierung",
+    "step3_desc": "Prüfung Ihrer CSV-Dateien auf Kompatibilität",
+    "step4_title": "Schritt 4: Verarbeitung",
+    "step4_desc": "Konvertierung Ihrer Bankdaten ins Actual Budget Format",
+    "step5_title": "Schritt 5: Import-Anleitung",
+    "step5_desc": "Kategorien anlegen und Import in Actual Budget"
   },
   "messages": {
     "checking_files": "Prüfe CSV-Dateien im Source-Ordner...",
@@ -136,6 +138,19 @@
     "file_empty_warning": "WARNUNG: Datei ist leer",
     "balance_convert_error": "FEHLER: Saldo '{0}' konnte nicht konvertiert werden",
     "no_balance_warning": "WARNUNG: Kein Saldo gefunden"
+  },
+  "community": {
+    "no_contributions": "Keine Community-Beiträge gefunden.",
+    "using_defaults": "Verwende eingebaute Formate und Kategorien.",
+    "available_content": "Verfügbare Community-Beiträge:",
+    "csv_formats": "CSV-Formate",
+    "category_sets": "Kategorien-Sets",
+    "select_bank_format": "Bank-CSV-Format auswählen:",
+    "select_category_set": "Kategorien-Set auswählen:",
+    "use_default": "Eingebaute Standardeinstellung verwenden",
+    "enter_choice": "Ihre Auswahl eingeben (0-{0})",
+    "selected": "Ausgewählt",
+    "invalid_choice": "Ungültige Auswahl. Bitte erneut versuchen."
   },
   "system": {
     "config_load_error": "FEHLER: Konfiguration konnte nicht geladen werden. Bitte stellen Sie sicher, dass config.json existiert.",
