@@ -9,7 +9,8 @@ param(
     [Alias("n")][switch]$DryRun,
     [Alias("q")][switch]$Silent,
     [Alias("h")][switch]$Help,
-    [Alias("l")][string]$Language = "en"
+    [Alias("l")][string]$Language = "en",
+    [switch]$AlternativeFormats
 )
 
 # Load modules
@@ -50,6 +51,7 @@ if ($Help) {
     Write-Host "  " + (t "processor.dry_run_help")
     Write-Host "  " + (t "processor.silent_help")
     Write-Host "  " + (t "processor.help_help")
+    Write-Host "  -AlternativeFormats    Create semicolon, tab, and manual CSV variants for compatibility"
     Write-Host ""
     Write-Host (t "processor.examples") -ForegroundColor Yellow
     Write-Host "  " + (t "processor.example_normal")
@@ -272,6 +274,52 @@ function Get-TransferCategory {
 }
 
 # ==========================================
+# ALTERNATIVE EXPORT FORMATS
+# ==========================================
+
+function Create-AlternativeFormats {
+    param(
+        [array]$Data,
+        [string]$BaseName,
+        [string]$OutputDir,
+        [bool]$Silent
+    )
+    
+    try {
+        # Semicolon format (European CSV standard)
+        $semicolonFile = Join-Path $OutputDir "$BaseName`_SEMICOLON.csv"
+        $Data | Export-Csv -Path $semicolonFile -NoTypeInformation -Encoding UTF8 -Delimiter ";"
+        if (-not $Silent) {
+            Write-Host "    Alt: Semicolon format" -ForegroundColor Cyan
+        }
+        Write-LogOnly "  Alternative format created: $semicolonFile"
+        
+        # Tab format
+        $tabFile = Join-Path $OutputDir "$BaseName`_TAB.csv"
+        $Data | Export-Csv -Path $tabFile -NoTypeInformation -Encoding UTF8 -Delimiter "`t"
+        if (-not $Silent) {
+            Write-Host "    Alt: Tab-separated format" -ForegroundColor Cyan
+        }
+        Write-LogOnly "  Alternative format created: $tabFile"
+        
+        # Manual format (ASCII, no Export-Csv overhead)
+        $manualFile = Join-Path $OutputDir "$BaseName`_MANUAL.csv"
+        $manualContent = "date,account,payee,notes,category,amount`n"
+        foreach ($row in $Data) {
+            $manualContent += "$($row.date),$($row.account),`"$($row.payee)`",`"$($row.notes)`",`"$($row.category)`",$($row.amount)`n"
+        }
+        [System.IO.File]::WriteAllText($manualFile, $manualContent, [System.Text.Encoding]::ASCII)
+        if (-not $Silent) {
+            Write-Host "    Alt: Manual ASCII format" -ForegroundColor Cyan
+        }
+        Write-LogOnly "  Alternative format created: $manualFile"
+        
+    } catch {
+        Write-Log "WARNING: Could not create alternative formats: $($_.Exception.Message)" "WARN"
+    }
+}
+
+# ==========================================
 # HAUPT-VERARBEITUNGSFUNKTION
 # ==========================================
 
@@ -481,6 +529,11 @@ foreach ($file in $csvFiles) {
                 Write-Host "    Saved" -ForegroundColor Green
             }
             Write-LogOnly "  Saved: $($outputFile)"
+            
+            # Create alternative formats if requested
+            if ($AlternativeFormats) {
+                Create-AlternativeFormats -Data $processedData -BaseName $file.BaseName -OutputDir $OutputDir -Silent $isSilent
+            }
         } else {
             if (-not $isSilent) {
                 Write-Host "    DRY-RUN: Would save" -ForegroundColor Cyan

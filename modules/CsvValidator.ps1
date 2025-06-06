@@ -130,8 +130,18 @@ class CsvValidator {
     }
     
     [object]TryReadCsv([string]$filePath) {
+        # Enhanced encoding detection with BOM handling
+        $encodingResults = $this.DetectEncoding($filePath)
+        
         $encodings = @("UTF8", "Default", "ASCII", "Unicode")
+        if ($encodingResults.recommendedEncoding) {
+            $encodings = @($encodingResults.recommendedEncoding) + $encodings
+        }
+        
         $delimiters = @(";", ",", "`t")
+        if ($encodingResults.recommendedDelimiter) {
+            $delimiters = @($encodingResults.recommendedDelimiter) + $delimiters
+        }
         
         foreach ($encoding in $encodings) {
             foreach ($delimiter in $delimiters) {
@@ -147,6 +157,82 @@ class CsvValidator {
             }
         }
         return $null
+    }
+    
+    [hashtable] DetectEncoding([string]$filePath) {
+        $result = @{
+            hasBOM = $false
+            bomType = "None"
+            recommendedEncoding = $null
+            recommendedDelimiter = $null
+            fileSize = 0
+        }
+        
+        try {
+            $rawBytes = [System.IO.File]::ReadAllBytes($filePath)
+            $result.fileSize = $rawBytes.Length
+            
+            # BOM Detection
+            if ($rawBytes.Length -ge 3) {
+                if ($rawBytes[0] -eq 0xEF -and $rawBytes[1] -eq 0xBB -and $rawBytes[2] -eq 0xBF) {
+                    $result.hasBOM = $true
+                    $result.bomType = "UTF-8"
+                    $result.recommendedEncoding = "UTF8"
+                }
+            }
+            
+            # Try different encodings and score them
+            $encodings = @(
+                @{Name = "UTF8"; Encoding = [System.Text.Encoding]::UTF8},
+                @{Name = "Default"; Encoding = [System.Text.Encoding]::Default},
+                @{Name = "ASCII"; Encoding = [System.Text.Encoding]::ASCII}
+            )
+            
+            $bestScore = -1
+            foreach ($enc in $encodings) {
+                try {
+                    $content = $enc.Encoding.GetString($rawBytes)
+                    $lines = $content -split "`n" | Select-Object -First 3
+                    
+                    if ($lines.Count -gt 0) {
+                        $firstLine = $lines[0]
+                        
+                        # Score encoding quality
+                        $score = 0
+                        $hasValidCSV = $firstLine -match "[;,\t]"
+                        $hasControlChars = $content -match "[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]"
+                        $hasGermanChars = $content -match "[äöüßÄÖÜ]"
+                        
+                        if ($hasValidCSV) { $score += 3 }
+                        if ($hasGermanChars -and $enc.Name -eq "UTF8") { $score += 2 }
+                        if (-not $hasControlChars) { $score += 1 }
+                        
+                        if ($score -gt $bestScore) {
+                            $bestScore = $score
+                            $result.recommendedEncoding = $enc.Name
+                            
+                            # Detect delimiter
+                            $delimiters = @(";", ",", "`t", "|")
+                            $delimiterCounts = @{}
+                            foreach ($delim in $delimiters) {
+                                $count = ($firstLine -split [regex]::Escape($delim)).Count - 1
+                                $delimiterCounts[$delim] = $count
+                            }
+                            $bestDelimiter = ($delimiterCounts.GetEnumerator() | Sort-Object Value -Descending | Select-Object -First 1).Key
+                            if ($delimiterCounts[$bestDelimiter] -gt 0) {
+                                $result.recommendedDelimiter = $bestDelimiter
+                            }
+                        }
+                    }
+                } catch {
+                    continue
+                }
+            }
+        } catch {
+            # File reading error - will be handled upstream
+        }
+        
+        return $result
     }
     
     [hashtable]MapColumns([string[]]$headers) {

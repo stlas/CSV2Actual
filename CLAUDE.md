@@ -169,17 +169,57 @@ powershell -ExecutionPolicy Bypass -File bank_csv_processor.ps1 -Language en
 # Test German mode  
 powershell -ExecutionPolicy Bypass -File bank_csv_processor.ps1 -Language de
 
+# Test with alternative export formats (for compatibility)
+powershell -ExecutionPolicy Bypass -File bank_csv_processor.ps1 -AlternativeFormats
+
 # Test balance calculator
 powershell -ExecutionPolicy Bypass -File calculate_starting_balances.ps1 -Language en
+
+# Debug CSV encoding issues
+powershell -ExecutionPolicy Bypass -File debug_csv_encoding.ps1 -FilePath "source/problematic.csv"
+
+# Create test CSV files for Actual Budget testing
+powershell -ExecutionPolicy Bypass -File create_test_csv.ps1 -TestType all
 ```
 
 ## Encoding Handling
 
 The project specifically handles German banking CSV encoding issues:
-- Automatic BOM detection and removal
-- UTF-8/ASCII conversion for maximum compatibility  
-- German umlaut replacement (ä→ae, ö→oe, ü→ue, ß→ss) in category names
-- Proper PowerShell Core (pwsh) encoding support
+- **Enhanced Encoding Detection**: Automatic BOM detection and scoring-based encoding selection
+- **Advanced CSV Debugging**: `debug_csv_encoding.ps1` for comprehensive encoding analysis
+- **UTF-8/ASCII conversion** for maximum compatibility  
+- **German umlaut replacement** (ä→ae, ö→oe, ü→ue, ß→ss) in category names
+- **Proper PowerShell Core (pwsh)** encoding support
+- **Alternative Export Formats**: Semicolon, Tab, and Manual ASCII formats for compatibility
+
+## Debug Tools
+
+### CSV Encoding Debugger
+```powershell
+powershell -ExecutionPolicy Bypass -File debug_csv_encoding.ps1 -FilePath "source/problem.csv" -Verbose
+```
+- **BOM Detection**: Identifies UTF-8 BOM and encoding issues
+- **Encoding Scoring**: Tests multiple encodings and recommends best option
+- **CSV Structure Analysis**: Delimiter detection and column mapping
+- **Cleaned Output**: Option to create cleaned version for testing
+
+### Test CSV Generator
+```powershell
+powershell -ExecutionPolicy Bypass -File create_test_csv.ps1 -TestType all -Language de
+```
+- **Multiple Test Types**: Minimal, category-test, transfer-test, encoding-test
+- **Alternative Formats**: Creates semicolon, tab, and manual variants
+- **Actual Budget Testing**: Designed specifically for import testing
+
+### Alternative Export Formats
+The main processor can create multiple format variants:
+```powershell
+powershell -ExecutionPolicy Bypass -File bank_csv_processor.ps1 -AlternativeFormats
+```
+- **Standard CSV**: Comma-separated (default)
+- **Semicolon CSV**: European standard format
+- **Tab-separated**: TSV format for compatibility
+- **Manual ASCII**: Hand-crafted ASCII format as fallback
 
 ## Development Notes
 
