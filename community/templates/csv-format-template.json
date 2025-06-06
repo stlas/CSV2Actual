@@ -1,0 +1,29 @@
+{
+  "bankName": "Example Bank Name",
+  "country": "DE",
+  "language": "de",
+  "description": "Brief description of this bank's CSV format",
+  "author": "GitHub Username",
+  "dateCreated": "2025-01-06",
+  "csvFormat": {
+    "delimiter": ";",
+    "encoding": "UTF8",
+    "hasHeader": true,
+    "dateFormat": "DD.MM.YYYY",
+    "decimalSeparator": ",",
+    "thousandsSeparator": "."
+  },
+  "columnMapping": {
+    "date": "Buchungstag",
+    "amount": "Betrag",
+    "payee": "Name Zahlungsbeteiligter",
+    "memo": "Verwendungszweck",
+    "iban": "IBAN Zahlungsbeteiligter",
+    "balance": "Saldo nach Buchung"
+  },
+  "sampleData": [
+    "Buchungstag;Valutadatum;Name Zahlungsbeteiligter;IBAN Zahlungsbeteiligter;Verwendungszweck;Betrag;Saldo nach Buchung",
+    "01.06.2025;01.06.2025;Example Store GmbH;DE12345678901234567890;Grocery Shopping;-45,67;1.234,56"
+  ],
+  "notes": "Additional notes about this format, special handling requirements, etc."
+}

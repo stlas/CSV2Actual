@@ -1,0 +1,71 @@
+{
+  "name": "Business Categories (German)",
+  "language": "de", 
+  "country": "DE",
+  "description": "Business and freelancer categories for German tax system",
+  "author": "sTLAs",
+  "dateCreated": "2025-01-06",
+  "categories": {
+    "income": {
+      "description": "Business income categories",
+      "categories": [
+        {
+          "name": "Client Payments",
+          "patterns": ["rechnung", "invoice", "payment", "honorar", "beratung", "consulting"],
+          "description": "Payments from clients and customers"
+        },
+        {
+          "name": "Investment Income", 
+          "patterns": ["dividende", "zinsen", "kapitalertrag", "investment"],
+          "description": "Returns from investments and savings"
+        }
+      ]
+    },
+    "expenses": {
+      "description": "Business expense categories",
+      "categories": [
+        {
+          "name": "Office Rent",
+          "patterns": ["miete", "rent", "büro", "office", "coworking"],
+          "description": "Office and workspace rental costs"
+        },
+        {
+          "name": "Software & Tools",
+          "patterns": ["adobe", "microsoft", "software", "license", "subscription", "saas"],
+          "description": "Business software and online tools"
+        },
+        {
+          "name": "Business Travel",
+          "patterns": ["hotel", "flight", "train", "taxi", "reise", "travel", "conference"],
+          "description": "Travel expenses for business purposes"
+        },
+        {
+          "name": "Marketing",
+          "patterns": ["marketing", "advertising", "werbung", "google ads", "facebook"],
+          "description": "Marketing and advertising expenses"
+        },
+        {
+          "name": "Professional Services",
+          "patterns": ["steuerberater", "rechtsanwalt", "accountant", "lawyer", "notary"],
+          "description": "Legal, tax, and professional consulting fees"
+        }
+      ]
+    },
+    "transfers": {
+      "description": "Business transfer categories", 
+      "categories": [
+        {
+          "name": "Tax Transfers",
+          "patterns": ["finanzamt", "steuer", "tax", "umsatzsteuer", "vat"],
+          "description": "Tax payments and refunds"
+        },
+        {
+          "name": "Business Account Transfer",
+          "patterns": ["geschäftskonto", "business account", "firmenkonto"],
+          "description": "Transfers between business accounts"
+        }
+      ]
+    }
+  },
+  "notes": "Designed for German freelancers and small businesses. Follows German tax categories for easier bookkeeping."
+}

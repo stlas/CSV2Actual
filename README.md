@@ -214,6 +214,24 @@ Want to add your language? Create a new JSON file in the `lang/` folder!
 
 ## 🤝 Contributing
 
+### 🚀 Easy Community Contributions
+
+**No coding required!** Help expand CSV2Actual for more banks and use cases:
+
+#### 🏦 **Add Your Bank's CSV Format**
+- Create an [Issue with CSV Format Template](https://github.com/sTLAs/CSV2Actual/issues/new?template=csv-format-submission.md)
+- Provide column names and sample data (anonymized)
+- We'll integrate it for everyone to use!
+
+#### 🏷️ **Share Your Category Sets**  
+- Create an [Issue with Category Template](https://github.com/sTLAs/CSV2Actual/issues/new?template=category-list-submission.md)
+- Share categories for business, students, families, etc.
+- Help others with similar needs!
+
+📖 **Full Guidelines:** See [`community/README.md`](community/README.md)
+
+### 🛠️ Code Contributions
+
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
 3. Commit your changes (`git commit -m 'Add amazing feature'`)
@@ -222,7 +240,7 @@ Want to add your language? Create a new JSON file in the `lang/` folder!
 
 ### Especially welcome:
 - 🏦 **Support for new banks** (CSV format variants)
-- 🏷️ **Extended categorization patterns**
+- 🏷️ **Extended categorization patterns**  
 - 🌍 **Internationalization** (other countries/languages)
 
 ## 📄 License

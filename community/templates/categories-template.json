@@ -1,0 +1,51 @@
+{
+  "name": "Example Category Set",
+  "language": "de",
+  "country": "DE",
+  "description": "Brief description of this category set (e.g., 'Business categories for freelancers')",
+  "author": "GitHub Username",
+  "dateCreated": "2025-01-06",
+  "categories": {
+    "income": {
+      "description": "Income categories",
+      "categories": [
+        {
+          "name": "Salary",
+          "patterns": ["gehalt", "lohn", "salary", "arbeitgeber"],
+          "description": "Regular employment income"
+        },
+        {
+          "name": "Freelance Income",
+          "patterns": ["freelance", "consulting", "beratung"],
+          "description": "Freelance and consulting income"
+        }
+      ]
+    },
+    "expenses": {
+      "description": "Expense categories", 
+      "categories": [
+        {
+          "name": "Office Supplies",
+          "patterns": ["staples", "office", "buero", "büro"],
+          "description": "Office equipment and supplies"
+        },
+        {
+          "name": "Software",
+          "patterns": ["adobe", "microsoft", "software", "license"],
+          "description": "Software licenses and subscriptions"
+        }
+      ]
+    },
+    "transfers": {
+      "description": "Transfer categories",
+      "categories": [
+        {
+          "name": "Internal Transfer",
+          "patterns": ["transfer", "überweisung", "ueberweisung"],
+          "description": "Transfers between own accounts"
+        }
+      ]
+    }
+  },
+  "notes": "Additional notes about usage, special considerations, etc."
+}

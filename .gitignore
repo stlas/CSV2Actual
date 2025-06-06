@@ -43,3 +43,6 @@ source_backup_for_real_test/
 
 # Output logging
 wizard_output_*.log
+
+# Community contributions (preserve templates but not submissions)
+# Note: Approved contributions will be manually added to community/ directories

@@ -1,0 +1,30 @@
+{
+  "bankName": "Sparkasse",
+  "country": "DE", 
+  "language": "de",
+  "description": "German Sparkasse (Savings Bank) CSV export format",
+  "author": "sTLAs",
+  "dateCreated": "2025-01-06",
+  "csvFormat": {
+    "delimiter": ";",
+    "encoding": "UTF8",
+    "hasHeader": true,
+    "dateFormat": "DD.MM.YYYY",
+    "decimalSeparator": ",",
+    "thousandsSeparator": "."
+  },
+  "columnMapping": {
+    "date": "Buchungstag",
+    "amount": "Umsatz",
+    "payee": "Empfänger/Zahlungspflichtiger",
+    "memo": "Verwendungszweck",
+    "iban": "IBAN",
+    "balance": "Saldo"
+  },
+  "sampleData": [
+    "Buchungstag;Valutadatum;Empfänger/Zahlungspflichtiger;IBAN;Verwendungszweck;Umsatz;Saldo",
+    "01.06.2025;01.06.2025;REWE Markt GmbH;DE12345678901234567890;Lebensmitteleinkauf;-45,67;1.234,56",
+    "02.06.2025;02.06.2025;Arbeitgeber GmbH;;Gehalt Juni 2025;2.500,00;3.689,89"
+  ],
+  "notes": "Standard Sparkasse format used by most German savings banks. Some regional variations may exist."
+}
