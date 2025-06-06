@@ -1,0 +1,44 @@
+# Persönliche/sensible Daten
+backup_*/
+*_personal.csv
+*_private.csv
+
+# Log-Dateien
+*.log
+csv_processor_*.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# PowerShell-spezifisch
+*.ps1xml
+
+# System-Dateien
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE/Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Windows
+$RECYCLE.BIN/
+*.lnk
+
+# Test-Dateien
+test_*.csv
+debug_*.csv
+*_test_output.csv
+
+# Test data (real bank data should never be committed)
+test_data/real_bank_csvs/
+source_backup/
+source_backup_for_real_test/
+
+# Output logging
+wizard_output_*.log

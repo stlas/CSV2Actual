@@ -1,0 +1,116 @@
+{
+  "meta": {
+    "version": "0.1 Alpha",
+    "description": "CSV2Actual Configuration File - Internationalized Banking CSV Processor",
+    "lastUpdated": "2025-01-06",
+    "powershellVersion": "7.0+",
+    "features": ["internationalization", "json-config", "iban-transfer-detection"]
+  },
+  "users": {
+    "user1": {
+      "name": "Max",
+      "displayName": "Max",
+      "accountPatterns": ["max.*checking", "max.*giro"],
+      "salaryPatterns": ["johnson", "max.*salary", "techcorp.*ltd", "sample.*tech"]
+    },
+    "user2": {
+      "name": "Anna", 
+      "displayName": "Anna",
+      "accountPatterns": ["anna.*checking", "anna.*giro"],
+      "salaryPatterns": ["smith", "anna.*salary", "example.*bookstore", "sample.*book"]
+    }
+  },
+  "paths": {
+    "sourceDir": "source",
+    "outputDir": "actual_import",
+    "logDir": "logs",
+    "languageDir": "lang",
+    "moduleDir": "modules"
+  },
+  "accounts": {
+    "ibanMapping": {
+      "DE12345678901234567890": "user2-checking",
+      "DE09876543210987654321": "user1-checking", 
+      "DE11223344556677889900": "household-account",
+      "DE99887766554433221100": "credit-card",
+      "DE98765432109876543210": "user2-savings",
+      "DE55443322110011223344": "user2-variable",
+      "DE66778899001122334455": "user1-variable",
+      "DE44556677889900112233": "mortgage-subsidy",
+      "DE22334455667788990011": "mortgage",
+      "DE77889900112233445566": "user1-cooperative-shares"
+    },
+    "accountNames": {
+      "user1-checking": "{{user1.displayName}}-Checking",
+      "user2-checking": "{{user2.displayName}}-Checking",
+      "household-account": "Household-Account",
+      "user2-savings": "{{user2.displayName}}-Savings",
+      "user2-variable": "{{user2.displayName}}-Variable", 
+      "user1-variable": "{{user1.displayName}}-Variable",
+      "credit-card": "Credit-Card",
+      "mortgage-subsidy": "Mortgage-Subsidy",
+      "mortgage": "Mortgage",
+      "user1-cooperative-shares": "{{user1.displayName}}-Cooperative-Shares"
+    }
+  },
+  "categorization": {
+    "income": {
+      "taxRefunds": ["tax.*refund", "refund.*tax", "finanzamt", "steuer.*erstattung"],
+      "cashDeposits": ["cash.*deposit", "bar.*einzahlung", "bareinzahlung"],
+      "capitalGains": ["dividend", "interest", "zinsen", "kapital", "dividende"],
+      "generalIncome": ["gehalt", "lohn", "salary", "arbeitgeber", "income", "verdienst"]
+    },
+    "expenses": {
+      "groceries": ["freshmart", "quickmart", "foodstore", "rewe", "edeka", "lidl", "aldi", "netto", "penny", "kaufland", "real", "tegut", "hit", "globus"],
+      "fuel": ["fuel", "gas.*station", "shell", "aral", "esso", "benzin", "tankstelle", "kraftstoff", "sprit", "diesel"],
+      "housing": ["rent", "utilities", "electric", "gas", "water", "heating", "miete", "strom", "nebenkosten", "heizung"],
+      "insurance": ["insurance", "coverage", "allianz", "axa", "ergo", "versicherung", "huk", "signal", "iduna"],
+      "internetPhone": ["internet", "telefon", "mobilfunk", "dsl", "telekom", "vodafone", "o2"],
+      "publicTransport": ["transport", "bus", "train", "metro", "ticket", "deutsche.*bahn", "mvg", "hvv", "nahverkehr", "oepnv", "vbb", "vrr"],
+      "pharmacy": ["pharmacy", "apotheke", "dm ", "rossmann", "mueller", "drogerie"],
+      "restaurants": ["restaurant", "bar", "cafe", "mc donald", "burger king", "pizza", "doener", "kino"],
+      "onlineShopping": ["amazon", "ebay", "otto", "zalando", "zara", "h&m", "c&a", "online"],
+      "electronics": ["media markt", "saturn", "conrad", "elektro", "computer", "handy", "smartphone"],
+      "streaming": ["netflix", "spotify", "amazon prime", "disney", "streaming", "sky", "dazn"],
+      "bankFees": ["bank", "gebuehr", "fee", "zinsen", "credit", "kredit", "darlehen", "entgelt"],
+      "taxes": ["steuer", "tax", "finanzamt", "steuern"],
+      "health": ["arzt", "zahnarzt", "klinik", "praxis", "krankenhaus", "hospital", "medizin"],
+      "donations": ["spende", "donation", "aktion mensch", "unicef", "wwf", "caritas", "drk"],
+      "memberships": ["mitgliedsbeitrag", "verein", "club", "membership", "fitness", "sport"],
+      "education": ["schule", "university", "universitaet", "kurs", "seminar", "weiterbildung"],
+      "clothing": ["kleidung", "mode", "schuhe", "fashion", "bekleidung"],
+      "entertainment": ["theater", "konzert", "event", "ticket", "cinema", "show"],
+      "consulting": ["notar", "anwalt", "beratung", "rechtsanwalt"],
+      "taxi": ["taxi", "uber", "carsharing", "car2go", "drivenow"]
+    },
+    "transfers": {
+      "householdKeywords": ["household", "shared", "common", "joint", "haushalt", "gemeinsam", "hh ", "abwa", "haushaltskonto"],
+      "transferKeywords": ["ueberweisung", "transfer", "umbuchung", "gutschrift"],
+      "minTransferAmount": 100
+    }
+  },
+  "csv": {
+    "delimiter": ";",
+    "encoding": "UTF8",
+    "outputDelimiter": ",",
+    "dateFormat": {
+      "input": "DD.MM.YYYY",
+      "output": "YYYY-MM-DD"
+    },
+    "expectedColumns": [
+      "Buchungstag",
+      "Valutadatum", 
+      "Name Zahlungsbeteiligter",
+      "IBAN Zahlungsbeteiligter",
+      "Verwendungszweck",
+      "Betrag",
+      "Saldo nach Buchung"
+    ],
+    "excludePatterns": ["FIXED", "DEUTSCH", "ENGLISH", "SIMPLE", "TEST", "MIT_KATEGORIEN"]
+  },
+  "defaults": {
+    "language": "en",
+    "currency": "EUR",
+    "logLevel": "INFO"
+  }
+}

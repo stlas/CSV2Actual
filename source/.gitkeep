@@ -1,0 +1,5 @@
+# This directory is for your real bank CSV files
+# Add your German bank CSV exports here for testing
+# 
+# IMPORTANT: These files will be ignored by git for privacy
+# Never commit real financial data to version control!

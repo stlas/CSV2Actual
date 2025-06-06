@@ -1,0 +1,8 @@
+"date","account","payee","notes","category","amount"
+"2024-01-20","Max-Checking","TechCorp Ltd","Max Johnson Salary January 2024 Salary","Gehalt Max","3200"
+"2024-01-15","Max-Checking","Anna Smith","Household contribution from Anna Transfer","Transfer from Household-Account","800"
+"2024-01-12","Max-Checking","SecureLife Insurance","Car Insurance January 2024 Direct Debit","Insurance","-245"
+"2024-01-10","Max-Checking","AutoFuel Station","Fuel purchase Direct Debit","Fuel","-78.9"
+"2024-01-08","Max-Checking","GreenMarket","GREENMARKET Groceries Shopping Direct Debit","","-52.3"
+"2024-01-05","Max-Checking","StreamFlix International","StreamFlix Subscription January Direct Debit","","-12.99"
+"2024-01-02","Max-Checking","Anna Smith","Account support starting balance Transfer","Transfer to Household-Account","-200"

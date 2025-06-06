@@ -1,0 +1,37 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(powershell.exe:*)",
+      "Bash(ls:*)",
+      "Bash(mkdir:*)",
+      "Bash(mv:*)",
+      "Bash(rm:*)",
+      "Bash(find:*)",
+      "Bash(powershell:*)",
+      "Bash(pwsh:*)",
+      "Bash(sudo apt:*)",
+      "Bash(sudo apt install:*)",
+      "Bash(wget:*)",
+      "Bash(rg:*)",
+      "Bash(grep:*)",
+      "Bash(/home/stlas/.npm-global/lib/node_modules/@anthropic-ai/claude-code/vendor/ripgrep/x64-linux/rg -c \"Gehalt Stefan\" \"/mnt/a/Dokumente/Entwicklung/Powershell/CSV2Actual/actual_import/\"*.csv)",
+      "Bash(/home/stlas/.npm-global/lib/node_modules/@anthropic-ai/claude-code/vendor/ripgrep/x64-linux/rg -c \"Gehalt Alessandra\" \"/mnt/a/Dokumente/Entwicklung/Powershell/CSV2Actual/actual_import/\"*.csv)",
+      "Bash(/home/stlas/.npm-global/lib/node_modules/@anthropic-ai/claude-code/vendor/ripgrep/x64-linux/rg -c \"Steuer Rueckerstattungen\" \"/mnt/a/Dokumente/Entwicklung/Powershell/CSV2Actual/actual_import/\"*.csv)",
+      "Bash(/home/stlas/.npm-global/lib/node_modules/@anthropic-ai/claude-code/vendor/ripgrep/x64-linux/rg -c \"Bareinzahlungen\" \"/mnt/a/Dokumente/Entwicklung/Powershell/CSV2Actual/actual_import/\"*.csv)",
+      "Bash(/home/stlas/.npm-global/lib/node_modules/@anthropic-ai/claude-code/vendor/ripgrep/x64-linux/rg -c \"Einkommen \\(allgemein\\)\" \"/mnt/a/Dokumente/Entwicklung/Powershell/CSV2Actual/actual_import/\"*.csv)",
+      "Bash(/home/stlas/.npm-global/lib/node_modules/@anthropic-ai/claude-code/vendor/ripgrep/x64-linux/rg -c \"Sonstige Einnahmen\" \"/mnt/a/Dokumente/Entwicklung/Powershell/CSV2Actual/actual_import/\"*.csv)",
+      "Bash(/home/stlas/.npm-global/lib/node_modules/@anthropic-ai/claude-code/vendor/ripgrep/x64-linux/rg \"Gehalt Stefan\" \"/mnt/a/Dokumente/Entwicklung/Powershell/CSV2Actual/actual_import/\"*.csv)",
+      "Bash(/home/stlas/.npm-global/lib/node_modules/@anthropic-ai/claude-code/vendor/ripgrep/x64-linux/rg \"Gehalt Alessandra\" \"/mnt/a/Dokumente/Entwicklung/Powershell/CSV2Actual/actual_import/\"*.csv)",
+      "Bash(/home/stlas/.npm-global/lib/node_modules/@anthropic-ai/claude-code/vendor/ripgrep/x64-linux/rg -c \"^.*,.*,.*,.*,Einkommen,.*$\" \"/mnt/a/Dokumente/Entwicklung/Powershell/CSV2Actual/actual_import/\"*.csv)",
+      "Bash(/home/stlas/.npm-global/lib/node_modules/@anthropic-ai/claude-code/vendor/ripgrep/x64-linux/rg \",Einkommen,\" \"/mnt/a/Dokumente/Entwicklung/Powershell/CSV2Actual/actual_import/\"*.csv)",
+      "Bash(/home/stlas/.npm-global/lib/node_modules/@anthropic-ai/claude-code/vendor/ripgrep/x64-linux/rg \"Einkommen \\(allgemein\\)|Sonstige Einnahmen|Steuer Rueckerstattungen|Bareinzahlungen\" \"/mnt/a/Dokumente/Entwicklung/Powershell/CSV2Actual/actual_import/\"*.csv)",
+      "Bash(/home/stlas/.npm-global/lib/node_modules/@anthropic-ai/claude-code/vendor/ripgrep/x64-linux/rg \"^.*,.*,.*,.*,Einkommen,.*$\" \"/mnt/a/Dokumente/Entwicklung/Powershell/CSV2Actual/actual_import/\"*.csv)",
+      "Bash(/home/stlas/.npm-global/lib/node_modules/@anthropic-ai/claude-code/vendor/ripgrep/x64-linux/rg -c \",Einkommen,\" \"/mnt/a/Dokumente/Entwicklung/Powershell/CSV2Actual/actual_import/\"*.csv)",
+      "Bash(sed:*)",
+      "Bash(python3:*)",
+      "Bash(__NEW_LINE__ echo \"\")",
+      "Bash(git add:*)"
+    ],
+    "deny": []
+  }
+}

@@ -1,0 +1,2 @@
+Bezeichnung Auftragskonto;IBAN Auftragskonto;BIC Auftragskonto;Bankname Auftragskonto;Buchungstag;Valutadatum;Name Zahlungsbeteiligter;IBAN Zahlungsbeteiligter;BIC (SWIFT-Code) Zahlungsbeteiligter;Buchungstext;Verwendungszweck;Betrag;Waehrung;Saldo nach Buchung;Bemerkung;Gekennzeichneter Umsatz;Glaeubiger ID;Mandatsreferenz
+Geschäftsanteile;DE55661900000029339775;GENODE61KA1;Volksbank pur eG;21.05.2025;20.05.2025;Schmid, Alessandra;DE50661900000818035322;GENODE61KA1;Startsaldo;Startsaldo;0,00;EUR;300,00;;;;

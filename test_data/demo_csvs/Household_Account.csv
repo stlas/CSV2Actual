@@ -1,0 +1,8 @@
+Bezeichnung Auftragskonto;IBAN Auftragskonto;BIC Auftragskonto;Bankname Auftragskonto;Buchungstag;Valutadatum;Name Zahlungsbeteiligter;IBAN Zahlungsbeteiligter;BIC (SWIFT-Code) Zahlungsbeteiligter;Buchungstext;Verwendungszweck;Betrag;Waehrung;Saldo nach Buchung;Bemerkung;Gekennzeichneter Umsatz;Glaeubiger ID;Mandatsreferenz
+Joint Household;DE11223344556677889900;SAMPLEB1;Sample Bank eG;25.01.2024;25.01.2024;Property Management Ltd;DE12121212121212121212;PROPBANK;Transfer;Rent January 2024;-1200,00;EUR;850,00;;;
+Joint Household;DE11223344556677889900;SAMPLEB1;Sample Bank eG;20.01.2024;20.01.2024;CityUtilities Corp;DE13131313131313131313;CITYUTIL;Direct Debit;Electricity and Gas January;-180,50;EUR;2050,00;;;DE66ZZZ00000045678;CITY789
+Joint Household;DE11223344556677889900;SAMPLEB1;Sample Bank eG;15.01.2024;15.01.2024;Max Johnson;DE09876543210987654321;SAMPLEB1;Standing Order;Household contribution Max;1500,00;EUR;2230,50;;;
+Joint Household;DE11223344556677889900;SAMPLEB1;Sample Bank eG;15.01.2024;15.01.2024;Anna Smith;DE12345678901234567890;SAMPLEB1;Standing Order;Household contribution Anna;800,00;EUR;730,50;;;
+Joint Household;DE11223344556677889900;SAMPLEB1;Sample Bank eG;10.01.2024;10.01.2024;TeleConnect Ltd;DE14141414141414141414;TELECOMBB;Direct Debit;Internet and Phone;-45,99;EUR;-69,50;;;DE77ZZZ00000067890;TELE456
+Joint Household;DE11223344556677889900;SAMPLEB1;Sample Bank eG;05.01.2024;05.01.2024;FreshMart Ltd;DE22222222222222222222;FRESHBNK;Direct Debit;Household Groceries;-89,30;EUR;-23,51;;;DE88ZZZ00000023456;FRESH789
+Joint Household;DE11223344556677889900;SAMPLEB1;Sample Bank eG;02.01.2024;02.01.2024;Starting Balance;;;;;200,00;EUR;65,79;;;;

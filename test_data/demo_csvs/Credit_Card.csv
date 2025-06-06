@@ -1,0 +1,8 @@
+Bezeichnung Auftragskonto;IBAN Auftragskonto;BIC Auftragskonto;Bankname Auftragskonto;Buchungstag;Valutadatum;Name Zahlungsbeteiligter;IBAN Zahlungsbeteiligter;BIC (SWIFT-Code) Zahlungsbeteiligter;Buchungstext;Verwendungszweck;Betrag;Waehrung;Saldo nach Buchung;Bemerkung;Gekennzeichneter Umsatz;Glaeubiger ID;Mandatsreferenz
+Gold Credit Card;DE99887766554433221100;SAMPLEB1;Sample Bank eG;30.01.2024;30.01.2024;Downtown Restaurant;;;;;-45,50;EUR;-245,50;;;
+Gold Credit Card;DE99887766554433221100;SAMPLEB1;Sample Bank eG;25.01.2024;25.01.2024;OnlineShop Europe;;;;;-89,99;EUR;-200,00;;;
+Gold Credit Card;DE99887766554433221100;SAMPLEB1;Sample Bank eG;20.01.2024;20.01.2024;TechStore Electronics;;;;;-299,00;EUR;-110,01;;;
+Gold Credit Card;DE99887766554433221100;SAMPLEB1;Sample Bank eG;15.01.2024;15.01.2024;MusicStream Premium;;;;;-9,99;EUR;188,99;;;
+Gold Credit Card;DE99887766554433221100;SAMPLEB1;Sample Bank eG;10.01.2024;10.01.2024;QuickFuel Station;;;;;-65,80;EUR;198,98;;;
+Gold Credit Card;DE99887766554433221100;SAMPLEB1;Sample Bank eG;05.01.2024;05.01.2024;Fashion Online Store;;;;;-125,50;EUR;264,78;;;
+Gold Credit Card;DE99887766554433221100;SAMPLEB1;Sample Bank eG;02.01.2024;02.01.2024;Balance Adjustment;;;;;1975,50;EUR;390,28;;;;
