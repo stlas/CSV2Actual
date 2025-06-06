@@ -226,7 +226,7 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## 👨‍💻 Author
 
-**sTLAs** - *Initial work and development*
+**Author: sTLAs (https://github.com/sTLAs)** - *Initial work and development*
 
 ## ⭐ Acknowledgments
 
