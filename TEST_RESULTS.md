@@ -3,7 +3,8 @@
 ## 🧪 Testing Overview
 
 **Date:** January 6, 2025  
-**Version:** 2.0 (Internationalized)  
+**Version:** 1.0  
+**Author:** sTLAs (https://github.com/sTLAs)  
 **Testing Environment:** Linux (PowerShell Core 7.5.1 available - `pwsh`)  
 **Testing Method:** Real PowerShell execution testing, configuration validation, and output verification
 

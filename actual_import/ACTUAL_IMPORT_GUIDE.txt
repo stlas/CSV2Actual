@@ -1,6 +1,7 @@
 CSV2Actual - ACTUAL BUDGET IMPORT GUIDE
 ========================================
-Version: 0.1 Alpha
+Version: 1.0
+Author: sTLAs (https://github.com/sTLAs)
 Release Date: January 6, 2025
 Windows Compatibility: Windows 10 (v1607+) and Windows 11
 PowerShell Required: Windows PowerShell 5.1+ or PowerShell Core 7.0+

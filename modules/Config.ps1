@@ -1,5 +1,6 @@
 # CSV2Actual - Configuration Management Module
-# Version: 0.1 Alpha
+# Version: 1.0
+# Author: sTLAs (https://github.com/sTLAs)
 # Loads and manages configuration from config.json
 
 class Config {

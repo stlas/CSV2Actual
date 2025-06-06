@@ -34,7 +34,8 @@
       "Bash(git config:*)",
       "Bash(true)",
       "Bash(chmod:*)",
-      "Bash(sudo rm:*)"
+      "Bash(sudo rm:*)",
+      "Bash(git commit:*)"
     ],
     "deny": []
   }

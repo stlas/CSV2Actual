@@ -9,7 +9,7 @@ A PowerShell tool that converts German bank CSV exports into Actual Budget-compa
 ## ✨ Features
 
 - 🔄 **Automatic Transfer Recognition** between your own accounts via IBAN mapping
-- 🏷️ **60%+ Automatic Categorization** of all transactions
+- 🏷️ **60-70% Automatic Categorization** of all transactions
 - 👥 **Personalized Salary Recognition** (customizable names and employers)
 - 💡 **Smart Fallback Logic** for unknown payees
 - 📊 **Accurate Starting Balance Calculation** for Actual Budget setup
@@ -24,10 +24,10 @@ A PowerShell tool that converts German bank CSV exports into Actual Budget-compa
 ### Option 1: Interactive Wizard (Recommended for beginners)
 ```bash
 # English version (default):
-powershell -File CSV2Actual.ps1
+powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1
 
 # German version:
-powershell -File CSV2Actual.ps1 -Language de
+powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Language de
 ```
 
 ### Option 2: Direct Processing (For advanced users)
@@ -135,7 +135,7 @@ IBAN Transfer → "Transfer from Max-Checking"
 ```
 
 ### 4. Advanced Customization
-See [`CATEGORIZATION_EXPLAINED.md`](CATEGORIZATION_EXPLAINED.md) for detailed customization guide.
+For detailed categorization patterns, check the config.json file and the actual_import/ACTUAL_IMPORT_GUIDE.txt for category setup instructions.
 
 ## 📊 Typical Results
 
@@ -173,8 +173,7 @@ CSV2Actual/
 │   ├── Config.ps1                     # Configuration management
 │   ├── I18n.ps1                       # Internationalization
 │   └── CsvValidator.ps1               # CSV validation
-├── 📄 categories_ascii_safe.md        # Category reference
-├── 📄 CATEGORIZATION_EXPLAINED.md     # Detailed documentation
+├── 📄 actual_import/ACTUAL_IMPORT_GUIDE.txt # Import guide with category list
 └── 📄 starting_balances.txt           # Calculated starting balances
 ```
 
@@ -195,8 +194,7 @@ Detailed instructions: [`actual_import/ACTUAL_IMPORT_GUIDE.txt`](actual_import/A
 ## 📖 Documentation
 
 - [`CSV2Actual.ps1`](CSV2Actual.ps1) - Interactive wizard (start here!)
-- [`CATEGORIZATION_EXPLAINED.md`](CATEGORIZATION_EXPLAINED.md) - How categorization works
-- [`categories_ascii_safe.md`](categories_ascii_safe.md) - Complete category list
+- [`actual_import/ACTUAL_IMPORT_GUIDE.txt`](actual_import/ACTUAL_IMPORT_GUIDE.txt) - Import guide with complete category list
 - [`lang/`](lang/) - Language files for internationalization
 
 ## 🌍 Language Support
@@ -204,6 +202,13 @@ Detailed instructions: [`actual_import/ACTUAL_IMPORT_GUIDE.txt`](actual_import/A
 This tool supports multiple languages:
 - **English** (default) - Full documentation and interface
 - **German** (Deutsch) - Use `-Language de` parameter
+
+### PowerShell Core (pwsh) Support
+For Linux/macOS or PowerShell Core users, simply replace `powershell` with `pwsh`:
+```bash
+# PowerShell Core example:
+pwsh -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Language de
+```
 
 Want to add your language? Create a new JSON file in the `lang/` folder!
 

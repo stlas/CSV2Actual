@@ -1,5 +1,6 @@
 # CSV2Actual - CSV Validation Module
-# Version: 0.1 Alpha
+# Version: 1.0
+# Author: sTLAs (https://github.com/sTLAs)
 # Validates and fixes CSV file formats with internationalized error messages
 
 class CsvValidator {
