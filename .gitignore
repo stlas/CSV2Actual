@@ -4,6 +4,7 @@ backup_*/
 *_private.csv
 
 # Log-Dateien
+logs/
 *.log
 csv_processor_*.log
 
