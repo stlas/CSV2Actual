@@ -37,7 +37,8 @@
       "Bash(sudo rm:*)",
       "Bash(git commit:*)",
       "Bash(git branch:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(cp:*)"
     ],
     "deny": []
   }

@@ -21,10 +21,19 @@
     "iban": "IBAN",
     "balance": "Saldo"
   },
+  "columnMappingEnglish": {
+    "date": "Transaction Date",
+    "amount": "Transaction Amount",
+    "payee": "Recipient/Payer",
+    "memo": "Purpose",
+    "iban": "IBAN",
+    "balance": "Balance"
+  },
   "sampleData": [
     "Buchungstag;Valutadatum;Empfänger/Zahlungspflichtiger;IBAN;Verwendungszweck;Umsatz;Saldo",
     "01.06.2025;01.06.2025;REWE Markt GmbH;DE12345678901234567890;Lebensmitteleinkauf;-45,67;1.234,56",
     "02.06.2025;02.06.2025;Arbeitgeber GmbH;;Gehalt Juni 2025;2.500,00;3.689,89"
   ],
-  "notes": "Standard Sparkasse format used by most German savings banks. Some regional variations may exist."
+  "notes": "Standard Sparkasse format used by most German savings banks. Some regional variations may exist.",
+  "notesEnglish": "For international users: German column names are automatically mapped to English equivalents during processing."
 }

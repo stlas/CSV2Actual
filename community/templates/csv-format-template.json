@@ -15,15 +15,28 @@
   },
   "columnMapping": {
     "date": "Buchungstag",
-    "amount": "Betrag",
+    "amount": "Betrag", 
     "payee": "Name Zahlungsbeteiligter",
     "memo": "Verwendungszweck",
     "iban": "IBAN Zahlungsbeteiligter",
     "balance": "Saldo nach Buchung"
   },
+  "columnMappingEnglish": {
+    "date": "Date / Transaction Date",
+    "amount": "Amount",
+    "payee": "Payee / Merchant Name",
+    "memo": "Description / Purpose", 
+    "iban": "Payee IBAN / Account",
+    "balance": "Balance After Transaction"
+  },
   "sampleData": [
     "Buchungstag;Valutadatum;Name Zahlungsbeteiligter;IBAN Zahlungsbeteiligter;Verwendungszweck;Betrag;Saldo nach Buchung",
     "01.06.2025;01.06.2025;Example Store GmbH;DE12345678901234567890;Grocery Shopping;-45,67;1.234,56"
   ],
-  "notes": "Additional notes about this format, special handling requirements, etc."
+  "sampleDataEnglish": [
+    "Date;Value Date;Payee;Payee IBAN;Description;Amount;Balance",
+    "2025-06-01;2025-06-01;Example Store Ltd;DE12345678901234567890;Grocery Shopping;-45.67;1234.56"
+  ],
+  "notes": "Additional notes about this format, special handling requirements, etc.",
+  "notesEnglish": "For international users: Use columnMappingEnglish and sampleDataEnglish as reference for equivalent English column names."
 }

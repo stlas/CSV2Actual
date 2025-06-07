@@ -2,8 +2,8 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-**Version:** 1.0  
-**Release Date:** January 6, 2025  
+**Version:** 1.0.0  
+**Release Date:** January 7, 2025  
 **Author:** sTLAs (https://github.com/sTLAs)  
 **Windows Compatibility:** Windows 10 (v1607+) and Windows 11  
 **PowerShell Required:** Windows PowerShell 5.1+ or PowerShell Core 7.0+

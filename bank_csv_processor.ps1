@@ -16,6 +16,7 @@ param(
 # Load modules
 . "$PSScriptRoot/modules/Config.ps1"
 . "$PSScriptRoot/modules/I18n.ps1"
+. "$PSScriptRoot/modules/CsvValidator.ps1"
 
 # Initialize configuration and i18n
 try {
@@ -352,36 +353,71 @@ function Process-BankCSV {
     $accountName = Get-CleanAccountName -fileName $fileName
     
     try {
-        # Load CSV with configured settings
+        # Validate CSV and get column mapping
+        $validator = [CsvValidator]::new($global:i18n)
+        $validationResult = $validator.ValidateFile($FilePath)
+        
+        if (-not $validationResult.isValid) {
+            Write-Log "WARNING: CSV validation issues for ${fileName}:" "WARN"
+            foreach ($error in $validationResult.errors) {
+                Write-Log "  - $error" "WARN"
+            }
+            # Try to load anyway with fallback method
+        }
+        
+        # Load CSV with configured settings or validator fallback
         $delimiter = $csvSettings.delimiter
         $encoding = $csvSettings.encoding
         $csvData = Import-Csv -Path $FilePath -Delimiter $delimiter -Encoding $encoding
+        
+        if (-not $csvData) {
+            # Use validator's TryReadCsv as fallback
+            $csvData = $validator.TryReadCsv($FilePath)
+        }
+        
+        if (-not $csvData) {
+            Write-Log "ERROR: Could not read CSV file: $FilePath" "ERROR"
+            return $null
+        }
+        
+        # Get column mapping for this file
+        $columnMapping = $validationResult.columnMapping
         
         if (-not $isSilent) {
             Write-Host "  $($fileName -replace ' seit .*', '') ($($csvData.Count))" -ForegroundColor White
         }
         Write-LogOnly "Processing: $fileName - Transactions: $($csvData.Count)"
+        Write-LogOnly "Column mapping: $(($columnMapping.Keys | ForEach-Object { "$_->$($columnMapping[$_])" }) -join ', ')"
         
         $transferCount = 0
         $categorizedCount = 0
         $processedData = @()
         
         foreach ($row in $csvData) {
+            # Get column values using dynamic mapping
+            $dateColumn = $columnMapping["Date"]
+            $amountColumn = $columnMapping["Amount"] 
+            $payeeColumn = $columnMapping["Payee"]
+            $purposeColumn = $columnMapping["Purpose"]
+            $ibanColumn = $columnMapping["IBAN"]
+            
             # Convert date (DD.MM.YYYY to YYYY-MM-DD)
-            if ($row.Buchungstag -and $row.Buchungstag.Trim() -ne '') {
-                $dateParts = $row.Buchungstag.Split('.')
+            $rawDate = if ($dateColumn -and $row.$dateColumn) { $row.$dateColumn.Trim() } else { '' }
+            if ($rawDate -ne '') {
+                $dateParts = $rawDate.Split('.')
                 if ($dateParts.Length -eq 3) {
                     $formattedDate = "$($dateParts[2])-$($dateParts[1].PadLeft(2,'0'))-$($dateParts[0].PadLeft(2,'0'))"
                 } else {
-                    $formattedDate = $row.Buchungstag
+                    $formattedDate = $rawDate
                 }
             } else {
                 $formattedDate = ''
             }
             
             # Convert amount (German to English format)
-            if ($row.Betrag -and $row.Betrag.Trim() -ne '') {
-                $amount = $row.Betrag -replace '\.', '' -replace ',', '.'
+            $rawAmount = if ($amountColumn -and $row.$amountColumn) { $row.$amountColumn.Trim() } else { '' }
+            if ($rawAmount -ne '') {
+                $amount = $rawAmount -replace '\.', '' -replace ',', '.'
                 try {
                     $amount = [decimal]$amount
                 } catch {
@@ -391,33 +427,53 @@ function Process-BankCSV {
                 $amount = 0
             }
             
-            # Payee bestimmen - flexible Spaltennamen
+            # Payee bestimmen - using dynamic column mapping
             $payee = ''
-            if ($row.'Name Zahlungsbeteiligter' -and $row.'Name Zahlungsbeteiligter'.Trim() -ne '') {
-                $payee = $row.'Name Zahlungsbeteiligter'.Trim()
-            } elseif ($row.Empfaenger -and $row.Empfaenger.Trim() -ne '') { 
-                $payee = $row.Empfaenger.Trim() 
-            } elseif ($row.Zahlungspflichtige -and $row.Zahlungspflichtige.Trim() -ne '') { 
-                $payee = $row.Zahlungspflichtige.Trim() 
+            if ($payeeColumn -and $row.$payeeColumn) {
+                $payee = $row.$payeeColumn.Trim()
+            } else {
+                # Fallback: try common alternative column names
+                $alternativePayeeColumns = @('Empfaenger', 'Zahlungspflichtige', 'Name Zahlungsbeteiligter', 'Payee', 'Merchant')
+                foreach ($altCol in $alternativePayeeColumns) {
+                    if ($row.PSObject.Properties.Name -contains $altCol -and $row.$altCol -and $row.$altCol.Trim() -ne '') {
+                        $payee = $row.$altCol.Trim()
+                        break
+                    }
+                }
             }
             
-            # Notes zusammenfuegen - flexible Spaltennamen
+            # Notes zusammenfuegen - using dynamic column mapping
             $notes = ''
-            if ($row.Verwendungszweck) {
-                $notes += $row.Verwendungszweck
+            if ($purposeColumn -and $row.$purposeColumn) {
+                $notes += $row.$purposeColumn
             }
-            if ($row.'Verwendungszweck 2') {
-                $notes += ' ' + $row.'Verwendungszweck 2'
-            }
-            if ($row.Buchungstext) {
-                $notes += ' ' + $row.Buchungstext
+            
+            # Add additional purpose/memo columns if available
+            $additionalMemoColumns = @('Verwendungszweck 2', 'Buchungstext', 'Description', 'Memo', 'Notes')
+            foreach ($memoCol in $additionalMemoColumns) {
+                if ($row.PSObject.Properties.Name -contains $memoCol -and $row.$memoCol -and $row.$memoCol.Trim() -ne '') {
+                    if ($notes.Trim() -ne '') {
+                        $notes += ' ' + $row.$memoCol.Trim()
+                    } else {
+                        $notes = $row.$memoCol.Trim()
+                    }
+                }
             }
             $notes = $notes.Trim()
             
-            # IBAN Zahlungsbeteiligter extrahieren
+            # IBAN Zahlungsbeteiligter extrahieren - using dynamic column mapping
             $targetIBAN = ''
-            if ($row.'IBAN Zahlungsbeteiligter' -and $row.'IBAN Zahlungsbeteiligter'.Trim() -ne '') {
-                $targetIBAN = $row.'IBAN Zahlungsbeteiligter'.Trim()
+            if ($ibanColumn -and $row.$ibanColumn) {
+                $targetIBAN = $row.$ibanColumn.Trim()
+            } else {
+                # Fallback: try common IBAN column names
+                $alternativeIbanColumns = @('IBAN Zahlungsbeteiligter', 'IBAN', 'Payee IBAN', 'Account')
+                foreach ($ibanCol in $alternativeIbanColumns) {
+                    if ($row.PSObject.Properties.Name -contains $ibanCol -and $row.$ibanCol -and $row.$ibanCol.Trim() -ne '') {
+                        $targetIBAN = $row.$ibanCol.Trim()
+                        break
+                    }
+                }
             }
             
             # Kategorie ermitteln
@@ -472,10 +528,10 @@ function Process-BankCSV {
 if (-not $isDryRun) {
     if (-not (Test-Path $OutputDir)) {
         New-Item -ItemType Directory -Path $OutputDir -Force | Out-Null
-        Write-Log "Ordner erstellt: $OutputDir"
+        Write-Log (t "processor.folder_created" @($OutputDir))
     }
 } else {
-    Write-Log "DRY-RUN: Würde Ordner erstellen: $OutputDir"
+    Write-Log (t "processor.dry_run_folder" @($OutputDir))
 }
 
 # Find CSV files

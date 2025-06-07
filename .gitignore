@@ -3,6 +3,10 @@ backup_*/
 *_personal.csv
 *_private.csv
 
+# Claude Code lokale Dateien
+CLAUDE.local.md
+.claude/settings.local.json
+
 # Log-Dateien
 logs/
 *.log

@@ -148,7 +148,7 @@
     "select_bank_format": "Bank-CSV-Format auswählen:",
     "select_category_set": "Kategorien-Set auswählen:",
     "use_default": "Eingebaute Standardeinstellung verwenden",
-    "enter_choice": "Ihre Auswahl eingeben (0-{0})",
+    "enter_choice_range": "Ihre Auswahl eingeben (0-{0})",
     "selected": "Ausgewählt",
     "invalid_choice": "Ungültige Auswahl. Bitte erneut versuchen."
   },
@@ -170,6 +170,8 @@
     "examples": "BEISPIELE:",
     "example_normal": "# Normale Ausführung:",
     "example_normal_cmd": "powershell -ExecutionPolicy Bypass -File bank_csv_processor.ps1",
+    "folder_created": "Ordner erstellt: {0}",
+    "dry_run_folder": "DRY-RUN: Würde Ordner erstellen: {0}",
     "started": "CSV2Actual Prozessor gestartet",
     "found_files": "CSV-Dateien gefunden: {0}",
     "processing_files": "Verarbeite {0} Dateien:",

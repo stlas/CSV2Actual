@@ -1,8 +1,8 @@
 {
   "meta": {
-    "version": "0.1 Alpha",
+    "version": "1.0.0",
     "description": "CSV2Actual Configuration File - Internationalized Banking CSV Processor",
-    "lastUpdated": "2025-01-06",
+    "lastUpdated": "2025-01-07",
     "powershellVersion": "7.0+",
     "features": ["internationalization", "json-config", "iban-transfer-detection"]
   },
@@ -106,11 +106,36 @@
       "Betrag",
       "Saldo nach Buchung"
     ],
+    "expectedColumnsEnglish": [
+      "Date",
+      "Value Date", 
+      "Payee",
+      "Payee IBAN",
+      "Purpose",
+      "Amount",
+      "Balance After Transaction"
+    ],
     "excludePatterns": ["FIXED", "DEUTSCH", "ENGLISH", "SIMPLE", "TEST", "MIT_KATEGORIEN"]
   },
   "defaults": {
     "language": "en",
     "currency": "EUR",
     "logLevel": "INFO"
+  },
+  "internationalization": {
+    "columnNameMapping": {
+      "Buchungstag": "Transaction Date",
+      "Valutadatum": "Value Date",
+      "Name Zahlungsbeteiligter": "Payee",
+      "IBAN Zahlungsbeteiligter": "Payee IBAN",
+      "Verwendungszweck": "Purpose/Description",
+      "Betrag": "Amount",
+      "Saldo nach Buchung": "Balance After Transaction",
+      "Umsatz": "Transaction Amount",
+      "Empfänger": "Recipient",
+      "Zahlungspflichtige": "Payer",
+      "Buchungstext": "Transaction Text",
+      "Memo": "Memo"
+    }
   }
 }

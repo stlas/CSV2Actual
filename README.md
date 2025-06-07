@@ -44,7 +44,7 @@ powershell -ExecutionPolicy Bypass -File bank_csv_processor.ps1
 
 ## 📁 Setup Your Files
 
-Place your German bank CSV exports in the `source/` folder:
+Place your bank CSV exports in the `source/` folder:
 ```
 source/
 ├── Anna_Checking.csv
@@ -52,6 +52,8 @@ source/
 ├── Household_Account.csv
 └── Credit_Card.csv
 ```
+
+**Supported formats:** German banks (Volksbank, Sparkasse) and international CSV formats with automatic column detection.
 
 ## 📋 Supported Banks
 
@@ -61,9 +63,14 @@ source/
 
 ### Expected CSV Columns:
 ```
-Buchungstag, Valutadatum, Name Zahlungsbeteiligter, 
-IBAN Zahlungsbeteiligter, Verwendungszweck, Betrag, 
-Saldo nach Buchung
+# German Bank Format (automatically mapped):
+Buchungstag (Date), Valutadatum (Value Date), 
+Name Zahlungsbeteiligter (Payee), IBAN Zahlungsbeteiligter (Payee IBAN),
+Verwendungszweck (Purpose/Memo), Betrag (Amount), 
+Saldo nach Buchung (Balance After Transaction)
+
+# International/English equivalents also supported:
+Date, Payee, Amount, Purpose, Memo, Balance
 ```
 
 ## 🏷️ Automatic Categorization

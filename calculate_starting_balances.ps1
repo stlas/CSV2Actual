@@ -11,6 +11,7 @@ param(
 # Load modules
 . "$PSScriptRoot/modules/Config.ps1"
 . "$PSScriptRoot/modules/I18n.ps1"
+. "$PSScriptRoot/modules/CsvValidator.ps1"
 
 # Initialize configuration and internationalization
 try {
@@ -79,29 +80,55 @@ foreach ($file in $csvFiles) {
     Write-Host $msg -ForegroundColor White
     
     try {
-        # Load CSV with configured settings
+        # Validate CSV and get column mapping
+        $validator = [CsvValidator]::new($global:i18n)
+        $validationResult = $validator.ValidateFile($file.FullName)
+        
+        # Load CSV with configured settings or validator fallback
         $delimiter = $csvSettings.delimiter
         $encoding = $csvSettings.encoding
         $csvData = Import-Csv -Path $file.FullName -Delimiter $delimiter -Encoding $encoding
+        
+        if (-not $csvData) {
+            # Use validator's TryReadCsv as fallback
+            $csvData = $validator.TryReadCsv($file.FullName)
+        }
         
         if ($csvData.Count -eq 0) {
             Write-Host "  " + (t "balance.file_empty_warning") -ForegroundColor Yellow
             continue
         }
         
+        # Get column mapping
+        $columnMapping = $validationResult.columnMapping
+        
+        # Get dynamic column names
+        $dateColumn = $columnMapping["Date"]
+        $amountColumn = $columnMapping["Amount"]
+        $balanceColumn = $columnMapping["Balance"]
+        
+        # Fallback to hardcoded names if mapping unavailable
+        if (-not $dateColumn) { $dateColumn = "Buchungstag" }
+        if (-not $amountColumn) { $amountColumn = "Betrag" }
+        if (-not $balanceColumn) { $balanceColumn = "Saldo nach Buchung" }
+        
         # Ersten Eintrag finden (ältester Saldo = Startsaldo)
         $firstEntry = $csvData | Sort-Object {
             try {
-                [DateTime]::ParseExact($_.Buchungstag, "dd.MM.yyyy", $null)
+                if ($_.PSObject.Properties.Name -contains $dateColumn) {
+                    [DateTime]::ParseExact($_.$dateColumn, "dd.MM.yyyy", $null)
+                } else {
+                    [DateTime]::MaxValue
+                }
             } catch {
                 [DateTime]::MaxValue
             }
         } | Select-Object -First 1
         
-        if ($firstEntry -and $firstEntry.'Saldo nach Buchung') {
+        if ($firstEntry -and $firstEntry.PSObject.Properties.Name -contains $balanceColumn -and $firstEntry.$balanceColumn) {
             # Saldo nach Buchung konvertieren (Deutsch zu Englisch)
-            $balanceAfterText = $firstEntry.'Saldo nach Buchung' -replace '\.', '' -replace ',', '.'
-            $amountText = $firstEntry.'Betrag' -replace '\.', '' -replace ',', '.'
+            $balanceAfterText = $firstEntry.$balanceColumn -replace '\.', '' -replace ',', '.'
+            $amountText = if ($firstEntry.PSObject.Properties.Name -contains $amountColumn) { $firstEntry.$amountColumn -replace '\.', '' -replace ',', '.' } else { '0' }
             try {
                 $balanceAfter = [decimal]$balanceAfterText
                 $amount = [decimal]$amountText
@@ -125,11 +152,12 @@ foreach ($file in $csvFiles) {
                 
                 $accountBalances[$accountName] = @{
                     balance = $balance
-                    date = $firstEntry.Buchungstag
+                    date = if ($firstEntry.PSObject.Properties.Name -contains $dateColumn) { $firstEntry.$dateColumn } else { 'Unknown' }
                     file = $fileName
                 }
                 
-                Write-Host "  Starting Balance: $balance EUR (Date: $($firstEntry.Buchungstag))" -ForegroundColor Green
+                $displayDate = if ($firstEntry.PSObject.Properties.Name -contains $dateColumn) { $firstEntry.$dateColumn } else { 'Unknown' }
+                Write-Host "  Starting Balance: $balance EUR (Date: $displayDate)" -ForegroundColor Green
                 
             } catch {
                 Write-Host "  " + (t "balance.balance_convert_error" @($balanceAfterText)) -ForegroundColor Red

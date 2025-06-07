@@ -33,12 +33,19 @@ powershell -ExecutionPolicy Bypass -File switch_test_data.ps1 -TestSet demo
 
 ## CSV File Requirements
 
-Your CSV files should have these German bank columns:
-- `Buchungstag` or `Valutadatum` (Date)
+### German Bank Format (automatically detected):
+- `Buchungstag` or `Valutadatum` (Transaction Date)
 - `Betrag` or `Umsatz` (Amount) 
-- `Name Zahlungsbeteiligter` or `Empfaenger` (Payee)
+- `Name Zahlungsbeteiligter` or `Empfänger` (Payee)
 - `Verwendungszweck` or `Buchungstext` (Purpose/Memo)
 - `IBAN Zahlungsbeteiligter` (optional, for transfer detection)
+
+### International/English Format (also supported):
+- `Date` or `Transaction Date` 
+- `Amount` or `Transaction Amount`
+- `Payee` or `Merchant Name`
+- `Purpose`, `Description`, or `Memo`
+- `Payee IBAN` or `Account` (optional)
 
 ## Privacy Note
 
