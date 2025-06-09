@@ -21,13 +21,15 @@ A PowerShell tool that converts German bank CSV exports into Actual Budget-compa
 
 ## 🚀 Quick Start
 
-### Option 1: Interactive Wizard (Recommended for beginners)
-```bash
-# English version (default):
-powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1
+> **⚠️ Windows-Nutzer:** Verwenden Sie **immer** `-ExecutionPolicy Bypass` oder Sie erhalten einen "nicht digital signiert" Fehler!
 
-# German version:
+### Option 1: Interactive Wizard (Recommended for beginners)
+```powershell
+# German version (Empfohlen für deutsche Banken):
 powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Language de
+
+# English version:
+powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Language en
 ```
 
 ### Option 2: Direct Processing (For advanced users)
@@ -197,6 +199,41 @@ Detailed instructions: [`actual_import/ACTUAL_IMPORT_GUIDE.txt`](actual_import/A
 
 - **Windows** with PowerShell 5.1+ (or PowerShell Core 6+ on Linux/macOS)
 - **No additional dependencies** required
+
+## ⚠️ **Troubleshooting für Windows-Benutzer**
+
+### **Problem: "Die Datei kann nicht geladen werden... nicht digital signiert"**
+
+**Ursache:** Windows PowerShell verhindert die Ausführung nicht-signierter Skripts (Sicherheitsfeature).
+
+**Lösung:** Verwenden Sie **immer** den `-ExecutionPolicy Bypass` Parameter:
+
+```powershell
+# ✅ RICHTIG - Mit ExecutionPolicy Bypass
+powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Language de
+
+# ❌ FALSCH - Ohne ExecutionPolicy (führt zu Fehlern)
+./CSV2Actual.ps1 -Language de
+```
+
+**Alternative Lösungen:**
+
+1. **Temporäre Erlaubnis für aktuellen Benutzer:**
+   ```powershell
+   Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+   ./CSV2Actual.ps1 -Language de
+   ```
+
+2. **PowerShell Core verwenden (falls installiert):**
+   ```powershell
+   pwsh -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Language de
+   ```
+
+**Ist das sicher?** ✅ Ja! Der `-ExecutionPolicy Bypass` Parameter:
+- Ist nur für dieses eine Skript aktiv
+- Verändert keine Systemeinstellungen dauerhaft
+- Ist der empfohlene Weg für PowerShell-Tools
+- Wird von Microsoft für vertrauenswürdige Skripts empfohlen
 
 ## 📖 Documentation
 

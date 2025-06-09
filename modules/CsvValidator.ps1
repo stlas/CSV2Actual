@@ -1,5 +1,5 @@
 # CSV2Actual - CSV Validation Module
-# Version: 1.0
+# Version: 1.0.1 - Fixed Encoding Issues
 # Author: sTLAs (https://github.com/sTLAs)
 # Validates and fixes CSV file formats with internationalized error messages
 
@@ -199,9 +199,9 @@ class CsvValidator {
                         
                         # Score encoding quality
                         $score = 0
-                        $hasValidCSV = $firstLine -match "[;,\t]"
+                        $hasValidCSV = $firstLine -match "[;,]"
                         $hasControlChars = $content -match "[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]"
-                        $hasGermanChars = $content -match "[äöüßÄÖÜ]"
+                        $hasGermanChars = $content -match "[a-zA-Z]"
                         
                         if ($hasValidCSV) { $score += 3 }
                         if ($hasGermanChars -and $enc.Name -eq "UTF8") { $score += 2 }
@@ -211,8 +211,9 @@ class CsvValidator {
                             $bestScore = $score
                             $result.recommendedEncoding = $enc.Name
                             
-                            # Detect delimiter
-                            $delimiters = @(";", ",", "`t", "|")
+                            # Detect delimiter - using safe approach
+                            $tabChar = [char]9
+                            $delimiters = @(";", ",", $tabChar, "|")
                             $delimiterCounts = @{}
                             foreach ($delim in $delimiters) {
                                 $count = ($firstLine -split [regex]::Escape($delim)).Count - 1
