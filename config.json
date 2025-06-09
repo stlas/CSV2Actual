@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "CSV2Actual Configuration File - Internationalized Banking CSV Processor",
     "lastUpdated": "2025-01-07",
     "powershellVersion": "7.0+",

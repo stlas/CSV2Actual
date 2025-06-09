@@ -5,7 +5,7 @@ backup_*/
 
 # Claude Code lokale Dateien
 CLAUDE.local.md
-.claude/settings.local.json
+.claude/
 
 # Log-Dateien
 logs/

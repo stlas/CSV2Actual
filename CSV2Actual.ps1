@@ -175,7 +175,7 @@ function Step2-CommunitySettings {
         Write-Host ""
         
         do {
-            $choice = Read-Host (t "community.enter_choice_range" @($availableBankFormats.Count)) 
+            $choice = Read-Host (t "community.enter_choice_range" @($csvFormats.Count)) 
             try {
                 $choiceNum = [int]$choice
                 if ($choiceNum -eq 0) {
@@ -214,7 +214,7 @@ function Step2-CommunitySettings {
         Write-Host ""
         
         do {
-            $choice = Read-Host (t "community.enter_choice_range" @($availableCategorySets.Count))
+            $choice = Read-Host (t "community.enter_choice_range" @($categorySets.Count))
             try {
                 $choiceNum = [int]$choice
                 if ($choiceNum -eq 0) {
