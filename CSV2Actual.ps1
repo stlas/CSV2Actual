@@ -174,8 +174,9 @@ function Step2-CommunitySettings {
         }
         Write-Host ""
         
+        $maxChoice = $csvFormats.Count
         do {
-            $choice = Read-Host (t "community.enter_choice_range" @($csvFormats.Count)) 
+            $choice = Read-Host (t "community.enter_choice_range" @($maxChoice)) 
             try {
                 $choiceNum = [int]$choice
                 if ($choiceNum -eq 0) {
@@ -213,8 +214,9 @@ function Step2-CommunitySettings {
         }
         Write-Host ""
         
+        $maxCategoryChoice = $categorySets.Count
         do {
-            $choice = Read-Host (t "community.enter_choice_range" @($categorySets.Count))
+            $choice = Read-Host (t "community.enter_choice_range" @($maxCategoryChoice))
             try {
                 $choiceNum = [int]$choice
                 if ($choiceNum -eq 0) {

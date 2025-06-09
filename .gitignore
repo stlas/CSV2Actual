@@ -46,6 +46,12 @@ test_data/real_bank_csvs/
 source_backup/
 source_backup_for_real_test/
 
+# Prevent accidental commit of real data
+source/*.csv
+actual_import/*.csv
+!source/.gitkeep
+!actual_import/.gitkeep
+
 # Output logging
 wizard_output_*.log
 

@@ -1,8 +1,0 @@
-"date","account","payee","notes","category","amount"
-"2024-01-25","Household-Account","Property Management Ltd","Rent January 2024 Transfer","Housing","-1200"
-"2024-01-20","Household-Account","CityUtilities Corp","Electricity and Gas January Direct Debit","Housing","-180.5"
-"2024-01-15","Household-Account","Max Johnson","Household contribution Max Standing Order","Transfer from Max-Checking","1500"
-"2024-01-15","Household-Account","Anna Smith","Household contribution Anna Standing Order","Transfer from Anna-Checking","800"
-"2024-01-10","Household-Account","TeleConnect Ltd","Internet and Phone Direct Debit","Internet & Phone","-45.99"
-"2024-01-05","Household-Account","FreshMart Ltd","Household Groceries Direct Debit","Transfer (Household Contribution)","-89.3"
-"2024-01-02","Household-Account","Starting Balance","","","200"

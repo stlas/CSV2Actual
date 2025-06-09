@@ -39,7 +39,10 @@
       "Bash(git branch:*)",
       "Bash(git push:*)",
       "Bash(cp:*)",
-      "Bash(git tag:*)"
+      "Bash(git tag:*)",
+      "Bash(git reset:*)",
+      "Bash(git rm:*)",
+      "Bash(touch:*)"
     ],
     "deny": []
   }
