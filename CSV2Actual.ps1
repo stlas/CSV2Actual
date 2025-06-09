@@ -35,10 +35,19 @@ catch {
     exit 1
 }
 
-# Helper function for localization
+# Helper function for localization  
 function t {
-    param([string]$key, [object[]]$args = @())
-    return $global:i18n.Get($key, $args)
+    [CmdletBinding()]
+    param(
+        [string]$key,
+        [Parameter(Mandatory=$false)][object[]]$args = @()
+    )
+    
+    if ($args.Length -eq 0) {
+        return $global:i18n.Get($key)
+    } else {
+        return $global:i18n.Get($key, $args)
+    }
 }
 
 function Show-Help {
@@ -176,7 +185,8 @@ function Step2-CommunitySettings {
         
         $maxChoice = $csvFormats.Count
         do {
-            $choice = Read-Host (t "community.enter_choice_range" @($maxChoice)) 
+            $promptText = $global:i18n.Get("community.enter_choice_range", @($maxChoice))
+            $choice = Read-Host $promptText 
             try {
                 $choiceNum = [int]$choice
                 if ($choiceNum -eq 0) {
@@ -216,7 +226,8 @@ function Step2-CommunitySettings {
         
         $maxCategoryChoice = $categorySets.Count
         do {
-            $choice = Read-Host (t "community.enter_choice_range" @($maxCategoryChoice))
+            $promptText = $global:i18n.Get("community.enter_choice_range", @($maxCategoryChoice))
+            $choice = Read-Host $promptText
             try {
                 $choiceNum = [int]$choice
                 if ($choiceNum -eq 0) {
