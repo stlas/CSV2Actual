@@ -37,19 +37,8 @@ catch {
 
 # Helper function for localization
 function t {
-    param([string]$key, [array]$args = @())
-    if ($args.Length -eq 1) {
-        return $global:i18n.Format($key, $args[0].ToString())
-    } elseif ($args.Length -eq 0) {
-        return $global:i18n.Get($key)
-    } else {
-        # Fallback für multiple Parameter
-        $text = $global:i18n.Get($key)
-        for ($i = 0; $i -lt $args.Length; $i++) {
-            $text = $text -replace "\{$i\}", $args[$i]
-        }
-        return $text
-    }
+    param([string]$key, [object[]]$args = @())
+    return $global:i18n.Get($key, $args)
 }
 
 function Show-Help {
@@ -186,7 +175,7 @@ function Step2-CommunitySettings {
         Write-Host ""
         
         do {
-            $choice = Read-Host (t "community.enter_choice_range" $availableBankFormats.Count) 
+            $choice = Read-Host (t "community.enter_choice_range" @($availableBankFormats.Count)) 
             try {
                 $choiceNum = [int]$choice
                 if ($choiceNum -eq 0) {
@@ -225,7 +214,7 @@ function Step2-CommunitySettings {
         Write-Host ""
         
         do {
-            $choice = Read-Host (t "community.enter_choice_range" $availableCategorySets.Count)
+            $choice = Read-Host (t "community.enter_choice_range" @($availableCategorySets.Count))
             try {
                 $choiceNum = [int]$choice
                 if ($choiceNum -eq 0) {
@@ -256,7 +245,25 @@ function Step3-Validation {
     
     Write-StepHeader "wizard.step3_title" 3 5
     
-    $validator = [CsvValidator]::new($global:i18n)
+    # Ensure CsvValidator is available
+    try {
+        $validator = [CsvValidator]::new($global:i18n)
+    } catch {
+        Write-Host "ERROR: Could not initialize CSV validator: $($_.Exception.Message)" -ForegroundColor Red
+        Write-Host "Retrying with fallback..." -ForegroundColor Yellow
+        
+        # Try to reload the module
+        try {
+            . "$PSScriptRoot/modules/CsvValidator.ps1"
+            $validator = [CsvValidator]::new($global:i18n)
+            Write-Host "CSV validator loaded successfully on retry." -ForegroundColor Green
+        } catch {
+            Write-Host "CRITICAL ERROR: Cannot load CSV validator. Skipping validation step." -ForegroundColor Red
+            Write-Host "Details: $($_.Exception.Message)" -ForegroundColor Red
+            Wait-UserInput
+            return $null
+        }
+    }
     $allValid = $true
     $validationResults = @{}
     
