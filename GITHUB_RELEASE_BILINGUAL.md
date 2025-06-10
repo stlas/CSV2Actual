@@ -1,15 +1,22 @@
-# 🚀 CSV2Actual v1.0.4 - Hotfix Release
+# 🚀 CSV2Actual v1.0.5 - Feature Enhancement Release
 
 *[English version below](#english-version)*
 
 ## 🇩🇪 **Deutsche Version**
 
-### 🔧 **Hotfix v1.0.4 Änderungen**
+### 🎯 **Feature Enhancement v1.0.5 Änderungen**
 
-**Kritischer Bugfix:**
-- ✅ **String-Interpolation im Wizard repariert** - Community-Auswahl zeigt jetzt korrekte Zahlen
-- ✅ **Wizard-Prompts funktionieren vollständig** - "Ihre Auswahl eingeben (0-1)" statt "Ihre Auswahl eingeben (0-{0})"
-- ✅ **Vollständige Wizard-Funktionalität wiederhergestellt**
+**✨ Neue Features:**
+- 📊 **Umfassende Statistik-Anzeige** - Zeigt verarbeitete Dateien, Buchungen, Kategorisierung mit Emoji-Symbolen (📁💳🏷️🔄)
+- 🇩🇪 **Verbesserte deutsche Übersetzungen** - "ERFOLG" statt "SUCCESS" für authentisch deutsche Ausgabe  
+- 🔧 **WSL → Windows PowerShell Test-Framework** - Nahtloses Testen von Windows PowerShell aus WSL heraus
+- 🌍 **Community-Beiträge erweitert** - Volksbank (DE) Format + Deutsche Paar-Kategorien
+
+**🔧 Verbesserungen:**
+- ✅ **PowerShell Syntax-Probleme behoben** - Vollständige WSL/Windows Kompatibilität
+- ✅ **Präzise Log-Analyse** - Genaue Statistik-Extraktion aus Processor-Logs
+- ✅ **Mathematische Präzision** - Korrekte Prozentberechnung bei Kategorisierung
+- ✅ **Encoding-Behandlung** - Optimiert für WSL ↔ Windows Dateisysteme
 
 ### 🎉 Was ist CSV2Actual?
 
@@ -91,12 +98,19 @@ Helfen Sie dabei, CSV2Actual für mehr Banken und Anwendungsfälle zu erweitern:
 
 ## 🇬🇧 **English Version** {#english-version}
 
-### 🔧 **Hotfix v1.0.4 Changes**
+### 🎯 **Feature Enhancement v1.0.5 Changes**
 
-**Critical Bugfix:**
-- ✅ **Fixed string interpolation in wizard** - Community selection now shows correct numbers
-- ✅ **Wizard prompts fully functional** - "Enter your choice (0-1)" instead of "Enter your choice (0-{0})"
-- ✅ **Complete wizard functionality restored**
+**✨ New Features:**
+- 📊 **Comprehensive statistics display** - Shows processed files, transactions, categorization with emoji symbols (📁💳🏷️🔄)
+- 🇩🇪 **Enhanced German translations** - "ERFOLG" instead of "SUCCESS" for authentic German output
+- 🔧 **WSL → Windows PowerShell testing framework** - Seamless testing of Windows PowerShell from WSL
+- 🌍 **Extended community contributions** - Volksbank (DE) format + German couple categories
+
+**🔧 Improvements:**
+- ✅ **Fixed PowerShell syntax issues** - Full WSL/Windows compatibility
+- ✅ **Precise log analysis** - Accurate statistics extraction from processor logs
+- ✅ **Mathematical precision** - Correct percentage calculation for categorization
+- ✅ **Encoding handling** - Optimized for WSL ↔ Windows filesystems
 
 ### 🎉 What is CSV2Actual?
 
