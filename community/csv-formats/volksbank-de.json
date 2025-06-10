@@ -1,0 +1,38 @@
+{
+  "bankName": "Volksbank",
+  "country": "DE", 
+  "language": "de",
+  "description": "Volksbank CSV-Export Format für deutsche Genossenschaftsbanken",
+  "author": "sTLAs",
+  "dateCreated": "2025-01-07",
+  "csvFormat": {
+    "delimiter": ";",
+    "encoding": "UTF8",
+    "hasHeader": true,
+    "dateFormat": "DD.MM.YYYY",
+    "decimalSeparator": ",",
+    "thousandsSeparator": "."
+  },
+  "columnMapping": {
+    "date": "Buchungstag",
+    "amount": "Betrag",
+    "payee": "Name Zahlungsbeteiligter", 
+    "memo": "Verwendungszweck",
+    "iban": "IBAN Zahlungsbeteiligter",
+    "balance": "Saldo nach Buchung"
+  },
+  "columnMappingEnglish": {
+    "date": "Transaction Date",
+    "amount": "Amount",
+    "payee": "Payee Name",
+    "memo": "Purpose",
+    "iban": "Payee IBAN", 
+    "balance": "Balance After Transaction"
+  },
+  "sampleData": [
+    "Bezeichnung Auftragskonto;IBAN Auftragskonto;BIC Auftragskonto;Bankname Auftragskonto;Buchungstag;Valutadatum;Name Zahlungsbeteiligter;IBAN Zahlungsbeteiligter;BIC (SWIFT-Code) Zahlungsbeteiligter;Buchungstext;Verwendungszweck;Betrag;Waehrung;Saldo nach Buchung;Bemerkung;Gekennzeichneter Umsatz;Glaeubiger ID;Mandatsreferenz",
+    "Giro Stefan;DE77661900000029034702;GENODE61KA1;Volksbank pur eG;30.05.2025;30.05.2025;AMAZON PAYMENTS EUROPE S.C.A.;DE87300308801908262006;TUBDDEDD;Basislastschrift;P02-1864924-2706616 amzn.com/pmts;-25,00;EUR;-2161,41;;;DE94ZZZ00000561653;kgVwVkmfvyN3I.w"
+  ],
+  "notes": "Standard Volksbank Format verwendet von deutschen Genossenschaftsbanken. Enthält ausführliche IBAN- und BIC-Informationen.",
+  "notesEnglish": "Standard Volksbank format used by German cooperative banks. Contains detailed IBAN and BIC information."
+}

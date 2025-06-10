@@ -1,8 +1,15 @@
-# 🚀 CSV2Actual v1.0.0 - Initial Stable Release
+# 🚀 CSV2Actual v1.0.4 - Hotfix Release
 
 *[English version below](#english-version)*
 
 ## 🇩🇪 **Deutsche Version**
+
+### 🔧 **Hotfix v1.0.4 Änderungen**
+
+**Kritischer Bugfix:**
+- ✅ **String-Interpolation im Wizard repariert** - Community-Auswahl zeigt jetzt korrekte Zahlen
+- ✅ **Wizard-Prompts funktionieren vollständig** - "Ihre Auswahl eingeben (0-1)" statt "Ihre Auswahl eingeben (0-{0})"
+- ✅ **Vollständige Wizard-Funktionalität wiederhergestellt**
 
 ### 🎉 Was ist CSV2Actual?
 
@@ -83,6 +90,13 @@ Helfen Sie dabei, CSV2Actual für mehr Banken und Anwendungsfälle zu erweitern:
 ---
 
 ## 🇬🇧 **English Version** {#english-version}
+
+### 🔧 **Hotfix v1.0.4 Changes**
+
+**Critical Bugfix:**
+- ✅ **Fixed string interpolation in wizard** - Community selection now shows correct numbers
+- ✅ **Wizard prompts fully functional** - "Enter your choice (0-1)" instead of "Enter your choice (0-{0})"
+- ✅ **Complete wizard functionality restored**
 
 ### 🎉 What is CSV2Actual?
 

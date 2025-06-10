@@ -1,0 +1,96 @@
+{
+  "name": "Paar mit gemeinsamen Konto (Deutsch)",
+  "language": "de", 
+  "country": "DE",
+  "description": "Kategorien für Paare mit gemeinsamen Haushaltskonto - Deutsche Haushaltsführung",
+  "author": "sTLAs",
+  "dateCreated": "2025-01-07",
+  "categories": {
+    "income": {
+      "description": "Einnahmen-Kategorien für Paare",
+      "categories": [
+        {
+          "name": "Gehalt Stefan",
+          "patterns": ["stefan.*gehalt", "stefan.*lohn", "luxor.*solar", "stefan.*salary"],
+          "description": "Gehaltseingänge Stefan"
+        },
+        {
+          "name": "Gehalt Alessandra", 
+          "patterns": ["alessandra.*gehalt", "alessandra.*lohn", "alessandra.*salary", "bookstore", "buchhandlung"],
+          "description": "Gehaltseingänge Alessandra"
+        },
+        {
+          "name": "Zinsen & Kapitalerträge",
+          "patterns": ["zinsen", "dividende", "kapitalertrag", "genossenschaft", "geschäftsanteil"],
+          "description": "Zinsen von Sparkonten und Genossenschaftsanteilen"
+        }
+      ]
+    },
+    "expenses": {
+      "description": "Ausgaben-Kategorien für gemeinsame Haushaltsführung",
+      "categories": [
+        {
+          "name": "Haushalt Lebensmittel",
+          "patterns": ["rewe", "edeka", "lidl", "aldi", "netto", "penny", "kaufland"],
+          "description": "Gemeinsame Lebensmitteleinkäufe"
+        },
+        {
+          "name": "Wohnen & Nebenkosten",
+          "patterns": ["miete", "nebenkosten", "strom", "gas", "wasser", "heizung", "stadtwerke"],
+          "description": "Miete und Wohnnebenkosten"
+        },
+        {
+          "name": "Immobilienkredit",
+          "patterns": ["immobilienkredit", "darlehen", "kredit", "hypothek", "tilgung"],
+          "description": "Immobilienfinanzierung und Tilgung"
+        },
+        {
+          "name": "Kreditkarte",
+          "patterns": ["kreditkarte", "visa", "mastercard", "credit card"],
+          "description": "Kreditkartenausgaben"
+        },
+        {
+          "name": "Versicherungen",
+          "patterns": ["versicherung", "allianz", "axa", "ergo", "huk", "signal iduna"],
+          "description": "Hausrat-, Haftpflicht- und andere Versicherungen"
+        },
+        {
+          "name": "Internet & Telefon",
+          "patterns": ["telekom", "vodafone", "o2", "1+1 telecom", "internet", "telefon"],
+          "description": "Telekommunikationskosten"
+        },
+        {
+          "name": "Online Shopping",
+          "patterns": ["amazon", "paypal", "ebay", "zalando", "otto"],
+          "description": "Online-Einkäufe und E-Commerce"
+        },
+        {
+          "name": "Tankstelle & Mobilität",
+          "patterns": ["shell", "aral", "esso", "tankstelle", "benzin", "diesel"],
+          "description": "Kraftstoff und Mobilitätskosten"
+        }
+      ]
+    },
+    "transfers": {
+      "description": "Transfer-Kategorien zwischen Konten",
+      "categories": [
+        {
+          "name": "Haushaltsbeitrag Stefan",
+          "patterns": ["stefan.*haushalt", "haushaltsbeitrag stefan", "da-6"],
+          "description": "Stefans Beitrag zum Haushaltskonto"
+        },
+        {
+          "name": "Haushaltsbeitrag Alessandra",
+          "patterns": ["alessandra.*haushalt", "haushaltsbeitrag alessandra"],
+          "description": "Alessandras Beitrag zum Haushaltskonto"
+        },
+        {
+          "name": "Sparen & Rücklagen",
+          "patterns": ["sparbuch", "spareinlage", "rücklage", "variokonto"],
+          "description": "Transfers zu Spar- und Rücklagenkonten"
+        }
+      ]
+    }
+  },
+  "notes": "Speziell entwickelt für Paare mit gemeinsamen Haushaltskonto. Berücksichtigt typische deutsche Haushaltsstrukturen."
+}

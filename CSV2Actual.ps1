@@ -1,4 +1,4 @@
-# CSV2Actual - Interactive Wizard
+﻿# CSV2Actual - Interactive Wizard
 # Version: 1.0
 # Author: sTLAs (https://github.com/sTLAs)
 # Interactive guided conversion from German bank CSV to Actual Budget
@@ -102,6 +102,15 @@ function Write-StepHeader {
 function Wait-UserInput {
     param([string]$messageKey = "")
     
+    # Skip waiting for user input in DryRun or Silent mode
+    if ($DryRun -or $Silent) {
+        if ($messageKey) {
+            Write-Host (t $messageKey) -ForegroundColor Yellow
+        }
+        Write-Host "Skipping user input (DryRun/Silent mode)" -ForegroundColor Cyan
+        return
+    }
+    
     if ($messageKey) {
         Write-Host (t $messageKey) -ForegroundColor Yellow
     }
@@ -172,37 +181,58 @@ function Step2-CommunitySettings {
     
     if ($csvFormats.Count -gt 0) {
         Write-Host (t "community.select_bank_format") -ForegroundColor Yellow
-        Write-Host "0. $(t 'community.use_default')" -ForegroundColor White
+        $defaultText = t 'community.use_default'
+        Write-Host "1. $defaultText" -ForegroundColor White
         
         for ($i = 0; $i -lt $csvFormats.Count; $i++) {
             $format = $csvFormats[$i]
-            Write-Host "$($i + 1). $($format.name)" -ForegroundColor White
+            $itemNumber = $i + 2
+            Write-Host "$itemNumber. $($format.name)" -ForegroundColor White
             if ($format.description) {
                 Write-Host "   $($format.description)" -ForegroundColor Gray
             }
         }
         Write-Host ""
         
-        $maxChoice = $csvFormats.Count
-        do {
-            $promptText = $global:i18n.Get("community.enter_choice_range", @($maxChoice))
-            $choice = Read-Host $promptText 
-            try {
-                $choiceNum = [int]$choice
-                if ($choiceNum -eq 0) {
-                    $selectedBankFormat = $null
+        $maxChoice = $csvFormats.Count + 1
+        
+        # Auto-select default for DryRun or Silent mode
+        if ($DryRun -or $Silent) {
+            $choice = '1'
+            Write-Host "Auto-selecting: 1 (Default)" -ForegroundColor Cyan
+        } else {
+            do {
+                $promptText = $global:i18n.Get("community.enter_choice_range", @($maxChoice))
+                $choice = Read-Host $promptText 
+                if ([string]::IsNullOrWhiteSpace($choice)) {
+                    $choice = '1'  # Default selection
+                    Write-Host "Using default: 1" -ForegroundColor Cyan
                     break
-                } elseif ($choiceNum -ge 1 -and $choiceNum -le $csvFormats.Count) {
-                    $selectedBankFormat = $csvFormats[$choiceNum - 1].id
-                    Write-Host "$(t 'community.selected'): $($csvFormats[$choiceNum - 1].name)" -ForegroundColor Green
-                    break
-                } else {
+                }
+                try {
+                    $choiceNum = [int]$choice
+                    if ($choiceNum -ge 1 -and $choiceNum -le $csvFormats.Count + 1) {
+                        break
+                    } else {
+                        Write-Host (t "community.invalid_choice") -ForegroundColor Red
+                    }
+                } catch {
                     Write-Host (t "community.invalid_choice") -ForegroundColor Red
                 }
-            } catch {
-                Write-Host (t "community.invalid_choice") -ForegroundColor Red
-            }
-        } while ($true)
+            } while ($true)
+        }
+        
+        $choiceNum = [int]$choice
+        if ($choiceNum -eq 1) {
+            $selectedBankFormat = $null
+        } else {
+            $index = $choiceNum - 2
+            $selectedFormat = $csvFormats[$index]
+            $selectedBankFormat = $selectedFormat.id
+            $selectedText = t 'community.selected'
+            $formatName = $selectedFormat.name
+            Write-Host "$selectedText`: $formatName" -ForegroundColor Green
+        }
     }
     
     Write-Host ""
@@ -213,37 +243,58 @@ function Step2-CommunitySettings {
     
     if ($categorySets.Count -gt 0) {
         Write-Host (t "community.select_category_set") -ForegroundColor Yellow
-        Write-Host "0. $(t 'community.use_default')" -ForegroundColor White
+        $defaultText = t 'community.use_default'
+        Write-Host "1. $defaultText" -ForegroundColor White
         
         for ($i = 0; $i -lt $categorySets.Count; $i++) {
             $categorySet = $categorySets[$i]
-            Write-Host "$($i + 1). $($categorySet.name)" -ForegroundColor White
+            $itemNumber = $i + 2
+            Write-Host "$itemNumber. $($categorySet.name)" -ForegroundColor White
             if ($categorySet.description) {
                 Write-Host "   $($categorySet.description)" -ForegroundColor Gray
             }
         }
         Write-Host ""
         
-        $maxCategoryChoice = $categorySets.Count
-        do {
-            $promptText = $global:i18n.Get("community.enter_choice_range", @($maxCategoryChoice))
-            $choice = Read-Host $promptText
-            try {
-                $choiceNum = [int]$choice
-                if ($choiceNum -eq 0) {
-                    $selectedCategorySet = $null
+        $maxCategoryChoice = $categorySets.Count + 1
+        
+        # Auto-select default for DryRun or Silent mode
+        if ($DryRun -or $Silent) {
+            $choice = '1'
+            Write-Host "Auto-selecting: 1 (Default)" -ForegroundColor Cyan
+        } else {
+            do {
+                $promptText = $global:i18n.Get("community.enter_choice_range", @($maxCategoryChoice))
+                $choice = Read-Host $promptText
+                if ([string]::IsNullOrWhiteSpace($choice)) {
+                    $choice = '1'  # Default selection
+                    Write-Host "Using default: 1" -ForegroundColor Cyan
                     break
-                } elseif ($choiceNum -ge 1 -and $choiceNum -le $categorySets.Count) {
-                    $selectedCategorySet = $categorySets[$choiceNum - 1].id
-                    Write-Host "$(t 'community.selected'): $($categorySets[$choiceNum - 1].name)" -ForegroundColor Green
-                    break
-                } else {
+                }
+                try {
+                    $choiceNum = [int]$choice
+                    if ($choiceNum -ge 1 -and $choiceNum -le $categorySets.Count + 1) {
+                        break
+                    } else {
+                        Write-Host (t "community.invalid_choice") -ForegroundColor Red
+                    }
+                } catch {
                     Write-Host (t "community.invalid_choice") -ForegroundColor Red
                 }
-            } catch {
-                Write-Host (t "community.invalid_choice") -ForegroundColor Red
-            }
-        } while ($true)
+            } while ($true)
+        }
+        
+        $choiceNum = [int]$choice
+        if ($choiceNum -eq 1) {
+            $selectedCategorySet = $null
+        } else {
+            $index = $choiceNum - 2
+            $selectedCategory = $categorySets[$index]
+            $selectedCategorySet = $selectedCategory.id
+            $selectedText = t 'community.selected'
+            $categoryName = $selectedCategory.name
+            Write-Host "$selectedText`: $categoryName" -ForegroundColor Green
+        }
     }
     
     Wait-UserInput
@@ -280,49 +331,92 @@ function Step3-Validation {
     $allValid = $true
     $validationResults = @{}
     
-    foreach ($file in $csvFiles) {
-        Write-Host "VALIDATING: $($file.Name)..." -ForegroundColor Yellow
+    # Progress bar for validation
+    Write-Host "Prüfe $($csvFiles.Count) CSV-Dateien..." -ForegroundColor Cyan
+    $progressWidth = 40
+    $validCount = 0
+    $invalidCount = 0
+    
+    for ($i = 0; $i -lt $csvFiles.Count; $i++) {
+        $file = $csvFiles[$i]
+        $percent = [math]::Round(($i / $csvFiles.Count) * 100)
+        $completed = [math]::Round(($i / $csvFiles.Count) * $progressWidth)
+        $remaining = $progressWidth - $completed
+        
+        # Create progress bar
+        $filledBar = '█' * $completed
+        $emptyBar = ' ' * $remaining
+        $progressBar = "[$filledBar$emptyBar] $percent%"
+        Write-Host "`r$progressBar" -NoNewline -ForegroundColor Green
         
         $validation = $validator.ValidateFile($file.FullName)
         $validationResults[$file.Name] = $validation
         
         if ($validation.isValid) {
-            Write-Host "   OK: Valid format" -ForegroundColor Green
-        }
-        else {
-            Write-Host "   ERROR: Issues found:" -ForegroundColor Red
-            foreach ($error in $validation.errors) {
-                Write-Host "      - $error" -ForegroundColor Red
-            }
-            
-            if ($validation.suggestions.Count -gt 0) {
-                Write-Host "   SUGGESTIONS:" -ForegroundColor Yellow
-                foreach ($suggestion in $validation.suggestions) {
-                    Write-Host "      $suggestion" -ForegroundColor Yellow
-                }
-            }
+            $validCount++
+        } else {
+            $invalidCount++
             $allValid = $false
         }
-        Write-Host ""
+        
+        Start-Sleep -Milliseconds 100
+    }
+    
+    # Final progress bar
+    $finalBar = '█' * $progressWidth
+    $progressBar = "[$finalBar] 100%"
+    Write-Host "`r$progressBar" -ForegroundColor Green
+    Write-Host ""
+    
+    # Summary
+    if ($validCount -gt 0) {
+        Write-Host "✓ $validCount Dateien: Standard-Format erkannt" -ForegroundColor Green
+    }
+    if ($invalidCount -gt 0) {
+        Write-Host "⚠ $invalidCount Dateien: Erfordern automatische Anpassung" -ForegroundColor Yellow
     }
     
     if (-not $allValid) {
         Write-Host (t 'messages.format_issues_warning') -ForegroundColor Yellow
         Write-Host (t 'messages.do_you_want') -ForegroundColor White
-        Write-Host "1) $(t 'messages.continue_anyway')" -ForegroundColor Gray
-        Write-Host "2) $(t 'messages.fix_automatically')" -ForegroundColor Gray
-        Write-Host "3) $(t 'messages.exit_fix_manually')" -ForegroundColor Gray
+        $msg1 = t 'messages.continue_anyway'
+        $msg2 = t 'messages.fix_automatically'
+        $msg3 = t 'messages.exit_fix_manually'
+        Write-Host "Option 1: " -NoNewline -ForegroundColor Gray
+        Write-Host $msg1 -ForegroundColor Gray
+        Write-Host "Option 2: " -NoNewline -ForegroundColor Gray
+        Write-Host $msg2 -ForegroundColor Gray
+        Write-Host "Option 3: " -NoNewline -ForegroundColor Gray
+        Write-Host $msg3 -ForegroundColor Gray
         
-        $choice = Read-Host (t 'messages.enter_choice')
+        # Auto-select option 2 for DryRun or Silent mode
+        if ($DryRun -or $Silent) {
+            $choice = 'option2'
+            Write-Host "Auto-selecting: Option 2 (Automatic fix)" -ForegroundColor Cyan
+        } else {
+            $choice = Read-Host (t 'messages.enter_choice')
+            if ([string]::IsNullOrWhiteSpace($choice)) {
+                $choice = 'option2'  # Default to automatic fix
+                Write-Host "Using default: Option 2" -ForegroundColor Cyan
+            } elseif ($choice -eq '1') {
+                $choice = 'option1'
+            } elseif ($choice -eq '2') {
+                $choice = 'option2'
+            } elseif ($choice -eq '3') {
+                $choice = 'option3'
+            }
+        }
         
         switch ($choice) {
-            "2" {
+            'option2' {
                 Write-Host (t 'messages.processor_can_handle') -ForegroundColor Green
                 Write-Host (t 'messages.continuing_with_files') -ForegroundColor Yellow
             }
-            "3" {
+            'option3' {
                 Write-Host (t 'messages.fix_files_manually') -ForegroundColor Yellow
-                exit 1
+                if (-not ($DryRun -or $Silent)) {
+                    exit 1
+                }
             }
             default {
                 Write-Host (t 'messages.continuing_with_files') -ForegroundColor Yellow
@@ -341,11 +435,13 @@ function Step4-Processing {
     if ($DryRun) { $params += "-DryRun" }
     if ($Silent) { $params += "-Silent" }
     
-    $msg = (t 'messages.processing') -replace '\{0\}', 'CSV files'
-    Write-Host "PROCESSING: $msg" -ForegroundColor Yellow
-    Write-Host ""
+    # Get CSV file count for progress bar
+    $csvFiles = Get-ChildItem -Path "source" -Filter "*.csv" -ErrorAction SilentlyContinue
     
-    # Run the main processor
+    Write-Host "Konvertiere $($csvFiles.Count) CSV-Dateien zu Actual Budget Format..." -ForegroundColor Cyan
+    
+    # Run the main processor silently and capture output
+    $params += "-Silent"  # Force silent mode to reduce noise
     $processorArgs = $params -join " "
     $languageArg = "-Language $Language"
     
@@ -353,14 +449,33 @@ function Step4-Processing {
     $psCommand = if ($PSVersionTable.PSEdition -eq "Core") { "pwsh" } else { "powershell" }
     $command = "$psCommand -ExecutionPolicy Bypass -File bank_csv_processor.ps1 $processorArgs $languageArg"
     
-    Write-Host "Executing: $command" -ForegroundColor Gray
-    Write-Host ""
+    # Progress simulation while processing
+    $progressWidth = 40
+    for ($i = 0; $i -le 100; $i += 5) {
+        $completed = [math]::Round(($i / 100) * $progressWidth)
+        $remaining = $progressWidth - $completed
+        $filledBar = '█' * $completed
+        $emptyBar = ' ' * $remaining
+        $progressBar = "[$filledBar$emptyBar] $i%"
+        Write-Host "`r$progressBar" -NoNewline -ForegroundColor Green
+        
+        if ($i -eq 50) {
+            # Execute at halfway point
+            $output = Invoke-Expression $command 2>&1
+        }
+        Start-Sleep -Milliseconds 100
+    }
     
-    Invoke-Expression $command
+    # Final progress bar
+    $finalBar = '█' * $progressWidth
+    $progressBar = "[$finalBar] 100%"
+    Write-Host "`r$progressBar" -ForegroundColor Green
+    Write-Host ""
     
     if ($LASTEXITCODE -eq 0) {
         Write-Host ""
-        Write-Host "SUCCESS: $(t 'messages.success')" -ForegroundColor Green
+        $successMsg = t 'messages.success'
+        Write-Host $successMsg -ForegroundColor Green
     }
     else {
         Write-Host ""
@@ -393,12 +508,12 @@ function Step5-ImportGuide {
     }
     
     Write-Host ""
-    $importMsg = (t 'instructions.import_files') -replace '\{0\}', 'actual_import'
-    Write-Host "2. $importMsg" -ForegroundColor Yellow
+    $importMsg = $global:i18n.Get('instructions.import_files', @('actual_import'))
+    Write-Host "$importMsg" -ForegroundColor Yellow
     $mappingMsg = t 'instructions.set_mapping'
-    Write-Host "3. $mappingMsg" -ForegroundColor Yellow
+    Write-Host "$mappingMsg" -ForegroundColor Yellow
     $startMsg = t 'instructions.start_import'
-    Write-Host "4. $startMsg" -ForegroundColor Yellow
+    Write-Host "$startMsg" -ForegroundColor Yellow
     
     Write-Host ""
     Write-Host (t 'instructions.documentation_note') -ForegroundColor Cyan
@@ -407,7 +522,65 @@ function Step5-ImportGuide {
     Write-Host "   - CATEGORIZATION_EXPLAINED.md (how categorization works)" -ForegroundColor White
     
     Write-Host ""
-    Write-Host "SUCCESS: Setup complete! Your files are ready for Actual Budget." -ForegroundColor Green
+    $setupCompleteMsg = t 'messages.setup_complete'
+    Write-Host $setupCompleteMsg -ForegroundColor Green
+    
+    # Add statistics
+    Write-Host ""
+    Write-Host (t 'messages.statistics_title') -ForegroundColor Cyan
+    
+    # Try to get statistics from processor log
+    $logFiles = Get-ChildItem -Path . -Filter "csv_processor_*.log" -ErrorAction SilentlyContinue | Sort-Object LastWriteTime -Descending
+    if ($logFiles.Count -gt 0) {
+        $latestLog = $logFiles[0]
+        $logContent = Get-Content $latestLog.FullName -ErrorAction SilentlyContinue
+        
+        # Extract statistics from log
+        $fileCount = 0
+        $transactionCount = 0
+        $categorizedPercent = 0
+        $transferCount = 0
+        
+        foreach ($line in $logContent) {
+            if ($line -match "Verarbeitete Dateien: (\d+)") {
+                $fileCount = $matches[1]
+            }
+            if ($line -match "Total Transaktionen: (\d+)") {
+                $transactionCount = $matches[1]
+            }
+            if ($line -match "Kategorisierung: ([\d.]+)%") {
+                $categorizedPercent = $matches[1]
+            }
+            if ($line -match "Transfer-Kategorien: (\d+)") {
+                $transferCount = $matches[1]
+            }
+        }
+        
+        # Display statistics
+        if ($fileCount -gt 0) {
+            $statsFiles = $global:i18n.Get('messages.stats_files', @($fileCount))
+            Write-Host "  $statsFiles" -ForegroundColor White
+        }
+        if ($transactionCount -gt 0) {
+            $statsTransactions = $global:i18n.Get('messages.stats_transactions', @($transactionCount))
+            Write-Host "  $statsTransactions" -ForegroundColor White
+            
+            $categorizedCount = [math]::Round([double]$transactionCount * [double]$categorizedPercent / 100.0)
+            $statsCategorized = $global:i18n.Get('messages.stats_categorized', @($categorizedCount, $categorizedPercent))
+            Write-Host "  $statsCategorized" -ForegroundColor Yellow
+        }
+        if ($transferCount -gt 0) {
+            $statsTransfers = $global:i18n.Get('messages.stats_transfers', @($transferCount))
+            Write-Host "  $statsTransfers" -ForegroundColor Green
+        }
+    } else {
+        # Fallback when no log file available
+        $csvFiles = Get-ChildItem -Path "source" -Filter "*.csv" -ErrorAction SilentlyContinue
+        if ($csvFiles.Count -gt 0) {
+            $statsFiles = $global:i18n.Get('messages.stats_files', @($csvFiles.Count))
+            Write-Host "  $statsFiles" -ForegroundColor White
+        }
+    }
     Write-Host ""
 }
 

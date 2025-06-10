@@ -26,7 +26,7 @@
     "files_found": "{0} CSV-Dateien gefunden",
     "no_files": "Keine CSV-Dateien im Source-Ordner gefunden",
     "processing": "Verarbeite {0} Dateien...",
-    "success": "Erfolgreich verarbeitet!",
+    "success": "ERFOLG: Erfolgreich verarbeitet!",
     "error": "Fehler aufgetreten: {0}",
     "dry_run": "DRY RUN: Vorschau ohne Dateien zu schreiben",
     "format_issues_warning": "WARNUNG: Einige Dateien haben Formatprobleme.",
@@ -41,7 +41,13 @@
     "guide_next_steps": "ANLEITUNG: NÄCHSTE SCHRITTE FÜR ACTUAL BUDGET:",
     "would_create": "Würde Ordner erstellen: {0}",
     "would_save": "Würde speichern: {0}",
-    "saved": "Gespeichert: {0}"
+    "saved": "Gespeichert: {0}",
+    "setup_complete": "ERFOLG: Setup abgeschlossen! Ihre Dateien sind bereit für Actual Budget.",
+    "statistics_title": "STATISTIKEN:",
+    "stats_files": "📁 Verarbeitete Dateien: {0}",
+    "stats_transactions": "💳 Gesamte Buchungen: {0}",
+    "stats_categorized": "🏷️ Kategorisiert: {0} ({1}%)",
+    "stats_transfers": "🔄 Transfers zwischen Konten: {0}"
   },
   "categories": {
     "transfer_from": "Transfer von {0}",
@@ -74,6 +80,9 @@
     "education": "Bildung",
     "consulting_legal": "Beratung & Recht",
     "internal_transfer": "Interne Überweisung"
+  },
+  "common": {
+    "press_enter_exit": "Drücken Sie Enter zum Beenden"
   },
   "instructions": {
     "place_csv": "1. Legen Sie Ihre Bank-CSV-Exporte in den 'source/' Ordner",
@@ -148,7 +157,7 @@
     "select_bank_format": "Bank-CSV-Format auswählen:",
     "select_category_set": "Kategorien-Set auswählen:",
     "use_default": "Eingebaute Standardeinstellung verwenden",
-    "enter_choice_range": "Ihre Auswahl eingeben (0-{0})",
+    "enter_choice_range": "Ihre Auswahl eingeben (1-{0})",
     "selected": "Ausgewählt",
     "invalid_choice": "Ungültige Auswahl. Bitte erneut versuchen."
   },

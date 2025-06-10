@@ -550,7 +550,7 @@ $csvFiles = Get-ChildItem -Path $sourceDir -Filter "*.csv" | Where-Object {
 if ($csvFiles.Count -eq 0) {
     Write-Log "No CSV files found!" "ERROR"
     Save-LogFile
-    if (-not $isSilent) { Read-Host "Press Enter to exit" }
+    if (-not $isSilent) { Read-Host (t "common.press_enter_exit") }
     exit 1
 }
 
@@ -645,18 +645,18 @@ if ($isSilent) {
     Write-Host "  Other categories: $($totalCategorized - $totalTransfers)" -ForegroundColor Green
     Write-Host "  Categorization rate: $categorizedPercentage%" -ForegroundColor Yellow
     Write-Host ""
-    Write-Host "NEXT STEPS FOR ACTUAL BUDGET:" -ForegroundColor Cyan
-    Write-Host "  1. Create categories in Actual Budget (see category list)" -ForegroundColor White
-    Write-Host "  2. Import CSV files from '$OutputDir' folder" -ForegroundColor White
-    Write-Host "  3. Mapping: date->Date, payee->Payee, category->Category, amount->Amount" -ForegroundColor White
-    Write-Host "  4. Start import - categories should now be visible!" -ForegroundColor White
+    Write-Host (t "instructions.next_steps") -ForegroundColor Cyan
+    Write-Host "  $(t 'instructions.create_categories')" -ForegroundColor White
+    $importMsg = $global:i18n.Get('instructions.import_files', @($OutputDir))
+    Write-Host "  $importMsg" -ForegroundColor White
+    Write-Host "  $(t 'instructions.set_mapping')" -ForegroundColor White
+    Write-Host "  $(t 'instructions.start_import')" -ForegroundColor White
     Write-Host ""
-    Write-Host "IMPORTANT: Categories must be created in Actual exactly as they" -ForegroundColor Yellow
-    Write-Host "           appear in the CSV files!" -ForegroundColor Yellow
+    Write-Host (t "processor.important") -ForegroundColor Yellow
     Write-Host ""
-    Write-Host "Processing completed!" -ForegroundColor Green
+    Write-Host (t "processor.completed") -ForegroundColor Green
     if (-not $isDryRun -and -not $isSilent) {
-        Read-Host "Press Enter to exit"
+        Read-Host (t "common.press_enter_exit")
     }
 }
 

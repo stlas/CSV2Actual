@@ -31,7 +31,13 @@
     "dry_run": "DRY RUN: Preview without writing files",
     "would_create": "Would create folder: {0}",
     "would_save": "Would save: {0}",
-    "saved": "Saved: {0}"
+    "saved": "Saved: {0}",
+    "setup_complete": "SUCCESS: Setup complete! Your files are ready for Actual Budget.",
+    "statistics_title": "STATISTICS:",
+    "stats_files": "📁 Processed files: {0}",
+    "stats_transactions": "💳 Total transactions: {0}",
+    "stats_categorized": "🏷️ Categorized: {0} ({1}%)",
+    "stats_transfers": "🔄 Transfers between accounts: {0}"
   },
   "categories": {
     "transfer_from": "Transfer from {0}",
@@ -64,6 +70,9 @@
     "education": "Education",
     "consulting_legal": "Consulting & Legal",
     "internal_transfer": "Internal Transfer"
+  },
+  "common": {
+    "press_enter_exit": "Press Enter to exit"
   },
   "instructions": {
     "place_csv": "1. Place your bank CSV exports in the 'source/' folder",
@@ -133,7 +142,7 @@
     "select_bank_format": "Select bank CSV format:",
     "select_category_set": "Select category set:",
     "use_default": "Use built-in default",
-    "enter_choice_range": "Enter your choice (0-{0})",
+    "enter_choice_range": "Enter your choice (1-{0})",
     "selected": "Selected",
     "invalid_choice": "Invalid choice. Please try again."
   },
