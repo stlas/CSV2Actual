@@ -1,1 +1,0 @@
-- Du befindest dich in einer WSL Umgebung. Das Skript läuft in der Regel in einer Windows Powershell.

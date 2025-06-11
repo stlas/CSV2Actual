@@ -1,5 +1,5 @@
 # CSV2Actual - Test CSV Generator
-# Version: 1.0
+# Version: 1.1.0
 # Author: sTLAs (https://github.com/sTLAs)
 # Creates test CSV files for Actual Budget import testing
 
@@ -91,7 +91,7 @@ date,account,payee,notes,category,amount
 2025-06-01,Test-Account,Netflix,Streaming subscription,,9.99
 2025-06-01,Test-Account,Commerzbank,Kontoführungsgebühr,,12.00
 2025-06-01,Test-Account,DB Regio,Bahnfahrt,,15.80
-2025-06-01,Test-Account,Apotheke Schmidt,Medikamente,,8.50
+2025-06-01,Test-Account,TestPharmacy,Medikamente,,8.50
 2025-06-01,Test-Account,Mustermann GmbH,Gehalt,,-2500.00
 "@
 
@@ -106,12 +106,12 @@ date,account,payee,notes,category,amount
 function New-TransferTestCsv {
     $content = @"
 date,account,payee,notes,category,amount
-2025-06-01,Max-Checking,Anna Schmidt,Haushaltsgeld überweisung,,500.00
-2025-06-01,Max-Checking,Stefan Mueller,Rückzahlung Darlehen,,200.00
+2025-06-01,Max-Checking,Anna TestUser,Haushaltsgeld überweisung,,500.00
+2025-06-01,Max-Checking,TestUser2,Rückzahlung Darlehen,,200.00
 2025-06-01,Max-Checking,Eigene Überweisung,Transfer zum Sparbuch,,-1000.00
-2025-06-01,Anna-Checking,Max Mueller,Haushaltsbeitrag,,-500.00
-2025-06-01,Household-Account,Max Mueller,Einzahlung Haushaltskasse,,1000.00
-2025-06-01,Household-Account,Anna Schmidt,Einzahlung Haushaltskasse,,800.00
+2025-06-01,Anna-Checking,Max TestUser,Haushaltsbeitrag,,-500.00
+2025-06-01,Household-Account,Max TestUser,Einzahlung Haushaltskasse,,1000.00
+2025-06-01,Household-Account,Anna TestUser,Einzahlung Haushaltskasse,,800.00
 "@
 
     $fileName = "TEST_Transfers.csv"

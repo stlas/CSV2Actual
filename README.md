@@ -1,310 +1,190 @@
-# 💰 CSV2Actual - German Bank CSV to Actual Budget Converter
+# 💰 CSV2Actual - Automatische Bank-CSV Konvertierung
 
-A PowerShell tool that converts German bank CSV exports into Actual Budget-compatible CSV files with intelligent automatic categorization.
+Konvertiert deutsche Bank-CSV-Exporte automatisch zu Actual Budget mit intelligenter Kategorisierung und Transfer-Erkennung.
 
 [![PowerShell](https://img.shields.io/badge/PowerShell-5.1%2B-blue)](https://docs.microsoft.com/en-us/powershell/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![German Banks](https://img.shields.io/badge/Banks-Volksbank%20%7C%20Sparkasse%20%7C%20etc-orange)](README.md)
-
-## ✨ Features
-
-- 🔄 **Automatic Transfer Recognition** between your own accounts via IBAN mapping
-- 🏷️ **60-70% Automatic Categorization** of all transactions
-- 👥 **Personalized Salary Recognition** (customizable names and employers)
-- 💡 **Smart Fallback Logic** for unknown payees
-- 📊 **Accurate Starting Balance Calculation** for Actual Budget setup
-- ⚙️ **JSON-based Configuration** - Easy customization without code editing
-- 🔧 **ASCII-compliant Output** prevents encoding issues
-- 📝 **Comprehensive Logging** for debugging and analysis
-- 🌍 **Internationalization** - English/German with UTF-8 support
-- 🧙‍♂️ **Interactive Wizard** - Step-by-step guidance for beginners
-
-## 🚀 Quick Start
-
-> **⚠️ Windows-Nutzer:** Verwenden Sie **immer** `-ExecutionPolicy Bypass` oder Sie erhalten einen "nicht digital signiert" Fehler!
-
-### Option 1: Interactive Wizard (Recommended for beginners)
-```powershell
-# German version (Empfohlen für deutsche Banken):
-powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Language de
-
-# English version:
-powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Language en
-```
-
-### Option 2: Direct Processing (For advanced users)
-```bash
-# 1. Calculate starting balances
-powershell -ExecutionPolicy Bypass -File calculate_starting_balances.ps1
-
-# 2. Preview (recommended)
-powershell -ExecutionPolicy Bypass -File bank_csv_processor.ps1 -DryRun
-
-# 3. Convert CSV files
-powershell -ExecutionPolicy Bypass -File bank_csv_processor.ps1
-```
-
-## 📁 Setup Your Files
-
-Place your bank CSV exports in the `source/` folder:
-```
-source/
-├── Anna_Checking.csv
-├── Max_Checking.csv  
-├── Household_Account.csv
-└── Credit_Card.csv
-```
-
-**Supported formats:** German banks (Volksbank, Sparkasse) and international CSV formats with automatic column detection.
-
-## 📋 Supported Banks
-
-- ✅ **Volksbank** / Cooperative Banks (primary tested)
-- ✅ **Sparkassen** (Savings Banks)
-- ✅ **Other German Banks** with similar CSV format
-
-### Expected CSV Columns:
-```
-# German Bank Format (automatically mapped):
-Buchungstag (Date), Valutadatum (Value Date), 
-Name Zahlungsbeteiligter (Payee), IBAN Zahlungsbeteiligter (Payee IBAN),
-Verwendungszweck (Purpose/Memo), Betrag (Amount), 
-Saldo nach Buchung (Balance After Transaction)
-
-# International/English equivalents also supported:
-Date, Payee, Amount, Purpose, Memo, Balance
-```
-
-## 🏷️ Automatic Categorization
-
-The tool automatically recognizes **39 categories**:
-
-### 💰 Income (5)
-- Salary Max/Anna, Tax Refunds, Capital Gains, etc.
-
-### 💸 Expenses (20) 
-- Groceries, Fuel, Insurance, Online Shopping, etc.
-
-### 🔄 Transfers (14)
-- Transfer from/to all your accounts + fallback categories
-
-**Example categorization:**
-```
-FreshMart Ltd → "Groceries"
-QuickFuel Station → "Fuel"  
-StreamFlix → "Streaming & Subscriptions"
-IBAN Transfer → "Transfer from Max-Checking"
-```
-
-## ⚙️ Customization for Your Data
-
-**Easy Configuration via `config.json`** - No code editing required!
-
-### 1. Update Your Personal Information
-```json
-{
-  "users": {
-    "user1": {
-      "name": "YourName",
-      "displayName": "YourName",
-      "salaryPatterns": ["yourcompany", "youremployer.*salary"]
-    },
-    "user2": {
-      "name": "PartnerName", 
-      "displayName": "PartnerName",
-      "salaryPatterns": ["partnercompany", "partner.*salary"]
-    }
-  }
-}
-```
-
-### 2. Add Your IBAN Mappings
-```json
-{
-  "accounts": {
-    "ibanMapping": {
-      "DE12345678901234567890": "user1-checking",
-      "DE09876543210987654321": "user2-checking",
-      "DE11223344556677889900": "household-account"
-    }
-  }
-}
-```
-
-### 3. Customize Categories & Patterns
-```json
-{
-  "categorization": {
-    "expenses": {
-      "groceries": ["your-local-store", "your-supermarket"],
-      "fuel": ["your-gas-station"]
-    }
-  }
-}
-```
-
-### 4. Advanced Customization
-For detailed categorization patterns, check the config.json file and the actual_import/ACTUAL_IMPORT_GUIDE.txt for category setup instructions.
-
-## 📊 Typical Results
-
-```
-Total Transactions: 2,700
-Transfer Categories: 711 (26.3%)
-Other Categories: 918 (34.0%)
-Categorization Rate: 60.3%
-```
-
-## 🛠️ CLI Options
-
-### Interactive Wizard
-```powershell
-CSV2Actual.ps1 [-Language en|de] [-Help]
-```
-
-### Direct Processing
-```powershell
-bank_csv_processor.ps1 [-DryRun|-n] [-Silent|-q] [-Help|-h]
-```
-
-## 📁 Project Structure
-
-```
-CSV2Actual/
-├── 📄 CSV2Actual.ps1                  # Main wizard script
-├── 📄 bank_csv_processor.ps1          # Core conversion script
-├── 📄 calculate_starting_balances.ps1 # Starting balance calculation
-├── ⚙️ config.json                     # Main configuration file (CUSTOMIZE THIS!)
-├── 📁 source/                         # Source CSV files
-├── 📁 actual_import/                  # Converted files
-├── 📁 lang/                           # Language files (en.json, de.json)
-├── 📁 modules/                        # PowerShell modules
-│   ├── Config.ps1                     # Configuration management
-│   ├── I18n.ps1                       # Internationalization
-│   └── CsvValidator.ps1               # CSV validation
-├── 📄 actual_import/ACTUAL_IMPORT_GUIDE.txt # Import guide with category list
-└── 📄 starting_balances.txt           # Calculated starting balances
-```
-
-## 🎯 Actual Budget Import
-
-1. **Create Categories**: All 39 categories in Actual Budget
-2. **Create Accounts**: With calculated starting balances from `starting_balances.txt`
-3. **Import CSVs**: Files from `actual_import/` folder
-4. **Set Mapping**: Date→Date, Payee→Payee, Category→Category, Amount→Amount
-
-Detailed instructions: [`actual_import/ACTUAL_IMPORT_GUIDE.txt`](actual_import/ACTUAL_IMPORT_GUIDE.txt)
-
-## 🔧 System Requirements
-
-- **Windows** with PowerShell 5.1+ (or PowerShell Core 6+ on Linux/macOS)
-- **No additional dependencies** required
-
-## ⚠️ **Troubleshooting für Windows-Benutzer**
-
-### **Problem: "Die Datei kann nicht geladen werden... nicht digital signiert"**
-
-**Ursache:** Windows PowerShell verhindert die Ausführung nicht-signierter Skripts (Sicherheitsfeature).
-
-**Lösung:** Verwenden Sie **immer** den `-ExecutionPolicy Bypass` Parameter:
-
-```powershell
-# ✅ RICHTIG - Mit ExecutionPolicy Bypass
-powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Language de
-
-# ❌ FALSCH - Ohne ExecutionPolicy (führt zu Fehlern)
-./CSV2Actual.ps1 -Language de
-```
-
-**Alternative Lösungen:**
-
-1. **Temporäre Erlaubnis für aktuellen Benutzer:**
-   ```powershell
-   Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-   ./CSV2Actual.ps1 -Language de
-   ```
-
-2. **PowerShell Core verwenden (falls installiert):**
-   ```powershell
-   pwsh -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Language de
-   ```
-
-**Ist das sicher?** ✅ Ja! Der `-ExecutionPolicy Bypass` Parameter:
-- Ist nur für dieses eine Skript aktiv
-- Verändert keine Systemeinstellungen dauerhaft
-- Ist der empfohlene Weg für PowerShell-Tools
-- Wird von Microsoft für vertrauenswürdige Skripts empfohlen
-
-## 📖 Documentation
-
-- [`CSV2Actual.ps1`](CSV2Actual.ps1) - Interactive wizard (start here!)
-- [`actual_import/ACTUAL_IMPORT_GUIDE.txt`](actual_import/ACTUAL_IMPORT_GUIDE.txt) - Import guide with complete category list
-- [`lang/`](lang/) - Language files for internationalization
-
-## 🌍 Language Support
-
-This tool supports multiple languages:
-- **English** (default) - Full documentation and interface
-- **German** (Deutsch) - Use `-Language de` parameter
-
-### PowerShell Core (pwsh) Support
-For Linux/macOS or PowerShell Core users, simply replace `powershell` with `pwsh`:
-```bash
-# PowerShell Core example:
-pwsh -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Language de
-```
-
-Want to add your language? Create a new JSON file in the `lang/` folder!
-
-## 🤝 Contributing
-
-### 🚀 Easy Community Contributions
-
-**No coding required!** Help expand CSV2Actual for more banks and use cases:
-
-#### 🏦 **Add Your Bank's CSV Format**
-- Create an [Issue with CSV Format Template](https://github.com/sTLAs/CSV2Actual/issues/new?template=csv-format-submission.md)
-- Provide column names and sample data (anonymized)
-- We'll integrate it for everyone to use!
-
-#### 🏷️ **Share Your Category Sets**  
-- Create an [Issue with Category Template](https://github.com/sTLAs/CSV2Actual/issues/new?template=category-list-submission.md)
-- Share categories for business, students, families, etc.
-- Help others with similar needs!
-
-📖 **Full Guidelines:** See [`community/README.md`](community/README.md)
-
-### 🛠️ Code Contributions
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-### Especially welcome:
-- 🏦 **Support for new banks** (CSV format variants)
-- 🏷️ **Extended categorization patterns**  
-- 🌍 **Internationalization** (other countries/languages)
-
-## 📄 License
-
-This project is licensed under the [MIT License](LICENSE).
-
-## 👨‍💻 Author
-
-**Author: sTLAs (https://github.com/sTLAs)** - *Initial work and development*
-
-## ⭐ Acknowledgments
-
-- Developed for the [Actual Budget](https://actualbudget.org/) community
-- Inspired by the German banking landscape
-- ASCII-safe categories for maximum compatibility
-- Development assisted by Claude AI for code optimization and internationalization
+[![Auto-Discovery](https://img.shields.io/badge/Auto--Discovery-IBAN%20%7C%20Categories-brightgreen)](README.md)
 
 ---
 
-**Made with ❤️ for the Actual Budget Community by [sTLAs](https://github.com/sTLAs)**
+## 🚀 Ein-Klick Start (Empfohlen)
 
-Like this tool? Give us a ⭐ star on GitHub!
+```powershell
+powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Silent
+```
 
+**Das war's!** Das Tool:
+- 🔍 **Erkennt automatisch** alle IBANs und Konten aus Ihren CSV-Dateien
+- 🏷️ **Kategorisiert automatisch** 60-70% aller Transaktionen  
+- 🔄 **Erkennt Transfers** zwischen Ihren Konten
+- 💰 **Berechnet Startguthaben** automatisch für Actual Budget Setup
+- 📊 **Erstellt Statistiken** über verarbeitete Daten
+- 🗂️ **Log-Management** mit automatischer Bereinigung
+- 💾 **Speichert alles** im `actual_import/` Ordner für Actual Budget
+
+---
+
+## ✨ Was macht CSV2Actual?
+
+### 🔍 **Automatische Konto-Erkennung**
+- Analysiert Ihre CSV-Dateien und erkennt alle IBANs
+- Erstellt automatisch Konto-Zuordnungen basierend auf Dateinamen
+- Erkennt Benutzer-Namen (z.B. aus "Max_Girokonto.csv" → "Max")
+
+### 🏷️ **Intelligente Kategorisierung**
+- **Transfer-Kategorien**: Geld zwischen Ihren eigenen Konten
+- **Gehalts-Kategorien**: Automatische Arbeitgeber-Erkennung
+- **Ausgaben-Kategorien**: REWE, EDEKA, Amazon, PayPal, etc.
+
+### 📊 **Beispiel-Ausgabe**
+```
+STATISTIKEN:
+  📁 Verarbeitete Dateien: 8
+  💳 Gesamte Buchungen: 445
+  🏷️ Kategorisiert: 312 (70.1%)
+  🔄 Transfers zwischen Konten: 28
+```
+
+---
+
+## 🏦 Unterstützte Banken
+
+- ✅ **Volksbank/Genossenschaftsbanken** (vollständig getestet)
+- ✅ **Sparkassen** (Community-Format verfügbar)
+- ✅ **Alle CSV-Formate** mit automatischer Spalten-Erkennung
+
+---
+
+## 📋 Schnellstart-Anleitung
+
+### 1️⃣ **CSV-Dateien bereitstellen**
+```
+source/
+├── Girokonto.csv
+├── Sparkonto.csv
+└── Kreditkarte.csv
+```
+
+### 2️⃣ **Tool ausführen**
+```powershell
+powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Silent
+```
+
+### 3️⃣ **Ergebnisse importieren**
+- Dateien aus `actual_import/` Ordner in Actual Budget importieren
+- Kategorien automatisch erstellen lassen
+- Startguthaben aus `starting_balances.txt` übernehmen
+
+**Fertig!** 🎉
+
+---
+
+## 🔧 Erweiterte Optionen
+
+### **Interaktiver Modus (für Anpassungen)**
+```powershell
+# Deutsche Version mit Schritt-für-Schritt Anleitung:
+powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Language de
+
+# Englische Version:
+powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Language en
+```
+
+### **Vorschau-Modus (ohne Dateien zu schreiben)**
+```powershell
+powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -DryRun -Silent
+```
+
+### **Direkter Prozessor (ohne Wizard)**
+```powershell
+powershell -ExecutionPolicy Bypass -File bank_csv_processor.ps1 -Language de
+```
+
+---
+
+## 🔐 Datenschutz & Sicherheit
+
+- ✅ **Lokale Verarbeitung** - Ihre Daten verlassen nie Ihren Computer
+- ✅ **Automatische .gitignore** - Verhindert versehentliche Uploads persönlicher Daten
+- ✅ **Beispiel-Konfiguration** - Repository enthält nur anonyme Beispiel-IBANs
+- ✅ **config.local.json** - Ihre echten IBANs bleiben lokal und privat
+
+---
+
+## 🌍 Multi-Language Support
+
+### Deutsch
+```powershell
+powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Language de -Silent
+```
+
+### English
+```powershell
+powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Language en -Silent
+```
+
+---
+
+## 🏗️ Community & Erweiterungen
+
+### **Bank-Formate hinzufügen**
+Das Tool erkennt automatisch die meisten CSV-Formate. Für spezielle Banken können Community-Formate in `community/csv-formats/` hinzugefügt werden.
+
+### **Kategorien anpassen**
+Kategorien werden automatisch aus den Transaktionsdaten erkannt. Für spezielle Kategorisierungen können Community-Sets in `community/categories/` erstellt werden.
+
+---
+
+## ⚠️ Systemanforderungen
+
+- **Windows 10/11** mit PowerShell 5.1+ oder PowerShell Core 7+
+- **Execution Policy**: Verwenden Sie immer `-ExecutionPolicy Bypass`
+- **Encoding**: UTF-8 für deutsche Umlaute
+
+---
+
+## 🆘 Problemlösung
+
+### **"Skript ist nicht digital signiert"**
+```powershell
+# Immer verwenden:
+powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1
+```
+
+### **Keine IBANs erkannt**
+- Prüfen Sie, dass CSV-Dateien IBAN-Spalten enthalten
+- Tool analysiert automatisch die häufigsten Spalten-Namen
+- Bei Problemen: Interaktiven Modus verwenden (`-Language de`)
+
+### **Encoding-Probleme**
+- Das Tool erkennt automatisch die meisten Encoding-Formate
+- Bei anhaltenden Problemen: GitHub Issue erstellen mit Beispiel-CSV
+
+---
+
+## 📄 Lizenz
+
+MIT License - Siehe [LICENSE](LICENSE) für Details.
+
+---
+
+## 🤝 Beitragen
+
+Beiträge sind willkommen! Dieses Repository ist der **End-User Release**. Für Entwickler:
+
+### **End-User Contributions:**
+- **Bank-Format-Definitionen** in `community/csv-formats/`
+- **Kategorisierungs-Sets** in `community/categories/`
+- **Feature-Requests** via [GitHub Issues](https://github.com/sTLAs/CSV2Actual/issues)
+
+### **Developer Contributions:**
+- **Code-Beiträge:** Siehe [DEVELOPMENT.md](DEVELOPMENT.md) für Setup
+- **Testing:** Mit eigenen CSV-Daten und Feedback
+- **Dokumentation:** Verbesserungen und Übersetzungen
+
+**📝 Wichtig:** Dieses Repository fokussiert sich auf End-User. Entwickler-Tools sind bewusst ausgeschlossen für eine saubere User-Experience.
+
+---
+
+*🚀 Generated with [Claude Code](https://claude.ai/code)*

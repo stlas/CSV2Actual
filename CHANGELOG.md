@@ -5,6 +5,89 @@ All notable changes to CSV2Actual will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### ✨ Planned
+- Enhanced CSV format auto-detection
+- Additional German bank support
+- Performance optimizations
+
+## [1.1.0] - 2025-06-10
+
+### ✨ Added
+- **Automatic IBAN Discovery System** - Dynamically analyzes CSV files and creates account configurations
+- **Enhanced Log Management** - Logs directory with automatic cleanup (7-day retention)
+- **Integrated Starting Balance Calculation** - Automatic calculation during processing with detailed output
+- **Repository Cleanup System** - Intelligent cleanup of redundant files and development artifacts
+- **Backup Snapshot Management** - Automated backup creation with duplicate detection and cleanup
+- **Enhanced Statistics Display** - Shows account count and total starting balances in output
+
+### 🔧 Improved
+- **Configuration Management** - Auto-merge system for local configurations (config.local.json)
+- **Security Enhancements** - Comprehensive .gitignore to prevent private data commits
+- **User Experience** - Streamlined output with better progress indication
+- **Documentation** - Consolidated and cleaned up repository structure
+
+### 🏗️ Technical
+- **Modular Log Cleanup** - Integrated into main processor with automatic old file removal
+- **Enhanced File Organization** - Production-ready repository structure
+- **Improved Error Handling** - Better encoding detection and PowerShell compatibility
+
+## [1.0.5] - 2025-01-07
+
+### ✨ Added
+- **Community Framework Expansion** - Enhanced CSV format and category submission system
+- **Alternative Export Formats** - Multiple CSV variants (semicolon, tab-delimited, manual ASCII)
+- **Advanced CSV Debugging** - Comprehensive encoding analysis and format detection tools
+
+### 🔧 Improved
+- **Encoding Handling** - Enhanced BOM detection and multi-encoding support
+- **Silent Mode Defaults** - Streamlined user experience with minimal prompts
+- **Transfer Recognition** - Improved IBAN-based detection accuracy
+
+### 🐛 Fixed
+- **String Interpolation Issues** - Resolved PowerShell syntax errors in various locales
+- **UTF-8 Compatibility** - Better handling of German umlauts and special characters
+
+## [1.0.4] - 2025-01-07
+
+### 🐛 Fixed
+- **Critical String Interpolation Bug** - Fixed wizard prompts and variable expansion issues
+- **Data Protection** - Enhanced security measures for private information
+
+### 🔧 Improved
+- **PowerShell Core Compatibility** - Better support for both Windows PowerShell and PowerShell Core
+- **Error Messages** - More descriptive and actionable error reporting
+
+## [1.0.3] - 2025-01-07
+
+### ✨ Added
+- **Production Polish** - Final optimizations for production release
+- **Enhanced Documentation** - Improved README and setup instructions
+
+### 🔧 Improved
+- **User Interface** - Refined wizard steps and better user guidance
+- **Performance** - Optimized processing for larger CSV files
+
+## [1.0.2] - 2025-01-07
+
+### 🐛 Fixed
+- **Critical Encoding Issues** - Resolved CSV reading problems with German banks
+- **Documentation Fixes** - Corrected setup instructions and examples
+
+### 🔧 Improved
+- **Error Recovery** - Better handling of malformed CSV files
+- **Logging** - Enhanced debug information for troubleshooting
+
+## [1.0.1] - 2025-01-07
+
+### 🐛 Fixed
+- **Minor Bug Fixes** - Resolved edge cases in categorization
+- **Configuration Issues** - Fixed template substitution problems
+
+### 🔧 Improved
+- **Stability** - Enhanced error handling and recovery mechanisms
+
 ## [1.0.0] - 2025-01-06
 
 ### 🎉 Initial Release
@@ -147,8 +230,13 @@ CSV2Actual/
 
 ## Version History
 
+- **v1.1.0** (2025-06-10) - Major feature release with auto-discovery and log management
+- **v1.0.5** (2025-01-07) - Community framework and alternative formats
+- **v1.0.4** (2025-01-07) - Critical fixes and data protection
+- **v1.0.3** (2025-01-07) - Production polish and documentation
+- **v1.0.2** (2025-01-07) - Encoding fixes and error recovery
+- **v1.0.1** (2025-01-07) - Minor bug fixes and stability
 - **v1.0.0** (2025-01-06) - Initial stable release
-- **v0.1 Alpha** (2025-01-06) - Development version
 
 ---
 

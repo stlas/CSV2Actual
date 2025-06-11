@@ -1,5 +1,5 @@
 # CSV2Actual - CSV Validation Module
-# Version: 1.0.1 - Fixed Encoding Issues
+# Version: 1.1.0
 # Author: sTLAs (https://github.com/sTLAs)
 # Validates and fixes CSV file formats with internationalized error messages
 
@@ -101,6 +101,7 @@ class CsvValidator {
             
             $result.columnMapping = $mapping
             
+            
             # Validate required columns
             $missingColumns = @()
             foreach ($required in @("Date", "Amount", "Payee")) {
@@ -119,6 +120,11 @@ class CsvValidator {
             
             # Additional validations
             $this.ValidateDataTypes($csvData, $mapping, $result)
+            
+            # Validate balance consistency if both Amount and Balance columns are available
+            if ($mapping.ContainsKey("Amount") -and $mapping.ContainsKey("Balance") -and $mapping["Amount"] -and $mapping["Balance"]) {
+                $this.ValidateBalanceConsistency($csvData, $mapping, $result)
+            }
             
         }
         catch {
@@ -146,15 +152,56 @@ class CsvValidator {
         foreach ($encoding in $encodings) {
             foreach ($delimiter in $delimiters) {
                 try {
+                    # First try with normal Import-Csv
                     $data = Import-Csv -Path $filePath -Delimiter $delimiter -Encoding $encoding -ErrorAction Stop
                     if ($data -and $data[0] -and $data[0].PSObject.Properties.Count -gt 3) {
                         return $data
                     }
                 }
                 catch {
-                    continue
+                    # Try with Get-Content and ConvertFrom-Csv for problematic files
+                    try {
+                        $content = Get-Content -Path $filePath -Encoding $encoding -ErrorAction Stop
+                        if ($content -and $content.Count -gt 1) {
+                            $data = $content | ConvertFrom-Csv -Delimiter $delimiter -ErrorAction Stop
+                            if ($data -and $data[0] -and $data[0].PSObject.Properties.Count -gt 3) {
+                                return $data
+                            }
+                        }
+                    }
+                    catch {
+                        continue
+                    }
                 }
             }
+        }
+        
+        # Try Windows-1252 encoding with Get-Content and manual parsing
+        try {
+            $content = Get-Content -Path $filePath -Encoding ([System.Text.Encoding]::GetEncoding(1252)) -ErrorAction Stop
+            if ($content -and $content.Count -gt 1) {
+                foreach ($delimiter in $delimiters) {
+                    $tempFile = $null
+                    try {
+                        $tempFile = [System.IO.Path]::GetTempFileName()
+                        $content | Out-File -FilePath $tempFile -Encoding UTF8
+                        $data = Import-Csv -Path $tempFile -Delimiter $delimiter -ErrorAction Stop
+                        Remove-Item -Path $tempFile -Force -ErrorAction SilentlyContinue
+                        if ($data -and $data[0] -and $data[0].PSObject.Properties.Count -gt 3) {
+                            return $data
+                        }
+                    }
+                    catch {
+                        if ($tempFile -and (Test-Path $tempFile)) {
+                            Remove-Item -Path $tempFile -Force -ErrorAction SilentlyContinue
+                        }
+                        continue
+                    }
+                }
+            }
+        }
+        catch {
+            # Continue to next attempt
         }
         return $null
     }
@@ -360,5 +407,79 @@ class CsvValidator {
         }
         
         return $result
+    }
+    
+    [void]ValidateBalanceConsistency([object]$csvData, [hashtable]$columnMapping, [hashtable]$result) {
+        $amountCol = $columnMapping["Amount"]
+        $balanceCol = $columnMapping["Balance"]
+        
+        if (-not $amountCol -or -not $balanceCol) { 
+            return 
+        }
+        
+        $balanceErrors = @()
+        $calculatedBalance = $null
+        $isFirstRow = $true
+        $rowNumber = 1
+        
+        foreach ($row in $csvData) {
+            $rowNumber++
+            
+            # Parse amount (German format: 1.234,56 -> 1234.56)
+            $amountText = $row.$amountCol
+            if (-not $amountText) { continue }
+            
+            $cleanAmount = $amountText -replace '\.', '' -replace ',', '.'
+            try {
+                $amount = [decimal]$cleanAmount
+            }
+            catch {
+                continue  # Skip rows with invalid amounts
+            }
+            
+            # Parse balance (German format: 1.234,56 -> 1234.56)
+            $balanceText = $row.$balanceCol
+            if (-not $balanceText) { continue }
+            
+            $cleanBalance = $balanceText -replace '\.', '' -replace ',', '.'
+            try {
+                $reportedBalance = [decimal]$cleanBalance
+            }
+            catch {
+                continue  # Skip rows with invalid balances
+            }
+            
+            # For the first row, establish the starting balance
+            if ($isFirstRow) {
+                # Calculate what the previous balance must have been
+                $calculatedBalance = $reportedBalance - $amount
+                $isFirstRow = $false
+            } else {
+                # Calculate expected balance: previous balance + current amount
+                $expectedBalance = $calculatedBalance + $amount
+                
+                # Check if calculated balance matches reported balance (with small tolerance for rounding)
+                $difference = [Math]::Abs($expectedBalance - $reportedBalance)
+                if ($difference -gt 0.01) {  # Allow 1 cent tolerance
+                    $balanceErrors += "Zeile $rowNumber`: Saldo-Inkonsistenz. Erwartet: $($expectedBalance.ToString('N2')) EUR, Gemeldet: $($reportedBalance.ToString('N2')) EUR, Differenz: $($difference.ToString('N2')) EUR"
+                }
+            }
+            
+            # Update calculated balance for next iteration
+            $calculatedBalance = $reportedBalance
+        }
+        
+        # Add balance validation results
+        if ($balanceErrors.Count -gt 0) {
+            $result.warnings += "Saldo-Konsistenzprüfung ergab $($balanceErrors.Count) Inkonsistenz(en):"
+            foreach ($error in $balanceErrors) {
+                $result.warnings += "  $error"
+            }
+        } else {
+            # Only log successful validation to avoid cluttering console
+            if ($rowNumber -gt 2) {  # Only if we actually validated something
+                $result.warnings += "OK Saldo-Konsistenz: Alle $($rowNumber - 1) Transaktionen sind mathematisch korrekt"
+            }
+        }
     }
 }

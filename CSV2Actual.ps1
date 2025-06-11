@@ -1,5 +1,5 @@
 ﻿# CSV2Actual - Interactive Wizard
-# Version: 1.0
+# Version: 1.1.0
 # Author: sTLAs (https://github.com/sTLAs)
 # Interactive guided conversion from German bank CSV to Actual Budget
 # Features: Internationalization (EN/DE), JSON Configuration, Step-by-step guidance
@@ -9,18 +9,66 @@ param(
     [Alias("s")][switch]$Silent,
     [Alias("n")][switch]$DryRun,
     [Alias("h")][switch]$Help,
-    [Alias("w")][switch]$Wizard = $true
+    [Alias("w")][switch]$Wizard,
+    [Alias("i")][switch]$Interview
 )
 
-# Set UTF-8 encoding for console
-[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
-$OutputEncoding = [System.Text.Encoding]::UTF8
+# Set UTF-8 encoding for console - multiple approaches for compatibility
+try {
+    # Try to set console to UTF-8
+    [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+    [Console]::InputEncoding = [System.Text.Encoding]::UTF8
+    $OutputEncoding = [System.Text.Encoding]::UTF8
+    
+    # Alternative: Set console code page to UTF-8 (65001)
+    if ($IsWindows -or $PSVersionTable.PSVersion.Major -le 5) {
+        try {
+            chcp 65001 | Out-Null
+        } catch {
+            # Silently continue if chcp fails
+        }
+    }
+} catch {
+    # Fallback to default encoding
+    Write-Warning "Could not set UTF-8 encoding, using system default"
+}
+
+# Early help check before any heavy processing
+if ($Help) {
+    Write-Host "CSV2Actual - Interactive Wizard Help" -ForegroundColor Cyan
+    Write-Host ""
+    Write-Host "USAGE:" -ForegroundColor Yellow
+    Write-Host "  powershell -File CSV2Actual.ps1 [OPTIONS]"
+    Write-Host ""
+    Write-Host "OPTIONS:" -ForegroundColor Yellow
+    Write-Host "  -Language, -l    Language (en/de) - default: en"
+    Write-Host "  -DryRun, -n      Preview mode - no files written"
+    Write-Host "  -Silent, -s      Minimal output mode"
+    Write-Host "  -Wizard, -w      Interactive wizard mode (default)"
+    Write-Host "  -Interview, -i   Force setup interview (re-configure)"
+    Write-Host "  -Help, -h        Show this help"
+    Write-Host ""
+    Write-Host "EXAMPLES:" -ForegroundColor Yellow
+    Write-Host "  # English wizard:"
+    Write-Host "  powershell -File CSV2Actual.ps1"
+    Write-Host ""
+    Write-Host "  # German wizard:"
+    Write-Host "  powershell -File CSV2Actual.ps1 -Language de"
+    Write-Host ""
+    Write-Host "  # Re-run setup interview:"
+    Write-Host "  powershell -File CSV2Actual.ps1 -Interview"
+    Write-Host ""
+    Write-Host "  # Silent processing:"
+    Write-Host "  powershell -File CSV2Actual.ps1 -Silent"
+    exit 0
+}
 
 # Load modules
 . "$PSScriptRoot/modules/Config.ps1"
 . "$PSScriptRoot/modules/I18n.ps1"
 . "$PSScriptRoot/modules/CsvValidator.ps1"
 . "$PSScriptRoot/modules/CommunityLoader.ps1"
+# IbanDiscovery via standalone script
 
 # Initialize configuration and internationalization
 try {
@@ -28,12 +76,52 @@ try {
     $langDir = $global:config.Get("paths.languageDir")
     $global:i18n = [I18n]::new($langDir, $Language)
     $global:communityLoader = [CommunityLoader]::new("$PSScriptRoot/community", $global:i18n)
+    
+    # Show local config loading message only if not silent and local config exists
+    $localConfigPath = Join-Path $PSScriptRoot "config.local.json"
+    if ((Test-Path $localConfigPath) -and -not $Silent) {
+        Write-Host (t "system.loading_local_config") -ForegroundColor Yellow
+    }
 }
 catch {
     Write-Host "ERROR: Could not load configuration or language files. Please ensure config.json and lang/ folder exist." -ForegroundColor Red
     Write-Host "Details: $($_.Exception.Message)" -ForegroundColor Red
     exit 1
 }
+
+# Check if local configuration exists, if not run setup interview
+$localConfigPath = Join-Path $PSScriptRoot "config.local.json"
+if ((-not (Test-Path $localConfigPath) -and -not $DryRun) -or $Interview) {
+    Write-Host ""
+    if ($Interview) {
+        Write-Host (t "wizard_help.interview_rerun") -ForegroundColor Cyan
+        Write-Host (t "wizard_help.config_overwrite") -ForegroundColor White
+    } else {
+        Write-Host (t "wizard_help.first_use_detected") -ForegroundColor Cyan
+        Write-Host (t "wizard_help.starting_interview") -ForegroundColor White
+    }
+    Write-Host ""
+    
+    # Run setup interview
+    $setupArgs = @()
+    if ($Language -ne "en") { $setupArgs += "-Language $Language" }
+    
+    $pwshCommand = if (Get-Command "pwsh" -ErrorAction SilentlyContinue) { "pwsh" } else { "powershell" }
+    $setupCommand = "$pwshCommand -ExecutionPolicy Bypass -File setup_interview.ps1 $($setupArgs -join ' ')"
+    Invoke-Expression $setupCommand
+    
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host (t "wizard_help.interview_failed") -ForegroundColor Yellow
+    } else {
+        Write-Host (t "wizard_help.interview_complete") -ForegroundColor Green
+        # Reload configuration with local settings (suppress duplicate loading message)
+        $global:config.Reload()
+    }
+}
+
+# Load currency from configuration
+$currency = $global:config.Get("defaults.currency")
+if (-not $currency) { $currency = "EUR" }  # Fallback
 
 # Helper function for localization  
 function t {
@@ -50,35 +138,6 @@ function t {
     }
 }
 
-function Show-Help {
-    Write-Host (t "cli.help_title") -ForegroundColor Cyan
-    Write-Host ""
-    Write-Host (t "cli.usage") -ForegroundColor Yellow
-    Write-Host "  powershell -File CSV2Actual.ps1 [OPTIONS]"
-    Write-Host ""
-    Write-Host (t "cli.options") -ForegroundColor Yellow
-    Write-Host "  -Language, -l    Language (en/de) - default: en"
-    Write-Host "  -DryRun, -n      $(t 'cli.dry_run_desc')"
-    Write-Host "  -Silent, -s      $(t 'cli.silent_desc')"
-    Write-Host "  -Wizard, -w      Interactive wizard mode (default)"
-    Write-Host "  -Help, -h        $(t 'cli.help_desc')"
-    Write-Host ""
-    Write-Host (t "cli.examples") -ForegroundColor Yellow
-    Write-Host "  # English wizard:"
-    Write-Host "  powershell -File CSV2Actual.ps1"
-    Write-Host ""
-    Write-Host "  # German wizard:"
-    Write-Host "  powershell -File CSV2Actual.ps1 -Language de"
-    Write-Host ""
-    Write-Host "  # Direct dry run:"
-    Write-Host "  powershell -File CSV2Actual.ps1 -DryRun -Silent"
-}
-
-# Show help if requested
-if ($Help) {
-    Show-Help
-    exit 0
-}
 
 function Write-Header {
     Clear-Host
@@ -107,14 +166,14 @@ function Wait-UserInput {
         if ($messageKey) {
             Write-Host (t $messageKey) -ForegroundColor Yellow
         }
-        Write-Host "Skipping user input (DryRun/Silent mode)" -ForegroundColor Cyan
+        Write-Host (t "wizard_help.skipping_input") -ForegroundColor Cyan
         return
     }
     
     if ($messageKey) {
         Write-Host (t $messageKey) -ForegroundColor Yellow
     }
-    Write-Host "Press Enter to continue..." -ForegroundColor Gray
+    Write-Host (t "wizard_help.press_enter") -ForegroundColor Gray
     Read-Host | Out-Null
 }
 
@@ -127,7 +186,7 @@ function Step1-Preparation {
     
     # Check if source folder exists
     if (-not (Test-Path "source")) {
-        Write-Host "Creating source/ folder..." -ForegroundColor Yellow
+        Write-Host (t "wizard_help.creating_folder") -ForegroundColor Yellow
         New-Item -ItemType Directory -Path "source" -Force | Out-Null
     }
     
@@ -136,8 +195,8 @@ function Step1-Preparation {
     
     if ($csvFiles.Count -eq 0) {
         Write-Host ""
-        Write-Host "WARNING: No CSV files found in source/ folder" -ForegroundColor Red
-        Write-Host "Please add your bank CSV exports and run the script again." -ForegroundColor Yellow
+        Write-Host (t "wizard_help.no_csv_warning") -ForegroundColor Red
+        Write-Host (t "wizard_help.add_files_restart") -ForegroundColor Yellow
         Write-Host ""
         exit 1
     }
@@ -147,6 +206,38 @@ function Step1-Preparation {
         Write-Host ""
         foreach ($file in $csvFiles) {
             Write-Host "   FILE: $($file.Name)" -ForegroundColor White
+        }
+        
+        # Auto-discover IBANs and generate local configuration
+        Write-Host ""
+        $localConfigPath = "$PSScriptRoot/config.local.json"
+        if (-not (Test-Path $localConfigPath) -or 
+            (Get-Item $localConfigPath).LastWriteTime -lt (Get-ChildItem -Path "source" -Filter "*.csv" | Sort-Object LastWriteTime -Descending | Select-Object -First 1).LastWriteTime) {
+            
+            Write-Host "Auto-discovering account relationships..." -ForegroundColor Cyan
+            
+            # Run auto-discovery script
+            try {
+                if ($Silent) {
+                    $discoveryResult = & "$PSScriptRoot/auto_discover_ibans_simple.ps1" -SourceDir "source" -OutputConfig $localConfigPath -Silent
+                } else {
+                    $discoveryResult = & "$PSScriptRoot/auto_discover_ibans_simple.ps1" -SourceDir "source" -OutputConfig $localConfigPath
+                }
+                
+                if (Test-Path $localConfigPath) {
+                    Write-Host "Created local configuration with discovered accounts" -ForegroundColor Green
+                    
+                    # Reload global config to include discovered data
+                    $global:config.Reload()
+                } else {
+                    Write-Host "No IBANs discovered - using default configuration" -ForegroundColor Yellow
+                }
+            } catch {
+                Write-Host "Auto-discovery failed: $($_.Exception.Message)" -ForegroundColor Yellow
+                Write-Host "Using default configuration" -ForegroundColor Gray
+            }
+        } else {
+            Write-Host "Using existing local configuration" -ForegroundColor Green
         }
     }
     
@@ -332,7 +423,7 @@ function Step3-Validation {
     $validationResults = @{}
     
     # Progress bar for validation
-    Write-Host "Prüfe $($csvFiles.Count) CSV-Dateien..." -ForegroundColor Cyan
+    Write-Host (t "processor.checking_files" @($csvFiles.Count)) -ForegroundColor Cyan
     $progressWidth = 40
     $validCount = 0
     $invalidCount = 0
@@ -370,10 +461,10 @@ function Step3-Validation {
     
     # Summary
     if ($validCount -gt 0) {
-        Write-Host "✓ $validCount Dateien: Standard-Format erkannt" -ForegroundColor Green
+        Write-Host (t "processor.valid_files" @($validCount)) -ForegroundColor Green
     }
     if ($invalidCount -gt 0) {
-        Write-Host "⚠ $invalidCount Dateien: Erfordern automatische Anpassung" -ForegroundColor Yellow
+        Write-Host (t "processor.files_need_adjustment" @($invalidCount)) -ForegroundColor Yellow
     }
     
     if (-not $allValid) {
@@ -438,7 +529,7 @@ function Step4-Processing {
     # Get CSV file count for progress bar
     $csvFiles = Get-ChildItem -Path "source" -Filter "*.csv" -ErrorAction SilentlyContinue
     
-    Write-Host "Konvertiere $($csvFiles.Count) CSV-Dateien zu Actual Budget Format..." -ForegroundColor Cyan
+    Write-Host (t "processor.converting_files" @($csvFiles.Count)) -ForegroundColor Cyan
     
     # Run the main processor silently and capture output
     $params += "-Silent"  # Force silent mode to reduce noise
@@ -479,7 +570,7 @@ function Step4-Processing {
     }
     else {
         Write-Host ""
-        Write-Host "ERROR: Processing failed. Check the output above for details." -ForegroundColor Red
+        Write-Host (t "processor.processing_failed") -ForegroundColor Red
         exit 1
     }
     
@@ -516,10 +607,89 @@ function Step5-ImportGuide {
     Write-Host "$startMsg" -ForegroundColor Yellow
     
     Write-Host ""
+    
+    # Show detailed account and category information
+    Write-Host (t 'instructions.account_setup_title') -ForegroundColor Yellow
+    
+    # Display accounts that need to be created
+    $latestBalanceFile = Get-ChildItem -Path "logs" -Filter "starting_balances_*.txt" -ErrorAction SilentlyContinue | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+    if ($latestBalanceFile) {
+        $balanceContent = Get-Content $latestBalanceFile.FullName -ErrorAction SilentlyContinue
+        $inAccountSection = $false
+        foreach ($line in $balanceContent) {
+            if ($line -match "^Account: (.+)") {
+                $accountName = $matches[1]
+                Write-Host "   📊 $accountName" -ForegroundColor White
+                $inAccountSection = $true
+            } elseif ($inAccountSection -and $line -match "^  Starting Balance: (.+)") {
+                Write-Host "      💰 Startsaldo: $($matches[1])" -ForegroundColor Cyan
+            } elseif ($inAccountSection -and $line -match "^  Date: (.+)") {
+                Write-Host "      📅 Startdatum: $($matches[1])" -ForegroundColor Gray
+                $inAccountSection = $false
+            }
+        }
+    } else {
+        # Fallback: Show CSV files as account names
+        $csvFiles = Get-ChildItem -Path "source" -Filter "*.csv" -ErrorAction SilentlyContinue
+        foreach ($file in $csvFiles) {
+            $accountName = $file.BaseName
+            Write-Host "   📊 $accountName" -ForegroundColor White
+        }
+    }
+    
+    Write-Host ""
+    Write-Host (t 'instructions.categories_to_create') -ForegroundColor Yellow
+    
+    # Get used categories from processed files
+    $usedCategories = @()
+    $outputFiles = Get-ChildItem -Path "actual_import" -Filter "*.csv" -ErrorAction SilentlyContinue
+    foreach ($outputFile in $outputFiles) {
+        try {
+            $csvData = Import-Csv -Path $outputFile.FullName -Delimiter "," -Encoding UTF8
+            $categories = $csvData | Where-Object { $_.category -and $_.category.Trim() -ne "" } | Select-Object -ExpandProperty category | Sort-Object -Unique
+            $usedCategories += $categories
+        } catch {
+            # Ignore errors when reading output files
+        }
+    }
+    
+    $usedCategories = $usedCategories | Sort-Object -Unique
+    if ($usedCategories.Count -gt 0) {
+        $transferCategories = $usedCategories | Where-Object { $_ -match "Transfer" }
+        $salaryCategories = $usedCategories | Where-Object { $_ -match "Gehalt|Salary" }
+        $otherCategories = $usedCategories | Where-Object { $_ -notmatch "Transfer" -and $_ -notmatch "Gehalt|Salary" }
+        
+        if ($transferCategories.Count -gt 0) {
+            Write-Host "   🔄 " + (t 'instructions.transfer_categories') + ":" -ForegroundColor Green
+            foreach ($cat in $transferCategories) {
+                Write-Host "      - $cat" -ForegroundColor White
+            }
+        }
+        
+        if ($salaryCategories.Count -gt 0) {
+            Write-Host "   💼 " + (t 'instructions.salary_categories') + ":" -ForegroundColor Green
+            foreach ($cat in $salaryCategories) {
+                Write-Host "      - $cat" -ForegroundColor White
+            }
+        }
+        
+        if ($otherCategories.Count -gt 0) {
+            Write-Host "   🏷️ " + (t 'instructions.expense_categories') + ":" -ForegroundColor Green
+            foreach ($cat in $otherCategories) {
+                Write-Host "      - $cat" -ForegroundColor White
+            }
+        }
+        
+        Write-Host ""
+        Write-Host "   ✅ Gesamt: $($usedCategories.Count) Kategorien" -ForegroundColor Cyan
+    } else {
+        Write-Host "   ⚠️ Keine Kategorien in den Ausgabedateien gefunden" -ForegroundColor Yellow
+    }
+    
+    Write-Host ""
     Write-Host (t 'instructions.documentation_note') -ForegroundColor Cyan
-    Write-Host "   - categories_ascii_safe.md (category list)" -ForegroundColor White
     Write-Host "   - actual_import/ACTUAL_IMPORT_GUIDE.txt (step-by-step)" -ForegroundColor White
-    Write-Host "   - CATEGORIZATION_EXPLAINED.md (how categorization works)" -ForegroundColor White
+    Write-Host "   - logs/starting_balances_*.txt (account setup)" -ForegroundColor White
     
     Write-Host ""
     $setupCompleteMsg = t 'messages.setup_complete'
@@ -529,8 +699,15 @@ function Step5-ImportGuide {
     Write-Host ""
     Write-Host (t 'messages.statistics_title') -ForegroundColor Cyan
     
-    # Try to get statistics from processor log
-    $logFiles = Get-ChildItem -Path . -Filter "csv_processor_*.log" -ErrorAction SilentlyContinue | Sort-Object LastWriteTime -Descending
+    # Try to get statistics from processor log (check logs directory first)
+    $logFiles = @()
+    $logsDir = Join-Path $PSScriptRoot "logs"
+    if (Test-Path $logsDir) {
+        $logFiles += Get-ChildItem -Path $logsDir -Filter "csv_processor_*.log" -ErrorAction SilentlyContinue
+    }
+    $logFiles += Get-ChildItem -Path . -Filter "csv_processor_*.log" -ErrorAction SilentlyContinue
+    $logFiles = $logFiles | Sort-Object LastWriteTime -Descending
+    
     if ($logFiles.Count -gt 0) {
         $latestLog = $logFiles[0]
         $logContent = Get-Content $latestLog.FullName -ErrorAction SilentlyContinue
@@ -540,6 +717,8 @@ function Step5-ImportGuide {
         $transactionCount = 0
         $categorizedPercent = 0
         $transferCount = 0
+        $accountCount = 0
+        $totalStartingBalance = 0
         
         foreach ($line in $logContent) {
             if ($line -match "Verarbeitete Dateien: (\d+)") {
@@ -553,6 +732,10 @@ function Step5-ImportGuide {
             }
             if ($line -match "Transfer-Kategorien: (\d+)") {
                 $transferCount = $matches[1]
+            }
+            if ($line -match "Total accounts: (\d+), Total balance: ([\d.,]+) $currency") {
+                $accountCount = $matches[1]
+                $totalStartingBalance = $matches[2] -replace '\.', '' -replace ',', '.'
             }
         }
         
@@ -573,6 +756,9 @@ function Step5-ImportGuide {
             $statsTransfers = $global:i18n.Get('messages.stats_transfers', @($transferCount))
             Write-Host "  $statsTransfers" -ForegroundColor Green
         }
+        if ($accountCount -gt 0) {
+            Write-Host "  💰 Accounts: $accountCount, Starting Balance Total: $('{0:N2}' -f [decimal]$totalStartingBalance) $currency" -ForegroundColor Cyan
+        }
     } else {
         # Fallback when no log file available
         $csvFiles = Get-ChildItem -Path "source" -Filter "*.csv" -ErrorAction SilentlyContinue
@@ -586,7 +772,7 @@ function Step5-ImportGuide {
 
 # MAIN EXECUTION
 try {
-    if ($Wizard -and -not $Silent) {
+    if ($Wizard) {
         Write-Header
         Write-Host (t "main.welcome") -ForegroundColor Green
         Write-Host ""
@@ -598,18 +784,50 @@ try {
         Step5-ImportGuide
     }
     else {
-        # Direct execution without wizard
+        # Direct execution - Auto-discover IBANs first, then process
+        $localConfigPath = "$PSScriptRoot/config.local.json"
+        $csvFiles = Get-ChildItem -Path "source" -Filter "*.csv" -ErrorAction SilentlyContinue
+        
+        if ($csvFiles.Count -gt 0 -and (-not (Test-Path $localConfigPath) -or 
+            (Get-Item $localConfigPath).LastWriteTime -lt (Get-ChildItem -Path "source" -Filter "*.csv" | Sort-Object LastWriteTime -Descending | Select-Object -First 1).LastWriteTime)) {
+            
+            if (-not $Silent) {
+                Write-Host "Auto-discovering account relationships..." -ForegroundColor Cyan
+            }
+            
+            try {
+                $discoveryArgs = @("-SourceDir", "source", "-OutputConfig", $localConfigPath)
+                if ($Silent) { $discoveryArgs += "-Silent" }
+                $discoveryResult = & "$PSScriptRoot/auto_discover_ibans_simple.ps1" @discoveryArgs
+                
+                if (Test-Path $localConfigPath) {
+                    if (-not $Silent) {
+                        Write-Host "Created local configuration with discovered accounts" -ForegroundColor Green
+                    }
+                    # Reload global config to include discovered data
+                    $global:config = [Config]::new("$PSScriptRoot/config.json")
+                }
+            } catch {
+                if (-not $Silent) {
+                    Write-Host "Auto-discovery failed: $($_.Exception.Message)" -ForegroundColor Yellow
+                }
+            }
+        }
+        
+        # Process CSV files
         $params = @()
         if ($DryRun) { $params += "-DryRun" }
         if ($Silent) { $params += "-Silent" }
+        $params += "-Language $Language"
         
         $processorArgs = $params -join " "
-        Invoke-Expression "powershell -ExecutionPolicy Bypass -File bank_csv_processor.ps1 $processorArgs"
+        $pwshCommand = if (Get-Command "pwsh" -ErrorAction SilentlyContinue) { "pwsh" } else { "powershell" }
+        Invoke-Expression "$pwshCommand -ExecutionPolicy Bypass -File bank_csv_processor.ps1 $processorArgs"
     }
 }
 catch {
     Write-Host ""
-    Write-Host "ERROR: An error occurred during processing" -ForegroundColor Red
+    Write-Host (t "wizard_help.processing_error") -ForegroundColor Red
     $errorDetails = $_.Exception.Message
     Write-Host "Details: $errorDetails" -ForegroundColor Yellow
     exit 1

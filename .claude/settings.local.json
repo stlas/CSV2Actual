@@ -43,7 +43,10 @@
       "Bash(git reset:*)",
       "Bash(git rm:*)",
       "Bash(touch:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(timeout:*)",
+      "Bash(sha256sum:*)",
+      "Bash(unzip:*)"
     ],
     "deny": []
   }

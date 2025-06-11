@@ -1,5 +1,5 @@
 # CSV2Actual - Starting Balance Calculator
-# Version: 1.0
+# Version: 1.1.0
 # Author: sTLAs (https://github.com/sTLAs)
 # Calculates starting balances for all accounts based on CSV data
 # Features: Internationalization (EN/DE), JSON Configuration
@@ -40,6 +40,10 @@ function t {
 Write-Host (t "balance.calculator_title") -ForegroundColor Cyan
 Write-Host (t "balance.calculator_desc") -ForegroundColor Green
 Write-Host ""
+
+# Load currency from configuration
+$currency = $global:config.Get("defaults.currency")
+if (-not $currency) { $currency = "EUR" }  # Fallback
 
 # Check source directory
 $sourceDir = $global:config.GetSourceDir()
@@ -157,7 +161,7 @@ foreach ($file in $csvFiles) {
                 }
                 
                 $displayDate = if ($firstEntry.PSObject.Properties.Name -contains $dateColumn) { $firstEntry.$dateColumn } else { 'Unknown' }
-                Write-Host "  Starting Balance: $balance EUR (Date: $displayDate)" -ForegroundColor Green
+                Write-Host "  Starting Balance: $balance $currency (Date: $displayDate)" -ForegroundColor Green
                 
             } catch {
                 Write-Host "  " + (t "balance.balance_convert_error" @($balanceAfterText)) -ForegroundColor Red
@@ -188,11 +192,11 @@ foreach ($account in $sortedAccounts) {
     $balanceFormatted = "{0:N2}" -f $balance
     $color = if ($balance -ge 0) { "Green" } else { "Red" }
     
-    Write-Host "  $($name.PadRight(30)) $($balanceFormatted.PadLeft(12)) EUR (Date: $date)" -ForegroundColor $color
+    Write-Host "  $($name.PadRight(30)) $($balanceFormatted.PadLeft(12)) $currency (Date: $date)" -ForegroundColor $color
 }
 
 Write-Host "  $("-" * 55)" -ForegroundColor Gray
-Write-Host "  $("TOTAL BALANCE".PadRight(30)) $(("{0:N2}" -f $totalBalance).PadLeft(12)) EUR" -ForegroundColor White
+Write-Host "  $("TOTAL BALANCE".PadRight(30)) $(("{0:N2}" -f $totalBalance).PadLeft(12)) $currency" -ForegroundColor White
 
 Write-Host ""
 Write-Host "INSTRUCTIONS FOR ACTUAL BUDGET:" -ForegroundColor Yellow
@@ -206,7 +210,7 @@ $balanceOutput = @()
 $balanceOutput += "# STARTING BALANCES FOR ACTUAL BUDGET"
 $balanceOutput += "# Generated on: $(Get-Date -Format 'MM/dd/yyyy HH:mm')"
 $balanceOutput += ""
-$balanceOutput += "Account Name                   | Starting Balance EUR | Date"
+$balanceOutput += "Account Name                   | Starting Balance $currency | Date"
 $balanceOutput += ("-" * 65)
 
 foreach ($account in $sortedAccounts) {

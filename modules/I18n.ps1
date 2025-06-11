@@ -1,5 +1,5 @@
 # CSV2Actual - Internationalization Module
-# Version: 1.0
+# Version: 1.1.0
 # Author: sTLAs (https://github.com/sTLAs)
 # Handles language files and localized strings (EN/DE support)
 
@@ -100,7 +100,8 @@ class I18n {
         if ($arguments -and $arguments.Length -gt 0) {
             for ($i = 0; $i -lt $arguments.Length; $i++) {
                 $argValue = if ($arguments[$i] -ne $null) { $arguments[$i].ToString() } else { "null" }
-                $text = $text -replace "\{$i\}", $argValue
+                $placeholder = "{$i}"
+                $text = $text -replace [regex]::Escape($placeholder), $argValue
             }
         }
         

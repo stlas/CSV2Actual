@@ -1,5 +1,5 @@
 # CSV2Actual - Configuration Management Module
-# Version: 1.0
+# Version: 1.1.0
 # Author: sTLAs (https://github.com/sTLAs)
 # Loads and manages configuration from config.json
 
@@ -18,10 +18,22 @@ class Config {
         }
         
         try {
+            # Load main config
             $jsonContent = Get-Content -Path $this.configPath -Raw -Encoding UTF8
-            # Convert to hashtable for older PowerShell versions
             $jsonObject = $jsonContent | ConvertFrom-Json
             $this.data = $this.ConvertToHashtable($jsonObject)
+            
+            # Load local config if exists (for real IBANs, personal data)
+            $localConfigPath = $this.configPath -replace "config\.json", "config.local.json"
+            if (Test-Path $localConfigPath) {
+                # Suppress output in silent mode - message can be shown by calling script if needed
+                $localJsonContent = Get-Content -Path $localConfigPath -Raw -Encoding UTF8
+                $localJsonObject = $localJsonContent | ConvertFrom-Json
+                $localData = $this.ConvertToHashtable($localJsonObject)
+                
+                # Merge local config over main config
+                $this.MergeHashtables($this.data, $localData)
+            }
         }
         catch {
             throw "Failed to load configuration: $($_.Exception.Message)"
@@ -51,6 +63,19 @@ class Config {
         }
         
         return $hashtable
+    }
+    
+    # Merge hashtables recursively (local config overrides main config)
+    [void] MergeHashtables([hashtable]$target, [hashtable]$source) {
+        foreach ($key in $source.Keys) {
+            if ($target.ContainsKey($key) -and $target[$key] -is [hashtable] -and $source[$key] -is [hashtable]) {
+                # Recursive merge for nested hashtables
+                $this.MergeHashtables($target[$key], $source[$key])
+            } else {
+                # Override with source value
+                $target[$key] = $source[$key]
+            }
+        }
     }
     
     # Get configuration value by dot notation path

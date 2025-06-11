@@ -1,12 +1,37 @@
-# Persönliche/sensible Daten
-backup_*/
+# Persönliche/sensible Daten - NIEMALS COMMITTEN!
 *_personal.csv
 *_private.csv
+*_real.csv
+
+# Test- und echte CSV-Daten (nicht auf GitHub!)
+source/*.csv
+source/**/*.csv
+actual_import/*.csv
+actual_import/**/*.csv
+
+# Aber Demo-Daten erlauben
+!test_data/demo_csvs/*.csv
+
+# Entwickler-Tools (nur für Development Branch)
+backup_*/
+backup_snapshots/
+*_dev.*
+*_debug.*
+*_test_output.*
+cleanup_*.ps1
+RELEASE_*.md
+create_github_release.ps1
 
 # Claude Code lokale Dateien
 CLAUDE.local.md
 CLAUDE.*
 .claude/
+
+# Lokale Konfiguration mit echten IBANs (NIEMALS COMMITTEN!)
+config.local.json
+config.personal.json
+*_personal.json
+*_real.json
 
 # Log-Dateien
 logs/

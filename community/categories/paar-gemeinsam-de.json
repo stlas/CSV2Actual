@@ -10,14 +10,14 @@
       "description": "Einnahmen-Kategorien für Paare",
       "categories": [
         {
-          "name": "Gehalt Stefan",
-          "patterns": ["stefan.*gehalt", "stefan.*lohn", "luxor.*solar", "stefan.*salary"],
-          "description": "Gehaltseingänge Stefan"
+          "name": "Gehalt Partner 1",
+          "patterns": ["partner1.*gehalt", "partner1.*lohn", "partner1.*salary", "company.*ltd"],
+          "description": "Gehaltseingänge Partner 1"
         },
         {
-          "name": "Gehalt Alessandra", 
-          "patterns": ["alessandra.*gehalt", "alessandra.*lohn", "alessandra.*salary", "bookstore", "buchhandlung"],
-          "description": "Gehaltseingänge Alessandra"
+          "name": "Gehalt Partner 2", 
+          "patterns": ["partner2.*gehalt", "partner2.*lohn", "partner2.*salary", "example.*store"],
+          "description": "Gehaltseingänge Partner 2"
         },
         {
           "name": "Zinsen & Kapitalerträge",
@@ -75,14 +75,14 @@
       "description": "Transfer-Kategorien zwischen Konten",
       "categories": [
         {
-          "name": "Haushaltsbeitrag Stefan",
-          "patterns": ["stefan.*haushalt", "haushaltsbeitrag stefan", "da-6"],
-          "description": "Stefans Beitrag zum Haushaltskonto"
+          "name": "Haushaltsbeitrag Partner 1",
+          "patterns": ["partner1.*haushalt", "haushaltsbeitrag partner1", "max.*haushalt"],
+          "description": "Partner 1 Beitrag zum Haushaltskonto"
         },
         {
-          "name": "Haushaltsbeitrag Alessandra",
-          "patterns": ["alessandra.*haushalt", "haushaltsbeitrag alessandra"],
-          "description": "Alessandras Beitrag zum Haushaltskonto"
+          "name": "Haushaltsbeitrag Partner 2",
+          "patterns": ["partner2.*haushalt", "haushaltsbeitrag partner2", "anna.*haushalt"],
+          "description": "Partner 2 Beitrag zum Haushaltskonto"
         },
         {
           "name": "Sparen & Rücklagen",

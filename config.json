@@ -1,10 +1,10 @@
 {
   "meta": {
-    "version": "1.0.5",
+    "version": "1.1.0",
     "description": "CSV2Actual Configuration File - Internationalized Banking CSV Processor",
-    "lastUpdated": "2025-01-07",
-    "powershellVersion": "7.0+",
-    "features": ["internationalization", "json-config", "iban-transfer-detection"]
+    "lastUpdated": "2025-06-11",
+    "powershellVersion": "5.1+",
+    "features": ["internationalization", "json-config", "iban-transfer-detection", "auto-discovery", "log-management", "starting-balance-calculation", "configurable-currency"]
   },
   "users": {
     "user1": {
@@ -29,8 +29,8 @@
   },
   "accounts": {
     "ibanMapping": {
-      "DE12345678901234567890": "user2-checking",
-      "DE09876543210987654321": "user1-checking", 
+      "DE12345678901234567890": "user1-checking",
+      "DE09876543210987654321": "user2-checking", 
       "DE11223344556677889900": "household-account",
       "DE99887766554433221100": "credit-card",
       "DE98765432109876543210": "user2-savings",
@@ -118,9 +118,18 @@
     "excludePatterns": ["FIXED", "DEUTSCH", "ENGLISH", "SIMPLE", "TEST", "MIT_KATEGORIEN"]
   },
   "defaults": {
+    "_comment": "Global default settings for CSV2Actual",
     "language": "en",
     "currency": "EUR",
-    "logLevel": "INFO"
+    "_currencyNote": "Currency symbol for all balance displays (EUR, USD, CHF, etc.)",
+    "dateFormat": "dd.MM.yyyy",
+    "_dateNote": "German date format for CSV parsing",
+    "decimalSeparator": ",",
+    "thousandsSeparator": ".",
+    "_formatNote": "German number format: 1.234,56",
+    "logLevel": "INFO",
+    "logRetentionDays": 7,
+    "_logNote": "Automatic cleanup of log files older than X days"
   },
   "internationalization": {
     "columnNameMapping": {
