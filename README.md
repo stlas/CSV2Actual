@@ -187,4 +187,4 @@ Beiträge sind willkommen! Dieses Repository ist der **End-User Release**. Für 
 
 ---
 
-*🚀 Generated with [Claude Code](https://claude.ai/code)*
+*💰 CSV2Actual - Automatisieren Sie Ihre Actual Budget Imports*
