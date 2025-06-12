@@ -12,6 +12,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Additional German bank support
 - Performance optimizations
 
+## [1.2.0] - 2025-12-06
+
+### ✨ Added
+- **Enhanced Kreditkarte (Credit Card) Processing** - Improved payee extraction from Verwendungszweck field
+- **Complex Credit Card Demo Data** - Added Complex_Credit_Card.csv for comprehensive testing
+- **Optimized README Documentation** - Enhanced German and English explanations of tool purpose and benefits
+
+### 🔧 Improved
+- **Credit Card Payee Recognition** - Better extraction and cleaning of merchant names from transaction descriptions
+- **User Documentation** - Clearer explanation of why and when to use CSV2Actual for Actual Budget imports
+- **Repository Structure** - Cleaned up development files and improved organization
+- **Security** - Enhanced .gitignore to prevent any sensitive data from being committed
+
+### 🐛 Fixed
+- **PowerShell 5.1/7.x Compatibility** - Improved cross-version compatibility for array and object handling
+- **Encoding Issues** - Better handling of German umlauts and special characters in starting balance calculations
+- **Internationalization** - Fixed parameter passing for bilingual balance messages
+
+### 🏗️ Technical
+- **Project Cleanup** - Removed development artifacts and temporary files
+- **Git Security** - Enhanced protection against accidental commits of personal data
+- **Release Process** - Streamlined preparation for new releases
+
 ## [1.1.0] - 2025-06-10
 
 ### ✨ Added

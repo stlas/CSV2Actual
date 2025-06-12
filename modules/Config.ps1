@@ -1,5 +1,5 @@
 # CSV2Actual - Configuration Management Module
-# Version: 1.1.0
+# Version: 1.2.0
 # Author: sTLAs (https://github.com/sTLAs)
 # Loads and manages configuration from config.json
 
@@ -126,15 +126,23 @@ class Config {
     # Get IBAN mapping
     [hashtable] GetIBANMapping() {
         $mapping = $this.Get("accounts.ibanMapping")
-        if (-not $mapping) {
-            return @{}
+        $result = @{}
+        
+        # Add mappings from main config
+        if ($mapping) {
+            foreach ($iban in $mapping.Keys) {
+                $accountKey = $mapping[$iban]
+                $result[$iban] = $this.GetAccountName($accountKey)
+            }
         }
         
-        # Create result with resolved account names
-        $result = @{}
-        foreach ($iban in $mapping.Keys) {
-            $accountKey = $mapping[$iban]
-            $result[$iban] = $this.GetAccountName($accountKey)
+        # Add mappings from local config (these take precedence)
+        $localMapping = $this.localData.accounts.ibanMapping
+        if ($localMapping) {
+            foreach ($iban in $localMapping.Keys) {
+                $accountName = $localMapping[$iban]
+                $result[$iban] = $accountName
+            }
         }
         
         return $result

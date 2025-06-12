@@ -1,5 +1,5 @@
 # CSV2Actual - Internationalization Module
-# Version: 1.1.0
+# Version: 1.2.0
 # Author: sTLAs (https://github.com/sTLAs)
 # Handles language files and localized strings (EN/DE support)
 
@@ -28,7 +28,7 @@ class I18n {
     }
     
     [void]LoadLanguage([string]$language) {
-        $langFile = "$($this.languageDir)/$language.json"
+        $langFile = Join-Path $this.languageDir "$language.json"
         
         if (Test-Path $langFile) {
             try {
@@ -37,7 +37,7 @@ class I18n {
                 $this.currentLanguage = $language
             }
             catch {
-                Write-Warning "Failed to load language file '$langFile'. Falling back to English."
+                Write-Warning "Failed to load language file '$langFile'. Error: $($_.Exception.Message). Falling back to English."
                 $this.LoadLanguage($this.defaultLanguage)
             }
         }

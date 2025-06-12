@@ -1,5 +1,5 @@
 # CSV2Actual - Community Loader Module
-# Version: 1.1.0
+# Version: 1.2.0
 # Author: sTLAs (https://github.com/sTLAs)
 # Loads and manages community-contributed CSV formats and category sets
 

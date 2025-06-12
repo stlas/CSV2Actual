@@ -129,7 +129,11 @@
     "_formatNote": "German number format: 1.234,56",
     "logLevel": "INFO",
     "logRetentionDays": 7,
-    "_logNote": "Automatic cleanup of log files older than X days"
+    "_logNote": "Automatic cleanup of log files older than X days",
+    "startingBalanceDate": null,
+    "_startingBalanceDateNote": "Fixed starting balance date (DD.MM.YYYY) or null for automatic detection",
+    "askForStartingDate": false,
+    "_askForStartingDateNote": "Whether to prompt user for starting balance date on each run"
   },
   "internationalization": {
     "columnNameMapping": {
