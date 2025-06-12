@@ -119,6 +119,14 @@
     "failed_to_load": "Failed to load configuration: {0}",
     "default_lang_not_found": "Default language file not found: {0}"
   },
+  "errors": {
+    "config_load_failed": "ERROR: Could not load configuration or language files. Please ensure config.json and lang/ folder exist.",
+    "details": "Details: {0}",
+    "initialization_failed": "Initialization failed",
+    "file_not_accessible": "File not accessible: {0}",
+    "invalid_format": "Invalid format",
+    "operation_failed": "Operation failed: {0}"
+  },
   "balance": {
     "calculator_title": "STARTING BALANCE CALCULATOR",
     "calculator_desc": "Calculates starting balances for Actual Budget import",

@@ -134,6 +134,14 @@
     "failed_to_load": "Fehler beim Laden der Konfiguration: {0}",
     "default_lang_not_found": "Standard-Sprachdatei nicht gefunden: {0}"
   },
+  "errors": {
+    "config_load_failed": "FEHLER: Konfiguration oder Sprachdateien konnten nicht geladen werden. Stellen Sie sicher, dass config.json und der lang/ Ordner existieren.",
+    "details": "Details: {0}",
+    "initialization_failed": "Initialisierung fehlgeschlagen",
+    "file_not_accessible": "Datei nicht zugänglich: {0}",
+    "invalid_format": "Ungültiges Format",
+    "operation_failed": "Operation fehlgeschlagen: {0}"
+  },
   "balance": {
     "calculator_title": "STARTSALDEN-RECHNER",
     "calculator_desc": "Berechnet Startsalden für Actual Budget Import",

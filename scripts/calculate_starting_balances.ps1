@@ -9,13 +9,13 @@ param(
 )
 
 # Load modules
-. "$PSScriptRoot/modules/Config.ps1"
-. "$PSScriptRoot/modules/I18n.ps1"
-. "$PSScriptRoot/modules/CsvValidator.ps1"
+. "$PSScriptRoot/../modules/Config.ps1"
+. "$PSScriptRoot/../modules/I18n.ps1"
+. "$PSScriptRoot/../modules/CsvValidator.ps1"
 
 # Initialize configuration and internationalization
 try {
-    $global:config = [Config]::new("$PSScriptRoot/config.json")
+    $global:config = [Config]::new("$PSScriptRoot/../config.json")
     $langDir = $global:config.Get("paths.languageDir")
     $global:i18n = [I18n]::new($langDir, $Language)
 }

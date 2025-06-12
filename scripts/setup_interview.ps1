@@ -13,8 +13,8 @@ $ErrorActionPreference = "Stop"
 $OutputEncoding = [System.Text.Encoding]::UTF8
 
 # Load modules
-. "$PSScriptRoot/modules/Config.ps1"
-. "$PSScriptRoot/modules/I18n.ps1"
+. "$PSScriptRoot/../modules/Config.ps1"
+. "$PSScriptRoot/../modules/I18n.ps1"
 
 # Helper function for localization  
 function t {
@@ -390,7 +390,7 @@ try {
     
     # Load initial configuration and language system
     try {
-        $global:config = [Config]::new("$PSScriptRoot/config.json")
+        $global:config = [Config]::new("$PSScriptRoot/../config.json")
         $langDir = $global:config.Get("paths.languageDir")
         
         # Set default language if not provided

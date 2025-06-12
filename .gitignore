@@ -25,6 +25,8 @@ debug_*.ps1
 *_debug.ps1
 DEVELOPMENT.md
 config.*.test.json
+create_test_csv.ps1
+*_test.ps1
 
 # Release Archive (lokale Snapshots)
 release_archive/

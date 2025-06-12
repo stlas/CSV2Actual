@@ -107,7 +107,7 @@ if ((-not (Test-Path $localConfigPath) -and -not $DryRun) -or $Interview) {
     if ($Language -ne "en") { $setupArgs += "-Language $Language" }
     
     $pwshCommand = if (Get-Command "pwsh" -ErrorAction SilentlyContinue) { "pwsh" } else { "powershell" }
-    $setupCommand = "$pwshCommand -ExecutionPolicy Bypass -File setup_interview.ps1 $($setupArgs -join ' ')"
+    $setupCommand = "$pwshCommand -ExecutionPolicy Bypass -File scripts/setup_interview.ps1 $($setupArgs -join ' ')"
     Invoke-Expression $setupCommand
     
     if ($LASTEXITCODE -ne 0) {
@@ -538,7 +538,7 @@ function Step4-Processing {
     
     # Detect PowerShell executable
     $psCommand = if ($PSVersionTable.PSEdition -eq "Core") { "pwsh" } else { "powershell" }
-    $command = "$psCommand -ExecutionPolicy Bypass -File bank_csv_processor.ps1 $processorArgs $languageArg"
+    $command = "$psCommand -ExecutionPolicy Bypass -File scripts/bank_csv_processor.ps1 $processorArgs $languageArg"
     
     # Progress simulation while processing
     $progressWidth = 40
@@ -822,7 +822,7 @@ try {
         
         $processorArgs = $params -join " "
         $pwshCommand = if (Get-Command "pwsh" -ErrorAction SilentlyContinue) { "pwsh" } else { "powershell" }
-        Invoke-Expression "$pwshCommand -ExecutionPolicy Bypass -File bank_csv_processor.ps1 $processorArgs"
+        Invoke-Expression "$pwshCommand -ExecutionPolicy Bypass -File scripts/bank_csv_processor.ps1 $processorArgs"
     }
 }
 catch {
