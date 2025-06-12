@@ -141,7 +141,10 @@
     "calculation_complete": "Starting balance calculation complete!",
     "file_empty_warning": "WARNING: File is empty",
     "balance_convert_error": "ERROR: Could not convert balance '{0}'",
-    "no_balance_warning": "WARNING: No balance found"
+    "no_balance_warning": "WARNING: No balance found",
+    "starting_balance_for": "Starting balance for {0}: {1} EUR",
+    "calculating_balances": "Calculating starting balances for accounts...",
+    "total_accounts_balance": "Total accounts: {0}, Total balance: {1} EUR"
   },
   "community": {
     "no_contributions": "No community contributions found.",

@@ -975,9 +975,9 @@ if (-not $isSilent -and $fileStats.Count -gt 0) {
 
 if (-not $isDryRun) {
     if (-not $isSilent) {
-        Write-Host "Berechne Startsalden f$([char]0x00FC)r Konten..." -ForegroundColor White
+        Write-Host (t "balance.calculating_balances") -ForegroundColor White
     }
-    Write-LogOnly "Berechne Startsalden für Konten..." "INFO"
+    Write-LogOnly (t "balance.calculating_balances") "INFO"
     $accountBalances = @{}
     
     foreach ($file in $csvFiles) {
@@ -1035,8 +1035,8 @@ if (-not $isDryRun) {
                             file = $fileName
                         }
                         
-                        $displayMessage = "Startsaldo f$([char]0x00FC)r ${accountName}: $($startingBalance.ToString('N2')) $currency"
-                        $logMessage = "Startsaldo für ${accountName}: $($startingBalance.ToString('N2')) $currency"
+                        $displayMessage = (t "balance.starting_balance_for" @($accountName, $startingBalance.ToString('N2')))
+                        $logMessage = (t "balance.starting_balance_for" @($accountName, $startingBalance.ToString('N2')))
                         if (-not $isSilent) {
                             Write-Host $displayMessage -ForegroundColor White
                         }
@@ -1156,7 +1156,7 @@ if (-not $isDryRun) {
         
         $relativeBalanceFile = $balanceFile -replace [regex]::Escape($PSScriptRoot + [System.IO.Path]::DirectorySeparatorChar), ""
         Write-Log "Starting balances saved to: $relativeBalanceFile" "INFO"
-        Write-Log ("Gesamtkonten: $($accountBalances.Count), Gesamtsaldo: $($totalBalance.ToString('N2')) $currency") "INFO"
+        Write-Log (t "balance.total_accounts_balance" @($accountBalances.Count, $totalBalance.ToString('N2'))) "INFO"
     } else {
         Write-Log "No starting balances could be calculated" "WARNING"
     }

@@ -157,6 +157,9 @@
     "file_empty_warning": "WARNUNG: Datei ist leer",
     "balance_convert_error": "FEHLER: Saldo '{0}' konnte nicht konvertiert werden",
     "no_balance_warning": "WARNUNG: Kein Saldo gefunden",
+    "starting_balance_for": "Startsaldo für {0}: {1} EUR",
+    "calculating_balances": "Berechne Startsalden für Konten...",
+    "total_accounts_balance": "Gesamtkonten: {0}, Gesamtsaldo: {1} EUR"
     "starting_balance": "Startsaldo für {0}: {1} {2}",
     "total_accounts": "Gesamtkonten: {0}, Gesamtsaldo: {1} {2}",
     "missing_balances_title": "FEHLENDE STARTSALDEN",
