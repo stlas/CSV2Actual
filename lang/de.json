@@ -388,7 +388,6 @@
     "options_title": "OPTIONEN:",
     "language_option": "-Language, -l    Sprache (en/de) - Standard: en",
     "dry_run_option": "-DryRun, -n      Vorschau-Modus - keine Dateien geschrieben",
-    "wizard_option": "-Wizard, -w      Interaktiver Wizard-Modus (Standard)",
     "setup_option": "-Setup, -s       Erstkonfiguration erzwingen (umfasst Konten-Erkennung, Kategorie-Scanner und Startdaten-Auswahl)",
     "help_option": "-Help, -h        Diese Hilfe anzeigen",
     "examples_title": "BEISPIELE:",

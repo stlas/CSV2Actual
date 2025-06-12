@@ -8,8 +8,7 @@ param(
     [Alias("l")][string]$Language = "en",
     [Alias("s")][switch]$Setup,
     [Alias("n")][switch]$DryRun,
-    [Alias("h")][switch]$Help,
-    [Alias("w")][switch]$Wizard
+    [Alias("h")][switch]$Help
 )
 
 # Set UTF-8 encoding for console - multiple approaches for compatibility
@@ -68,7 +67,6 @@ if ($Help) {
     Write-Host (t "wizard_help.options_title") -ForegroundColor Yellow
     Write-Host "  " + (t "wizard_help.language_option")
     Write-Host "  " + (t "wizard_help.dry_run_option")
-    Write-Host "  " + (t "wizard_help.wizard_option")
     Write-Host "  " + (t "wizard_help.setup_option")
     Write-Host "  " + (t "wizard_help.help_option")
     Write-Host ""

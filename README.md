@@ -15,7 +15,7 @@ Konvertiert deutsche Bank-CSV-Exporte automatisch zu Actual Budget mit intellige
 ### 🚀 Ein-Klick Start (Empfohlen)
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Silent
+powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1
 ```
 
 **Das war's!** Das Tool:
@@ -37,7 +37,7 @@ Für eine Übersicht über einen längeren Zeitraum müssen Sie aus der Banking-
 
 #### 🎯 **Was CSV2Actual für Sie bereitstellt:**
 
-**a) 📊 Startguthaben-Liste**: Eine Liste von Kontenbezeichnungen mit Startdatum und Startsaldo. Mit diesen können die Konten in Actual Budget angelegt werden.
+**a) 📊 Startsalden-Liste**: Eine Liste von Kontenbezeichnungen mit Startdatum und Anfangssaldo. Mit diesen können die Konten in Actual Budget korrekt angelegt werden.
 
 **b) 🏷️ Kategorien-Liste**: Eine Liste mit Kategorien, die Sie anlegen müssen, bevor Sie die vom Skript erzeugten CSV-Dateien importieren.
 
@@ -80,7 +80,7 @@ source/
 
 #### 2️⃣ **Tool ausführen**
 ```powershell
-powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Silent
+powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1
 ```
 
 #### 3️⃣ **Ergebnisse importieren**
@@ -103,10 +103,8 @@ powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 [PARAMETER]
 | Parameter | Kurz | Beschreibung | Beispiel |
 |-----------|------|--------------|----------|
 | `-Language` | `-l` | Sprache wählen (`de`, `en`) | `-Language de` |
-| `-Silent` | `-s` | Minimale Ausgabe, ideal für Automatisierung | `-Silent` |
+| `-Setup` | `-s` | Erstkonfiguration erzwingen (First run/Setup) | `-Setup` |
 | `-DryRun` | `-n` | Vorschau ohne Dateien zu schreiben | `-DryRun` |
-| `-Wizard` | `-w` | Interaktiver Wizard-Modus (Standard) | `-Wizard` |
-| `-Interview` | `-i` | Setup-Interview erzwingen (Neukonfiguration) | `-Interview` |
 | `-Help` | `-h` | Hilfe anzeigen | `-Help` |
 
 #### **Bank CSV Processor: scripts/bank_csv_processor.ps1**
@@ -119,7 +117,6 @@ powershell -ExecutionPolicy Bypass -File scripts/bank_csv_processor.ps1 [PARAMET
 |-----------|------|--------------|----------|
 | `-Language` | `-l` | Sprache wählen (`de`, `en`) | `-Language de` |
 | `-DryRun` | `-n` | Vorschau ohne Dateien zu schreiben | `-DryRun` |
-| `-Silent` | `-q` | Minimale Ausgabe, schreibt nur Log-Datei | `-Silent` |
 | `-Help` | `-h` | Hilfe anzeigen | `-Help` |
 | `-AlternativeFormats` | | Erstellt zusätzliche CSV-Formate (Semikolon, Tab, ASCII) | `-AlternativeFormats` |
 
@@ -127,18 +124,18 @@ powershell -ExecutionPolicy Bypass -File scripts/bank_csv_processor.ps1 [PARAMET
 
 ```powershell
 # 🚀 Standard-Verwendung (Empfohlen):
-powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Silent
+powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1
 
-# 🇩🇪 Deutsche Ausgabe mit interaktiver Führung:
+# 🇩🇪 Deutsche Ausgabe:
 powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Language de
 
 # 👀 Vorschau was passieren würde (ohne Dateien zu schreiben):
-powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -DryRun -Silent
+powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -DryRun
 
-# 🔧 Setup neu konfigurieren (bei neuen Konten/Bank):
-powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Interview
+# 🔧 Setup neu konfigurieren (First run erzwingen):
+powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Setup
 
-# 🏭 Nur CSV-Verarbeitung (ohne Wizard):
+# 🏭 Nur CSV-Verarbeitung (direkt):
 powershell -ExecutionPolicy Bypass -File scripts/bank_csv_processor.ps1 -Language de
 
 # 📋 Alternative CSV-Formate erstellen (für problematische Importe):
@@ -156,11 +153,11 @@ Parameter können kombiniert werden:
 # Deutsche Vorschau ohne Dateien zu schreiben:
 powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Language de -DryRun
 
-# Stille Verarbeitung mit alternativen Formaten:
-powershell -ExecutionPolicy Bypass -File scripts/bank_csv_processor.ps1 -Silent -AlternativeFormats
+# Direkte Verarbeitung mit alternativen Formaten:
+powershell -ExecutionPolicy Bypass -File scripts/bank_csv_processor.ps1 -AlternativeFormats
 
-# Setup-Interview auf Deutsch:
-powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Language de -Interview
+# Setup auf Deutsch erzwingen:
+powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Language de -Setup
 ```
 
 ### 🔐 Datenschutz & Sicherheit
@@ -210,14 +207,14 @@ Automatically converts German bank CSV exports to Actual Budget with intelligent
 ### 🚀 One-Click Start (Recommended)
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Silent
+powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1
 ```
 
 **That's it!** The tool:
 - 🔍 **Automatically detects** all IBANs and accounts from your CSV files
 - 🏷️ **Automatically categorizes** 60-70% of all transactions  
 - 🔄 **Detects transfers** between your accounts
-- 💰 **Calculates starting balances** automatically for Actual Budget setup
+- 💰 **Calculates account balances** automatically for Actual Budget setup
 - 📊 **Creates statistics** about processed data
 - 🗂️ **Log management** with automatic cleanup
 - 💾 **Saves everything** in the `actual_import/` folder for Actual Budget
@@ -232,7 +229,7 @@ For an overview over a longer period, you need to import CSV files exported from
 
 #### 🎯 **What CSV2Actual provides for you:**
 
-**a) 📊 Starting Balance List**: A list of account names with start date and starting balance. These can be used to create accounts in Actual Budget.
+**a) 📊 Account Balance List**: A list of account names with start date and initial balance. These can be used to create accounts in Actual Budget.
 
 **b) 🏷️ Category List**: A list of categories that you need to create before importing the CSV files generated by the script.
 
@@ -275,13 +272,13 @@ source/
 
 #### 2️⃣ **Run tool**
 ```powershell
-powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Silent
+powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1
 ```
 
 #### 3️⃣ **Import results**
 - Import files from `actual_import/` folder into Actual Budget
 - Let categories be created automatically
-- Use starting balances from `starting_balances.txt`
+- Use account balances from `starting_balances.txt`
 
 **Done!** 🎉
 
@@ -298,10 +295,8 @@ powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 [PARAMETER]
 | Parameter | Short | Description | Example |
 |-----------|-------|-------------|---------|
 | `-Language` | `-l` | Choose language (`de`, `en`) | `-Language en` |
-| `-Silent` | `-s` | Minimal output, ideal for automation | `-Silent` |
+| `-Setup` | `-s` | Force initial setup (First run/Setup) | `-Setup` |
 | `-DryRun` | `-n` | Preview without writing files | `-DryRun` |
-| `-Wizard` | `-w` | Interactive wizard mode (default) | `-Wizard` |
-| `-Interview` | `-i` | Force setup interview (reconfiguration) | `-Interview` |
 | `-Help` | `-h` | Show help | `-Help` |
 
 #### **Bank CSV Processor: scripts/bank_csv_processor.ps1**
@@ -314,7 +309,6 @@ powershell -ExecutionPolicy Bypass -File scripts/bank_csv_processor.ps1 [PARAMET
 |-----------|-------|-------------|---------|
 | `-Language` | `-l` | Choose language (`de`, `en`) | `-Language en` |
 | `-DryRun` | `-n` | Preview without writing files | `-DryRun` |
-| `-Silent` | `-q` | Minimal output, writes only log file | `-Silent` |
 | `-Help` | `-h` | Show help | `-Help` |
 | `-AlternativeFormats` | | Creates additional CSV formats (semicolon, tab, ASCII) | `-AlternativeFormats` |
 
@@ -322,18 +316,18 @@ powershell -ExecutionPolicy Bypass -File scripts/bank_csv_processor.ps1 [PARAMET
 
 ```powershell
 # 🚀 Standard usage (Recommended):
-powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Silent
+powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1
 
-# 🇺🇸 English output with interactive guidance:
+# 🇺🇸 English output:
 powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Language en
 
 # 👀 Preview what would happen (without writing files):
-powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -DryRun -Silent
+powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -DryRun
 
-# 🔧 Reconfigure setup (for new accounts/bank):
-powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Interview
+# 🔧 Reconfigure setup (force First run):
+powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Setup
 
-# 🏭 CSV processing only (without wizard):
+# 🏭 CSV processing only (direct):
 powershell -ExecutionPolicy Bypass -File scripts/bank_csv_processor.ps1 -Language en
 
 # 📋 Create alternative CSV formats (for problematic imports):
@@ -351,11 +345,11 @@ Parameters can be combined:
 # English preview without writing files:
 powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Language en -DryRun
 
-# Silent processing with alternative formats:
-powershell -ExecutionPolicy Bypass -File scripts/bank_csv_processor.ps1 -Silent -AlternativeFormats
+# Direct processing with alternative formats:
+powershell -ExecutionPolicy Bypass -File scripts/bank_csv_processor.ps1 -AlternativeFormats
 
-# Setup interview in English:
-powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Language en -Interview
+# Force setup in English:
+powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Language en -Setup
 ```
 
 ### 🔐 Privacy & Security
@@ -402,12 +396,12 @@ powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1
 
 ### Deutsch
 ```powershell
-powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Language de -Silent
+powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Language de
 ```
 
 ### English
 ```powershell
-powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Language en -Silent
+powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Language en
 ```
 
 ---

@@ -403,7 +403,6 @@
     "options_title": "OPTIONS:",
     "language_option": "-Language, -l    Language (en/de) - default: en",
     "dry_run_option": "-DryRun, -n      Preview mode - no files written",
-    "wizard_option": "-Wizard, -w      Interactive wizard mode (default)",
     "setup_option": "-Setup, -s       Force initial setup (includes account detection, category scanner, and starting date selection)",
     "help_option": "-Help, -h        Show this help",
     "examples_title": "EXAMPLES:",
