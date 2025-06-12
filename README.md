@@ -14,8 +14,14 @@ Konvertiert deutsche Bank-CSV-Exporte automatisch zu Actual Budget mit intellige
 
 ### 🚀 Ein-Klick Start (Empfohlen)
 
+**Windows:**
 ```powershell
 powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1
+```
+
+**Linux/macOS:**
+```bash
+pwsh -File CSV2Actual.ps1
 ```
 
 **Das war's!** Das Tool:
@@ -79,8 +85,14 @@ source/
 ```
 
 #### 2️⃣ **Tool ausführen**
+**Windows:**
 ```powershell
 powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1
+```
+
+**Linux/macOS:**
+```bash
+pwsh -File CSV2Actual.ps1
 ```
 
 #### 3️⃣ **Ergebnisse importieren**
@@ -122,6 +134,7 @@ powershell -ExecutionPolicy Bypass -File scripts/bank_csv_processor.ps1 [PARAMET
 
 #### **Häufige Anwendungsfälle**
 
+**Windows:**
 ```powershell
 # 🚀 Standard-Verwendung (Empfohlen):
 powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1
@@ -134,15 +147,33 @@ powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -DryRun
 
 # 🔧 Setup neu konfigurieren (First run erzwingen):
 powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Setup
+```
 
+**Linux/macOS:**
+```bash
+# 🚀 Standard-Verwendung (Empfohlen):
+pwsh -File CSV2Actual.ps1
+
+# 🇩🇪 Deutsche Ausgabe:
+pwsh -File CSV2Actual.ps1 -Language de
+
+# 👀 Vorschau was passieren würde (ohne Dateien zu schreiben):
+pwsh -File CSV2Actual.ps1 -DryRun
+
+# 🔧 Setup neu konfigurieren (First run erzwingen):
+pwsh -File CSV2Actual.ps1 -Setup
+```
+
+**Zusätzliche Optionen (alle Plattformen):**
+```bash
 # 🏭 Nur CSV-Verarbeitung (direkt):
-powershell -ExecutionPolicy Bypass -File scripts/bank_csv_processor.ps1 -Language de
+pwsh -File scripts/bank_csv_processor.ps1 -Language de
 
 # 📋 Alternative CSV-Formate erstellen (für problematische Importe):
-powershell -ExecutionPolicy Bypass -File scripts/bank_csv_processor.ps1 -AlternativeFormats
+pwsh -File scripts/bank_csv_processor.ps1 -AlternativeFormats
 
 # ❓ Hilfe und verfügbare Optionen anzeigen:
-powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Help
+pwsh -File CSV2Actual.ps1 -Help
 ```
 
 #### **Kombinierte Parameter**
@@ -178,7 +209,8 @@ Kategorien werden automatisch aus den Transaktionsdaten erkannt. Für spezielle 
 ### ⚠️ Systemanforderungen
 
 - **Windows 10/11** mit PowerShell 5.1+ oder PowerShell Core 7+
-- **Execution Policy**: Verwenden Sie immer `-ExecutionPolicy Bypass`
+- **Linux/macOS** mit PowerShell Core 7+ (pwsh)
+- **Execution Policy**: Verwenden Sie unter Windows immer `-ExecutionPolicy Bypass`
 - **Encoding**: UTF-8 für deutsche Umlaute
 
 ### 🆘 Problemlösung
@@ -206,8 +238,14 @@ Automatically converts German bank CSV exports to Actual Budget with intelligent
 
 ### 🚀 One-Click Start (Recommended)
 
+**Windows:**
 ```powershell
 powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1
+```
+
+**Linux/macOS:**
+```bash
+pwsh -File CSV2Actual.ps1
 ```
 
 **That's it!** The tool:
@@ -271,8 +309,14 @@ source/
 ```
 
 #### 2️⃣ **Run tool**
+**Windows:**
 ```powershell
 powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1
+```
+
+**Linux/macOS:**
+```bash
+pwsh -File CSV2Actual.ps1
 ```
 
 #### 3️⃣ **Import results**
@@ -314,6 +358,7 @@ powershell -ExecutionPolicy Bypass -File scripts/bank_csv_processor.ps1 [PARAMET
 
 #### **Common Use Cases**
 
+**Windows:**
 ```powershell
 # 🚀 Standard usage (Recommended):
 powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1
@@ -326,15 +371,33 @@ powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -DryRun
 
 # 🔧 Reconfigure setup (force First run):
 powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Setup
+```
 
+**Linux/macOS:**
+```bash
+# 🚀 Standard usage (Recommended):
+pwsh -File CSV2Actual.ps1
+
+# 🇺🇸 English output:
+pwsh -File CSV2Actual.ps1 -Language en
+
+# 👀 Preview what would happen (without writing files):
+pwsh -File CSV2Actual.ps1 -DryRun
+
+# 🔧 Reconfigure setup (force First run):
+pwsh -File CSV2Actual.ps1 -Setup
+```
+
+**Additional options (all platforms):**
+```bash
 # 🏭 CSV processing only (direct):
-powershell -ExecutionPolicy Bypass -File scripts/bank_csv_processor.ps1 -Language en
+pwsh -File scripts/bank_csv_processor.ps1 -Language en
 
 # 📋 Create alternative CSV formats (for problematic imports):
-powershell -ExecutionPolicy Bypass -File scripts/bank_csv_processor.ps1 -AlternativeFormats
+pwsh -File scripts/bank_csv_processor.ps1 -AlternativeFormats
 
 # ❓ Show help and available options:
-powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Help
+pwsh -File CSV2Actual.ps1 -Help
 ```
 
 #### **Combined Parameters**
@@ -370,7 +433,8 @@ Categories are automatically detected from transaction data. For special categor
 ### ⚠️ System Requirements
 
 - **Windows 10/11** with PowerShell 5.1+ or PowerShell Core 7+
-- **Execution Policy**: Always use `-ExecutionPolicy Bypass`
+- **Linux/macOS** with PowerShell Core 7+ (pwsh)
+- **Execution Policy**: Always use `-ExecutionPolicy Bypass` on Windows
 - **Encoding**: UTF-8 for German umlauts
 
 ### 🆘 Troubleshooting
@@ -395,13 +459,23 @@ powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1
 ## 🌍 Multi-Language Support
 
 ### Deutsch
+**Windows:**
 ```powershell
 powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Language de
 ```
+**Linux/macOS:**
+```bash
+pwsh -File CSV2Actual.ps1 -Language de
+```
 
 ### English
+**Windows:**
 ```powershell
 powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Language en
+```
+**Linux/macOS:**
+```bash
+pwsh -File CSV2Actual.ps1 -Language en
 ```
 
 ---
