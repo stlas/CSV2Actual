@@ -1035,8 +1035,11 @@ if (-not $isDryRun) {
                             file = $fileName
                         }
                         
-                        $displayMessage = (t "balance.starting_balance_for" @($accountName, $startingBalance.ToString('N2')))
-                        $logMessage = (t "balance.starting_balance_for" @($accountName, $startingBalance.ToString('N2')))
+                        $balanceStr = $startingBalance.ToString('N2')
+                        # Debug: Test the i18n function
+                        $testMessage = $global:i18n.Get("balance.starting_balance_for", @($accountName, $balanceStr))
+                        $displayMessage = $testMessage
+                        $logMessage = $testMessage
                         if (-not $isSilent) {
                             Write-Host $displayMessage -ForegroundColor White
                         }
@@ -1156,7 +1159,9 @@ if (-not $isDryRun) {
         
         $relativeBalanceFile = $balanceFile -replace [regex]::Escape($PSScriptRoot + [System.IO.Path]::DirectorySeparatorChar), ""
         Write-Log "Starting balances saved to: $relativeBalanceFile" "INFO"
-        Write-Log (t "balance.total_accounts_balance" @($accountBalances.Count, $totalBalance.ToString('N2'))) "INFO"
+        $totalBalanceStr = $totalBalance.ToString('N2')
+        $totalMessage = $global:i18n.Get("balance.total_accounts_balance", @($accountBalances.Count, $totalBalanceStr))
+        Write-Log $totalMessage "INFO"
     } else {
         Write-Log "No starting balances could be calculated" "WARNING"
     }
