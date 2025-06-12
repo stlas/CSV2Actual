@@ -229,7 +229,19 @@
     "open_import_folder": "📁 Open import folder: {0}",
     "view_categories": "📋 View categories: {0}",
     "view_balances": "💰 View starting balances: {0}",
-    "click_to_open": "(Click links above or navigate manually)"
+    "click_to_open": "(Click links above or navigate manually)",
+    "categories_file_header": "CATEGORIES FOR ACTUAL BUDGET",
+    "categories_file_separator": "==================================",
+    "categories_file_intro": "These categories were found in your CSV files.",
+    "categories_file_instruction": "Create them exactly as shown in Actual Budget for optimal mapping.",
+    "categories_transfer": "TRANSFER CATEGORIES:",
+    "categories_income": "INCOME CATEGORIES:",
+    "categories_expense": "EXPENSE CATEGORIES:",
+    "categories_instructions": "INSTRUCTIONS:",
+    "categories_step1": "1. Open Actual Budget",
+    "categories_step2": "2. Go to 'Categories'",
+    "categories_step3": "3. Create these categories exactly as listed above",
+    "categories_step4": "4. Then import the CSV files from this folder"
   },
   "setup": {
     "banner_title": "CSV2ACTUAL SETUP",

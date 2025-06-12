@@ -1175,12 +1175,12 @@ if (-not $isDryRun) {
     # Create a categories list for the user
     $categoriesFile = Join-Path $OutputDir "_KATEGORIEN_LISTE.txt"
     $categoriesContent = @()
-    $categoriesContent += "KATEGORIEN FÜR ACTUAL BUDGET"
-    $categoriesContent += "=================================="
-    $categoriesContent += "Diese Kategorien wurden in Ihren CSV-Dateien gefunden."
-    $categoriesContent += "Erstellen Sie diese exakt so in Actual Budget für optimale Zuordnung."
+    $categoriesContent += (t "processor.categories_file_header")
+    $categoriesContent += (t "processor.categories_file_separator")
+    $categoriesContent += (t "processor.categories_file_intro")
+    $categoriesContent += (t "processor.categories_file_instruction")
     $categoriesContent += ""
-    $categoriesContent += "TRANSFER-KATEGORIEN:"
+    $categoriesContent += (t "processor.categories_transfer")
     $categoriesContent += "• Transfer to Haushaltskasse"
     $categoriesContent += "• Transfer from Haushaltskasse"
     $categoriesContent += "• Transfer to Geschäftsanteile"
@@ -1188,14 +1188,14 @@ if (-not $isDryRun) {
     $categoriesContent += "• Transfer (Household Contribution)"
     $categoriesContent += "• Internal Transfer"
     $categoriesContent += ""
-    $categoriesContent += "EINNAHMEN-KATEGORIEN:"
+    $categoriesContent += (t "processor.categories_income")
     $categoriesContent += "• Income"
     $categoriesContent += "• Other Income"
     $categoriesContent += "• Tax Refunds"
     $categoriesContent += "• Cash Deposits"
     $categoriesContent += "• Capital Gains"
     $categoriesContent += ""
-    $categoriesContent += "AUSGABEN-KATEGORIEN:"
+    $categoriesContent += (t "processor.categories_expense")
     $categoriesContent += "• Groceries"
     $categoriesContent += "• Fuel"
     $categoriesContent += "• Housing"
@@ -1218,11 +1218,11 @@ if (-not $isDryRun) {
     $categoriesContent += "• Consulting & Legal"
     $categoriesContent += "• Taxi & Ridesharing"
     $categoriesContent += ""
-    $categoriesContent += "ANLEITUNG:"
-    $categoriesContent += "1. Öffnen Sie Actual Budget"
-    $categoriesContent += "2. Gehen Sie zu 'Kategorien'"
-    $categoriesContent += "3. Erstellen Sie diese Kategorien exakt wie oben aufgelistet"
-    $categoriesContent += "4. Importieren Sie dann die CSV-Dateien aus diesem Ordner"
+    $categoriesContent += (t "processor.categories_instructions")
+    $categoriesContent += (t "processor.categories_step1")
+    $categoriesContent += (t "processor.categories_step2")
+    $categoriesContent += (t "processor.categories_step3")
+    $categoriesContent += (t "processor.categories_step4")
     
     $categoriesContent | Out-File -FilePath $categoriesFile -Encoding UTF8
     $relativeCategoriesFile = $categoriesFile -replace [regex]::Escape($PSScriptRoot + [System.IO.Path]::DirectorySeparatorChar), ""
