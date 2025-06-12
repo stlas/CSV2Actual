@@ -1,5 +1,5 @@
 # CSV2Actual - Starting Balance Calculator
-# Version: 1.2.0
+# Version: 1.2.1
 # Author: sTLAs (https://github.com/sTLAs)
 # Calculates starting balances for all accounts based on CSV data
 # Features: Internationalization (EN/DE), JSON Configuration

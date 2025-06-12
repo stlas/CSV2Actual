@@ -1,5 +1,5 @@
 # CSV2Actual - Internationalization Module
-# Version: 1.2.0
+# Version: 1.2.1
 # Author: sTLAs (https://github.com/sTLAs)
 # Handles language files and localized strings (EN/DE support)
 

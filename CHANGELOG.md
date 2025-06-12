@@ -12,6 +12,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Additional German bank support
 - Performance optimizations
 
+## [1.2.1] - 2025-12-06
+
+### 🔧 Improved
+- **Parameter-Struktur bereinigt** - Entfernt überflüssige -Wizard und -Silent Parameter aus Hauptskript
+- **Cross-Platform-Unterstützung** - Vollständige Dokumentation für Linux/macOS mit pwsh
+- **Klarere Benutzerführung** - Vereinfachte Parameter-Struktur: Language, Setup, DryRun, Help
+- **Terminologie korrigiert** - "Startsalden" statt "Startguthaben" für präzisere Beschreibung
+
+### 🌍 Added
+- **Linux/macOS Unterstützung** - Komplette Beispiele und Anweisungen für PowerShell Core (pwsh)
+- **Platform-spezifische Dokumentation** - Getrennte Anweisungen für Windows und Unix-Systeme
+- **Development-Tools** - Geschütztes develop/ Verzeichnis mit Release-Backup-System
+
+### 📚 Documentation
+- **Deutsche und englische README** - Vollständig aktualisiert mit neuer Parameter-Struktur
+- **Multi-Language Support** - Cross-Platform-Beispiele für beide Sprachen
+- **Systemanforderungen** - Erweitert um PowerShell Core 7+ für Unix-Systeme
+
+### 🐛 Fixed
+- **Redundante Parameter** - Entfernt -Wizard (Standard-Modus) und -Silent (aus Hauptskript)
+- **Sprachdateien** - Bereinigt wizard_option Referenzen
+- **Help-Texte** - Aktualisiert für neue Parameter-Struktur
+
 ## [1.2.0] - 2025-12-06
 
 ### ✨ Added

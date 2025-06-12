@@ -1,5 +1,5 @@
 # CSV2Actual - Bank CSV Processor
-# Version: 1.2.0
+# Version: 1.2.1
 # Author: sTLAs (https://github.com/sTLAs)
 # Converts German Bank CSVs to Actual Budget format with automatic categorization
 # Features: Internationalization (EN/DE), JSON Configuration, PowerShell Core support
