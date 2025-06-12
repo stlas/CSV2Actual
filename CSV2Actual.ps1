@@ -1,5 +1,5 @@
 ﻿# CSV2Actual - Interactive Wizard
-# Version: 1.2.1
+# Version: 1.2.2
 # Author: sTLAs (https://github.com/sTLAs)
 # Interactive guided conversion from German bank CSV to Actual Budget
 # Features: Internationalization (EN/DE), JSON Configuration, Step-by-step guidance

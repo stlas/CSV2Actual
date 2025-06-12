@@ -1,5 +1,5 @@
-# CSV2Actual - Bank CSV Processor
-# Version: 1.2.1
+﻿# CSV2Actual - Bank CSV Processor
+# Version: 1.2.2
 # Author: sTLAs (https://github.com/sTLAs)
 # Converts German Bank CSVs to Actual Budget format with automatic categorization
 # Features: Internationalization (EN/DE), JSON Configuration, PowerShell Core support
@@ -193,7 +193,7 @@ function Get-TruncatedPurpose {
     $purpose = $purpose.Trim()
     
     # Pattern 1: Credit card transactions - remove EUR amount and trailing details
-    # Example: "Baeckerei Pfrommer         DEU Pforzheim              EUR             12,95      Umsatz vom 26.05.2025      MC Hauptkarte"
+    # Example: "Baeckerei Pfrommer         DEU Pforzheim              EUR             12,95      Umsatz vom 1.2.2      MC Hauptkarte"
     if ($purpose -match '(.+?)\s+EUR\s+[\d\s,\.]+\s+Umsatz\s+vom\s+') {
         return $matches[1].Trim()
     }
@@ -328,9 +328,9 @@ function Start-CategoryScanner {
     }
     
     Write-Host ""
-    Write-Host "🔍 KATEGORIE-SCANNER" -ForegroundColor Cyan
+    Write-Host "ðŸ” KATEGORIE-SCANNER" -ForegroundColor Cyan
     Write-Host "===================" -ForegroundColor Cyan
-    Write-Host "Scannt alle CSV-Dateien und lässt Sie unbekannte Kategorien interaktiv zuordnen." -ForegroundColor White
+    Write-Host "Scannt alle CSV-Dateien und lÃ¤sst Sie unbekannte Kategorien interaktiv zuordnen." -ForegroundColor White
     Write-Host "Die Zuordnungen werden in config.local.json gespeichert und wiederverwendet." -ForegroundColor White
     Write-Host ""
     
@@ -374,7 +374,7 @@ function Start-CategoryScanner {
                     # 2. Fallback: keyword-based transfer recognition
                     else {
                         $transferIndicators = @(
-                            "überweisung", "gutschrift", "lastschrift", "dauerauftrag", "transfer",
+                            "Ã¼berweisung", "gutschrift", "lastschrift", "dauerauftrag", "transfer",
                             "haushaltsbeitrag", "kreditkarte.*zahlung", "kk\\d+/\\d+", "ausgleich", "umbuchung"
                         )
                         
@@ -387,7 +387,7 @@ function Start-CategoryScanner {
                         
                         # Also check if payee looks like a person name with transfer indicators
                         if (-not $isTransfer -and $payeeText -match "^[a-z]+\\s+[a-z]+$" -and $payeeText -notmatch "gmbh|kg|ag|e\\.?v\\.?|ltd|inc") {
-                            if ($memoText -match "überweisung|gutschrift|transfer|kk\\d+") {
+                            if ($memoText -match "Ã¼berweisung|gutschrift|transfer|kk\\d+") {
                                 $isTransfer = $true
                             }
                         }
@@ -424,18 +424,18 @@ function Start-CategoryScanner {
     }
     
     Write-Host ""
-    Write-Host "📊 SCAN-ERGEBNISSE" -ForegroundColor Yellow
+    Write-Host "ðŸ“Š SCAN-ERGEBNISSE" -ForegroundColor Yellow
     Write-Host "Total Transaktionen: $totalTransactions" -ForegroundColor White
     Write-Host "Transfer-Transaktionen (gefiltert): $filteredTransferCount" -ForegroundColor Cyan
     Write-Host "Unkategorisiert: $($uncategorizedTransactions.Count) Payee-Gruppen" -ForegroundColor White
     
     if ($uncategorizedTransactions.Count -eq 0) {
-        Write-Host "🎉 Alle Transaktionen sind bereits kategorisiert!" -ForegroundColor Green
+        Write-Host "ðŸŽ‰ Alle Transaktionen sind bereits kategorisiert!" -ForegroundColor Green
         return
     }
     
     Write-Host ""
-    Write-Host "Möchten Sie die unkategorisierten Transaktionen interaktiv zuordnen? (j/n)" -ForegroundColor Cyan
+    Write-Host "MÃ¶chten Sie die unkategorisierten Transaktionen interaktiv zuordnen? (j/n)" -ForegroundColor Cyan
     $response = Read-Host
     
     if ($response -ne "j" -and $response -ne "y" -and $response -ne "ja" -and $response -ne "yes") {
@@ -451,9 +451,9 @@ function Start-CategoryScanner {
     $categorized = 0
     
     Write-Host ""
-    Write-Host "🏷️  INTERAKTIVE KATEGORISIERUNG" -ForegroundColor Cyan
+    Write-Host "ðŸ·ï¸  INTERAKTIVE KATEGORISIERUNG" -ForegroundColor Cyan
     Write-Host "=================================" -ForegroundColor Cyan
-    Write-Host "Geben Sie 's' ein um zu überspringen, 'q' um zu beenden." -ForegroundColor Gray
+    Write-Host "Geben Sie 's' ein um zu Ã¼berspringen, 'q' um zu beenden." -ForegroundColor Gray
     Write-Host ""
     
     foreach ($transaction in $sortedTransactions) {
@@ -462,7 +462,7 @@ function Start-CategoryScanner {
         
         Write-Host "[$processed/$($sortedTransactions.Count)] " -NoNewline -ForegroundColor Gray
         Write-Host "$($data.payee)" -ForegroundColor Yellow
-        Write-Host "  Häufigkeit: $($data.count) Transaktionen" -ForegroundColor White
+        Write-Host "  HÃ¤ufigkeit: $($data.count) Transaktionen" -ForegroundColor White
         Write-Host "  Beispiele:" -ForegroundColor Gray
         
         foreach ($example in $data.examples) {
@@ -477,7 +477,7 @@ function Start-CategoryScanner {
         }
         
         Write-Host ""
-        Write-Host "Kategorie eingeben (oder 's' überspringen, 'q' beenden): " -NoNewline -ForegroundColor Cyan
+        Write-Host "Kategorie eingeben (oder 's' Ã¼berspringen, 'q' beenden): " -NoNewline -ForegroundColor Cyan
         $category = Read-Host
         
         if ($category -eq "q") {
@@ -487,7 +487,7 @@ function Start-CategoryScanner {
         
         if ($category -eq "s" -or $category -eq "") {
             $skipped++
-            Write-Host "Übersprungen." -ForegroundColor Gray
+            Write-Host "Ãœbersprungen." -ForegroundColor Gray
             Write-Host ""
             continue
         }
@@ -497,17 +497,17 @@ function Start-CategoryScanner {
         Save-CategoryMapping -pattern $pattern -category $category -payee $data.payee -memo $data.memo
         $categorized++
         
-        Write-Host "✅ Gespeichert: '$($data.payee)' -> '$category'" -ForegroundColor Green
+        Write-Host "âœ… Gespeichert: '$($data.payee)' -> '$category'" -ForegroundColor Green
         Write-Host ""
     }
     
     Write-Host ""
-    Write-Host "🎯 SCANNER-ZUSAMMENFASSUNG" -ForegroundColor Cyan
+    Write-Host "ðŸŽ¯ SCANNER-ZUSAMMENFASSUNG" -ForegroundColor Cyan
     Write-Host "Verarbeitet: $processed" -ForegroundColor White
     Write-Host "Kategorisiert: $categorized" -ForegroundColor Green
-    Write-Host "Übersprungen: $skipped" -ForegroundColor Yellow
+    Write-Host "Ãœbersprungen: $skipped" -ForegroundColor Yellow
     Write-Host ""
-    Write-Host "Die neuen Kategorie-Zuordnungen werden beim nächsten normalen Lauf verwendet." -ForegroundColor White
+    Write-Host "Die neuen Kategorie-Zuordnungen werden beim nÃ¤chsten normalen Lauf verwendet." -ForegroundColor White
     Write-Host ""
 }
 
@@ -606,10 +606,10 @@ function Get-UniqueTransferName {
     )
     
     # Clean up account name  
-    $cleanAccountName = $accountName -replace "Geschäftsanteil$", "Geschäftsanteile"
+    $cleanAccountName = $accountName -replace "GeschÃ¤ftsanteil$", "GeschÃ¤ftsanteile"
     
     # Account names should already be unique from configuration, but add person name as backup for generic names
-    if ($cleanAccountName -match "Geschäftsanteile$" -and $payee) {
+    if ($cleanAccountName -match "GeschÃ¤ftsanteile$" -and $payee) {
         # Extract person name from payee dynamically (using Unicode categories for broader compatibility)
         if ($payee -match "([A-Za-z\p{L}]+),?\s*([A-Za-z\p{L}]+)") {
             # Format: "LastName, FirstName" or "LastName,FirstName"
@@ -1025,9 +1025,9 @@ function Get-CleanAccountName {
     # Clean filename (remove date suffixes)
     $cleanName = $fileName -replace " seit \d+\.\d+\.\d+", ""
     
-    # Handle Geschäftsanteil files specially
-    if ($cleanName -match "(.+?)\s+Geschäftsanteil(?:\s+Genossenschaft)?") {
-        return $matches[1] + " Geschäftsanteile"
+    # Handle GeschÃ¤ftsanteil files specially
+    if ($cleanName -match "(.+?)\s+GeschÃ¤ftsanteil(?:\s+Genossenschaft)?") {
+        return $matches[1] + " GeschÃ¤ftsanteile"
     }
     
     # Try to map to configured account names
@@ -1407,7 +1407,7 @@ foreach ($file in $csvFiles) {
     $totalCategorized += $categorizedInFile
     
     
-    # File stats sammeln - auch für Dateien ohne verarbeitete Transaktionen
+    # File stats sammeln - auch fÃ¼r Dateien ohne verarbeitete Transaktionen
     $fileStats += [PSCustomObject]@{
         Datei = ($file.BaseName -replace ' seit .*', '')
         Buchungen = $processedCount
@@ -1641,9 +1641,9 @@ if (-not $isDryRun) {
                         if ($fileName -match "(.+?)(?:\s+seit|\s+Kontoauszug|\s+Export)") {
                             $accountName = $matches[1]
                         }
-                        # Also handle Geschäftsanteil files specially
-                        if ($fileName -match "(.+?)\s+Geschäftsanteil(?:\s+Genossenschaft)?") {
-                            $accountName = $matches[1] + " Geschäftsanteile"
+                        # Also handle GeschÃ¤ftsanteil files specially
+                        if ($fileName -match "(.+?)\s+GeschÃ¤ftsanteil(?:\s+Genossenschaft)?") {
+                            $accountName = $matches[1] + " GeschÃ¤ftsanteile"
                         }
                         
                         
@@ -1839,7 +1839,7 @@ if (-not $isDryRun) {
     foreach ($category in $allUsedCategories.Keys | Sort-Object) {
         if ($category -match "Transfer") {
             $transferCategories += $category
-        } elseif ($category -match "Income|Refund|Deposit|Gains|Einkommen|Kapitalerträge|Steuer.*Rückerstattung|Bareinzahlung") {
+        } elseif ($category -match "Income|Refund|Deposit|Gains|Einkommen|KapitalertrÃ¤ge|Steuer.*RÃ¼ckerstattung|Bareinzahlung") {
             $incomeCategories += $category
         } else {
             $expenseCategories += $category

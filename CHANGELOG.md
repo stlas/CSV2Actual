@@ -1,4 +1,4 @@
-# Changelog
+﻿# Changelog
 
 All notable changes to CSV2Actual will be documented in this file.
 
@@ -7,60 +7,60 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### ✨ Planned
+### âœ¨ Planned
 - Enhanced CSV format auto-detection
 - Additional German bank support
 - Performance optimizations
 
 ## [1.2.1] - 2025-12-06
 
-### 🔧 Improved
-- **Parameter-Struktur bereinigt** - Entfernt überflüssige -Wizard und -Silent Parameter aus Hauptskript
-- **Cross-Platform-Unterstützung** - Vollständige Dokumentation für Linux/macOS mit pwsh
-- **Klarere Benutzerführung** - Vereinfachte Parameter-Struktur: Language, Setup, DryRun, Help
-- **Terminologie korrigiert** - "Startsalden" statt "Startguthaben" für präzisere Beschreibung
+### ðŸ”§ Improved
+- **Parameter-Struktur bereinigt** - Entfernt Ã¼berflÃ¼ssige -Wizard und -Silent Parameter aus Hauptskript
+- **Cross-Platform-UnterstÃ¼tzung** - VollstÃ¤ndige Dokumentation fÃ¼r Linux/macOS mit pwsh
+- **Klarere BenutzerfÃ¼hrung** - Vereinfachte Parameter-Struktur: Language, Setup, DryRun, Help
+- **Terminologie korrigiert** - "Startsalden" statt "Startguthaben" fÃ¼r prÃ¤zisere Beschreibung
 
-### 🌍 Added
-- **Linux/macOS Unterstützung** - Komplette Beispiele und Anweisungen für PowerShell Core (pwsh)
-- **Platform-spezifische Dokumentation** - Getrennte Anweisungen für Windows und Unix-Systeme
-- **Development-Tools** - Geschütztes develop/ Verzeichnis mit Release-Backup-System
+### ðŸŒ Added
+- **Linux/macOS UnterstÃ¼tzung** - Komplette Beispiele und Anweisungen fÃ¼r PowerShell Core (pwsh)
+- **Platform-spezifische Dokumentation** - Getrennte Anweisungen fÃ¼r Windows und Unix-Systeme
+- **Development-Tools** - GeschÃ¼tztes develop/ Verzeichnis mit Release-Backup-System
 
-### 📚 Documentation
-- **Deutsche und englische README** - Vollständig aktualisiert mit neuer Parameter-Struktur
-- **Multi-Language Support** - Cross-Platform-Beispiele für beide Sprachen
-- **Systemanforderungen** - Erweitert um PowerShell Core 7+ für Unix-Systeme
+### ðŸ“š Documentation
+- **Deutsche und englische README** - VollstÃ¤ndig aktualisiert mit neuer Parameter-Struktur
+- **Multi-Language Support** - Cross-Platform-Beispiele fÃ¼r beide Sprachen
+- **Systemanforderungen** - Erweitert um PowerShell Core 7+ fÃ¼r Unix-Systeme
 
-### 🐛 Fixed
+### ðŸ› Fixed
 - **Redundante Parameter** - Entfernt -Wizard (Standard-Modus) und -Silent (aus Hauptskript)
 - **Sprachdateien** - Bereinigt wizard_option Referenzen
-- **Help-Texte** - Aktualisiert für neue Parameter-Struktur
+- **Help-Texte** - Aktualisiert fÃ¼r neue Parameter-Struktur
 
 ## [1.2.0] - 2025-12-06
 
-### ✨ Added
+### âœ¨ Added
 - **Enhanced Kreditkarte (Credit Card) Processing** - Improved payee extraction from Verwendungszweck field
 - **Complex Credit Card Demo Data** - Added Complex_Credit_Card.csv for comprehensive testing
 - **Optimized README Documentation** - Enhanced German and English explanations of tool purpose and benefits
 
-### 🔧 Improved
+### ðŸ”§ Improved
 - **Credit Card Payee Recognition** - Better extraction and cleaning of merchant names from transaction descriptions
 - **User Documentation** - Clearer explanation of why and when to use CSV2Actual for Actual Budget imports
 - **Repository Structure** - Cleaned up development files and improved organization
 - **Security** - Enhanced .gitignore to prevent any sensitive data from being committed
 
-### 🐛 Fixed
+### ðŸ› Fixed
 - **PowerShell 5.1/7.x Compatibility** - Improved cross-version compatibility for array and object handling
 - **Encoding Issues** - Better handling of German umlauts and special characters in starting balance calculations
 - **Internationalization** - Fixed parameter passing for bilingual balance messages
 
-### 🏗️ Technical
+### ðŸ—ï¸ Technical
 - **Project Cleanup** - Removed development artifacts and temporary files
 - **Git Security** - Enhanced protection against accidental commits of personal data
 - **Release Process** - Streamlined preparation for new releases
 
 ## [1.1.0] - 2025-06-10
 
-### ✨ Added
+### âœ¨ Added
 - **Automatic IBAN Discovery System** - Dynamically analyzes CSV files and creates account configurations
 - **Enhanced Log Management** - Logs directory with automatic cleanup (7-day retention)
 - **Integrated Starting Balance Calculation** - Automatic calculation during processing with detailed output
@@ -68,79 +68,79 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Backup Snapshot Management** - Automated backup creation with duplicate detection and cleanup
 - **Enhanced Statistics Display** - Shows account count and total starting balances in output
 
-### 🔧 Improved
+### ðŸ”§ Improved
 - **Configuration Management** - Auto-merge system for local configurations (config.local.json)
 - **Security Enhancements** - Comprehensive .gitignore to prevent private data commits
 - **User Experience** - Streamlined output with better progress indication
 - **Documentation** - Consolidated and cleaned up repository structure
 
-### 🏗️ Technical
+### ðŸ—ï¸ Technical
 - **Modular Log Cleanup** - Integrated into main processor with automatic old file removal
 - **Enhanced File Organization** - Production-ready repository structure
 - **Improved Error Handling** - Better encoding detection and PowerShell compatibility
 
 ## [1.0.5] - 2025-01-07
 
-### ✨ Added
+### âœ¨ Added
 - **Community Framework Expansion** - Enhanced CSV format and category submission system
 - **Alternative Export Formats** - Multiple CSV variants (semicolon, tab-delimited, manual ASCII)
 - **Advanced CSV Debugging** - Comprehensive encoding analysis and format detection tools
 
-### 🔧 Improved
+### ðŸ”§ Improved
 - **Encoding Handling** - Enhanced BOM detection and multi-encoding support
 - **Silent Mode Defaults** - Streamlined user experience with minimal prompts
 - **Transfer Recognition** - Improved IBAN-based detection accuracy
 
-### 🐛 Fixed
+### ðŸ› Fixed
 - **String Interpolation Issues** - Resolved PowerShell syntax errors in various locales
 - **UTF-8 Compatibility** - Better handling of German umlauts and special characters
 
 ## [1.0.4] - 2025-01-07
 
-### 🐛 Fixed
+### ðŸ› Fixed
 - **Critical String Interpolation Bug** - Fixed wizard prompts and variable expansion issues
 - **Data Protection** - Enhanced security measures for private information
 
-### 🔧 Improved
+### ðŸ”§ Improved
 - **PowerShell Core Compatibility** - Better support for both Windows PowerShell and PowerShell Core
 - **Error Messages** - More descriptive and actionable error reporting
 
 ## [1.0.3] - 2025-01-07
 
-### ✨ Added
+### âœ¨ Added
 - **Production Polish** - Final optimizations for production release
 - **Enhanced Documentation** - Improved README and setup instructions
 
-### 🔧 Improved
+### ðŸ”§ Improved
 - **User Interface** - Refined wizard steps and better user guidance
 - **Performance** - Optimized processing for larger CSV files
 
 ## [1.0.2] - 2025-01-07
 
-### 🐛 Fixed
+### ðŸ› Fixed
 - **Critical Encoding Issues** - Resolved CSV reading problems with German banks
 - **Documentation Fixes** - Corrected setup instructions and examples
 
-### 🔧 Improved
+### ðŸ”§ Improved
 - **Error Recovery** - Better handling of malformed CSV files
 - **Logging** - Enhanced debug information for troubleshooting
 
 ## [1.0.1] - 2025-01-07
 
-### 🐛 Fixed
+### ðŸ› Fixed
 - **Minor Bug Fixes** - Resolved edge cases in categorization
 - **Configuration Issues** - Fixed template substitution problems
 
-### 🔧 Improved
+### ðŸ”§ Improved
 - **Stability** - Enhanced error handling and recovery mechanisms
 
 ## [1.0.0] - 2025-01-06
 
-### 🎉 Initial Release
+### ðŸŽ‰ Initial Release
 
 This is the first stable release of CSV2Actual, a PowerShell tool for converting German bank CSV exports to Actual Budget format.
 
-### ✨ Added
+### âœ¨ Added
 
 #### Core Functionality
 - **Bank CSV Processing Engine** - Converts German bank exports to Actual Budget CSV format
@@ -196,7 +196,7 @@ This is the first stable release of CSV2Actual, a PowerShell tool for converting
 - **Performance Optimization** - Efficient processing of large CSV files
 - **Memory Management** - Optimized for processing multiple large files
 
-### 🎯 Categories Supported
+### ðŸŽ¯ Categories Supported
 
 #### Income Categories (5)
 - Salary recognition for multiple users
@@ -226,7 +226,7 @@ This is the first stable release of CSV2Actual, a PowerShell tool for converting
 - Credit card payments
 - Loan and mortgage handling
 
-### 🔧 CLI Parameters
+### ðŸ”§ CLI Parameters
 
 - `-DryRun` / `-n` - Preview mode without file writing
 - `-Silent` / `-q` - Minimal output with logging
@@ -234,7 +234,7 @@ This is the first stable release of CSV2Actual, a PowerShell tool for converting
 - `-Language` - Choose interface language (en/de)
 - `-AlternativeFormats` - Generate multiple CSV format variants
 
-### 📊 Performance Metrics
+### ðŸ“Š Performance Metrics
 
 - **Categorization Rate**: 60-70% automatic assignment
 - **Transfer Recognition**: 95%+ accuracy with IBAN mapping
@@ -242,29 +242,29 @@ This is the first stable release of CSV2Actual, a PowerShell tool for converting
 - **Memory Usage**: Optimized for files with thousands of transactions
 - **Language Support**: Complete German/English coverage
 
-### 🏦 Tested Bank Formats
+### ðŸ¦ Tested Bank Formats
 
 - **Volksbank eG** - Primary development target
 - **Sparkasse** - Full compatibility verified
 - **Generic German Banks** - Standard CSV export formats
 - **International Formats** - English column names supported
 
-### 📁 File Structure
+### ðŸ“ File Structure
 
 ```
 CSV2Actual/
-├── CSV2Actual.ps1                  # Interactive wizard
-├── bank_csv_processor.ps1          # Core processor
-├── calculate_starting_balances.ps1 # Balance calculator
-├── config.json                     # Main configuration
-├── modules/                        # PowerShell modules
-├── lang/                           # Language files
-├── community/                      # Community framework
-├── actual_import/                  # Output directory
-└── docs and guides
+â”œâ”€â”€ CSV2Actual.ps1                  # Interactive wizard
+â”œâ”€â”€ bank_csv_processor.ps1          # Core processor
+â”œâ”€â”€ calculate_starting_balances.ps1 # Balance calculator
+â”œâ”€â”€ config.json                     # Main configuration
+â”œâ”€â”€ modules/                        # PowerShell modules
+â”œâ”€â”€ lang/                           # Language files
+â”œâ”€â”€ community/                      # Community framework
+â”œâ”€â”€ actual_import/                  # Output directory
+â””â”€â”€ docs and guides
 ```
 
-### 🌟 Community Features
+### ðŸŒŸ Community Features
 
 - **GitHub Issue Templates** for CSV format submissions
 - **JSON-based Format Definitions** for easy contribution

@@ -1,5 +1,5 @@
-# CSV2Actual - CSV Validation Module
-# Version: 1.2.1
+﻿# CSV2Actual - CSV Validation Module
+# Version: 1.2.2
 # Author: sTLAs (https://github.com/sTLAs)
 # Validates and fixes CSV file formats with internationalized error messages
 
@@ -471,7 +471,7 @@ class CsvValidator {
         
         # Add balance validation results
         if ($balanceErrors.Count -gt 0) {
-            $result.warnings += "Saldo-Konsistenzprüfung ergab $($balanceErrors.Count) Inkonsistenz(en):"
+            $result.warnings += "Saldo-KonsistenzprÃ¼fung ergab $($balanceErrors.Count) Inkonsistenz(en):"
             foreach ($error in $balanceErrors) {
                 $result.warnings += "  $error"
             }

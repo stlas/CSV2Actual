@@ -1,5 +1,5 @@
-# CSV2Actual - Starting Balance Calculator
-# Version: 1.2.1
+﻿# CSV2Actual - Starting Balance Calculator
+# Version: 1.2.2
 # Author: sTLAs (https://github.com/sTLAs)
 # Calculates starting balances for all accounts based on CSV data
 # Features: Internationalization (EN/DE), JSON Configuration
@@ -116,7 +116,7 @@ foreach ($file in $csvFiles) {
         if (-not $amountColumn) { $amountColumn = "Betrag" }
         if (-not $balanceColumn) { $balanceColumn = "Saldo nach Buchung" }
         
-        # Ersten Eintrag finden (ältester Saldo = Startsaldo)
+        # Ersten Eintrag finden (Ã¤ltester Saldo = Startsaldo)
         $firstEntry = $csvData | Sort-Object {
             try {
                 if ($_.PSObject.Properties.Name -contains $dateColumn) {
@@ -142,9 +142,9 @@ foreach ($file in $csvFiles) {
                 # Derive account name from filename using config
                 $accountName = $fileName -replace " seit.*", ""
                 
-                # Handle Geschäftsanteil files specially (same as bank_csv_processor.ps1)
-                if ($fileName -match "(.+?)\s+Geschäftsanteil(?:\s+Genossenschaft)?") {
-                    $accountName = $matches[1] + " Geschäftsanteile"
+                # Handle GeschÃ¤ftsanteil files specially (same as bank_csv_processor.ps1)
+                if ($fileName -match "(.+?)\s+GeschÃ¤ftsanteil(?:\s+Genossenschaft)?") {
+                    $accountName = $matches[1] + " GeschÃ¤ftsanteile"
                 }
                 
                 # Try to map to configured account names
