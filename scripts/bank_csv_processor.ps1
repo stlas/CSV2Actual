@@ -1289,11 +1289,30 @@ if ($isSilent) {
     Write-Host "  $(t 'instructions.start_import')" -ForegroundColor White
     Write-Host ""
     Write-Host (t "processor.important") -ForegroundColor Yellow
-    Write-Host ""
-    Write-Host (t "processor.completed") -ForegroundColor Green
-    if (-not $isDryRun -and -not $isSilent) {
-        Read-Host (t "common.press_enter_exit")
+    # Show quick access links to important files
+    if (-not $isDryRun) {
+        Write-Host ""
+        Write-Host (t "processor.quick_access") -ForegroundColor Cyan
+        
+        $actualImportPath = (Resolve-Path "actual_import").Path
+        $categoriesFile = Join-Path $actualImportPath "_KATEGORIEN_LISTE.txt"
+        $latestBalanceFile = Get-ChildItem "logs\starting_balances_*.txt" | Sort-Object LastWriteTime -Descending | Select-Object -First 1
+        
+        $importFolderMessage = $global:i18n.Get("processor.open_import_folder", @($actualImportPath))
+        Write-Host $importFolderMessage -ForegroundColor White
+        if (Test-Path $categoriesFile) {
+            $categoriesMessage = $global:i18n.Get("processor.view_categories", @($categoriesFile))
+            Write-Host $categoriesMessage -ForegroundColor White
+        }
+        if ($latestBalanceFile) {
+            $balancesMessage = $global:i18n.Get("processor.view_balances", @($latestBalanceFile.FullName))
+            Write-Host $balancesMessage -ForegroundColor White
+        }
+        Write-Host (t "processor.click_to_open") -ForegroundColor Gray
+        Write-Host ""
     }
+    
+    Write-Host (t "processor.completed") -ForegroundColor Green
 }
 
 # Log-Datei speichern

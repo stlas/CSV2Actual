@@ -174,7 +174,7 @@ function Wait-UserInput {
         Write-Host (t $messageKey) -ForegroundColor Yellow
     }
     Write-Host (t "wizard_help.press_enter") -ForegroundColor Gray
-    Read-Host | Out-Null
+    # Script completed successfully - no manual exit required
 }
 
 function Step1-Preparation {

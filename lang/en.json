@@ -85,7 +85,12 @@
     "set_mapping": "3. Mapping: date→Date, payee→Payee, category→Category, amount→Amount",
     "start_import": "4. Start import - categories should now be visible!",
     "account_setup_title": "CREATE ACCOUNTS IN ACTUAL BUDGET:",
-    "categories_to_create": "CATEGORIES TO CREATE:"
+    "categories_to_create": "CATEGORIES TO CREATE:",
+    "quick_access": "QUICK ACCESS:",
+    "open_import_folder": "📁 Open import folder: {0}",
+    "view_categories": "📋 View categories: {0}",
+    "view_balances": "💰 View starting balances: {0}",
+    "click_to_open": "(Click links above or navigate manually)"
   },
   "cli": {
     "help_title": "CSV2ACTUAL - HELP",
@@ -219,7 +224,12 @@
     "next_steps_title": "NEXT STEPS:",
     "step1_balances": "1. Create accounts and set starting balances (see logs/starting_balances_*.txt)",
     "step2_categories": "2. Create 39 categories in Actual Budget",
-    "step3_import": "3. Import CSV files from '{0}/' folder"
+    "step3_import": "3. Import CSV files from '{0}/' folder",
+    "quick_access": "QUICK ACCESS:",
+    "open_import_folder": "📁 Open import folder: {0}",
+    "view_categories": "📋 View categories: {0}",
+    "view_balances": "💰 View starting balances: {0}",
+    "click_to_open": "(Click links above or navigate manually)"
   },
   "setup": {
     "banner_title": "CSV2ACTUAL SETUP",

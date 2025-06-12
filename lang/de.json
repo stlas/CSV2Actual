@@ -100,7 +100,12 @@
     "expense_categories": "Ausgaben-Kategorien",
     "documentation_note": "DOKUMENTATION: Für detaillierte Anweisungen, siehe:",
     "account_setup_title": "KONTEN IN ACTUAL BUDGET ANLEGEN:",
-    "categories_to_create": "KATEGORIEN ZU ERSTELLEN:"
+    "categories_to_create": "KATEGORIEN ZU ERSTELLEN:",
+    "quick_access": "SCHNELLZUGRIFF:",
+    "open_import_folder": "📁 Import-Ordner öffnen: {0}",
+    "view_categories": "📋 Kategorien anzeigen: {0}",
+    "view_balances": "💰 Startsalden anzeigen: {0}",
+    "click_to_open": "(Links oben anklicken oder manuell navigieren)"
   },
   "cli": {
     "help_title": "CSV2ACTUAL - HILFE",
@@ -222,6 +227,11 @@
     "step4": "4. Import starten - Kategorien sollten jetzt sichtbar sein!",
     "important": "WICHTIG: Kategorien müssen in Actual genau so erstellt werden, wie sie in den CSV-Dateien erscheinen!",
     "completed": "Verarbeitung abgeschlossen!",
+    "quick_access": "SCHNELLZUGRIFF:",
+    "open_import_folder": "📁 Import-Ordner öffnen: {0}",
+    "view_categories": "📋 Kategorien anzeigen: {0}",
+    "view_balances": "💰 Startsalden anzeigen: {0}",
+    "click_to_open": "(Links oben anklicken oder manuell navigieren)",
     "press_enter": "Drücken Sie Enter zum Beenden:",
     "alternative_formats_help": "Erstelle Semikolon-, Tab- und manuelle CSV-Varianten für Kompatibilität",
     "dry_run_preview": "DRY-RUN: Vorschau ohne Dateien zu schreiben",
