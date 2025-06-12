@@ -1,9 +1,9 @@
-﻿KATEGORIEN FÃœR ACTUAL BUDGET
+﻿CATEGORIES FOR ACTUAL BUDGET
 ==================================
-Diese Kategorien wurden in Ihren CSV-Dateien gefunden.
-Erstellen Sie diese exakt so in Actual Budget fÃ¼r optimale Zuordnung.
+These categories were found in your CSV files.
+Create them exactly as shown in Actual Budget for optimal mapping.
 
-TRANSFER-KATEGORIEN:
+TRANSFER CATEGORIES:
 â€¢ Transfer to Haushaltskasse
 â€¢ Transfer from Haushaltskasse
 â€¢ Transfer to GeschÃ¤ftsanteile
@@ -11,14 +11,14 @@ TRANSFER-KATEGORIEN:
 â€¢ Transfer (Household Contribution)
 â€¢ Internal Transfer
 
-EINNAHMEN-KATEGORIEN:
+INCOME CATEGORIES:
 â€¢ Income
 â€¢ Other Income
 â€¢ Tax Refunds
 â€¢ Cash Deposits
 â€¢ Capital Gains
 
-AUSGABEN-KATEGORIEN:
+EXPENSE CATEGORIES:
 â€¢ Groceries
 â€¢ Fuel
 â€¢ Housing
@@ -41,8 +41,8 @@ AUSGABEN-KATEGORIEN:
 â€¢ Consulting & Legal
 â€¢ Taxi & Ridesharing
 
-ANLEITUNG:
-1. Ã–ffnen Sie Actual Budget
-2. Gehen Sie zu 'Kategorien'
-3. Erstellen Sie diese Kategorien exakt wie oben aufgelistet
-4. Importieren Sie dann die CSV-Dateien aus diesem Ordner
+INSTRUCTIONS:
+1. Open Actual Budget
+2. Go to 'Categories'
+3. Create these categories exactly as listed above
+4. Then import the CSV files from this folder

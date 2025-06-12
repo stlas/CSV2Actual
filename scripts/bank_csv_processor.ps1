@@ -1015,11 +1015,14 @@ if (-not $isDryRun) {
                     try {
                         $balanceAfter = [decimal]$balanceAfterText
                         $amount = [decimal]$amountText
-                        # For accounts with zero transaction amounts (like Startsaldo entries), use the balance directly
+                        # Calculate starting balance correctly:
+                        # Starting balance = Balance after transaction - Transaction amount
+                        # This gives us the account balance BEFORE this (oldest) transaction
                         if ($amount -eq 0) {
+                            # For zero-amount entries (like initial balance entries), use balance directly
                             $startingBalance = $balanceAfter
                         } else {
-                            # Starting balance = Balance after transaction - Transaction amount
+                            # For normal transactions: Starting balance = Balance after - Transaction amount
                             $startingBalance = $balanceAfter - $amount
                         }
                         
@@ -1181,42 +1184,42 @@ if (-not $isDryRun) {
     $categoriesContent += (t "processor.categories_file_instruction")
     $categoriesContent += ""
     $categoriesContent += (t "processor.categories_transfer")
-    $categoriesContent += "• Transfer to Haushaltskasse"
-    $categoriesContent += "• Transfer from Haushaltskasse"
-    $categoriesContent += "• Transfer to Geschäftsanteile"
-    $categoriesContent += "• Transfer from Geschäftsanteile"
-    $categoriesContent += "• Transfer (Household Contribution)"
-    $categoriesContent += "• Internal Transfer"
+    $categoriesContent += "- Transfer to Haushaltskasse"
+    $categoriesContent += "- Transfer from Haushaltskasse"
+    $categoriesContent += "- Transfer to Geschäftsanteile"
+    $categoriesContent += "- Transfer from Geschäftsanteile"
+    $categoriesContent += "- Transfer (Household Contribution)"
+    $categoriesContent += "- Internal Transfer"
     $categoriesContent += ""
     $categoriesContent += (t "processor.categories_income")
-    $categoriesContent += "• Income"
-    $categoriesContent += "• Other Income"
-    $categoriesContent += "• Tax Refunds"
-    $categoriesContent += "• Cash Deposits"
-    $categoriesContent += "• Capital Gains"
+    $categoriesContent += "- Income"
+    $categoriesContent += "- Other Income"
+    $categoriesContent += "- Tax Refunds"
+    $categoriesContent += "- Cash Deposits"
+    $categoriesContent += "- Capital Gains"
     $categoriesContent += ""
     $categoriesContent += (t "processor.categories_expense")
-    $categoriesContent += "• Groceries"
-    $categoriesContent += "• Fuel"
-    $categoriesContent += "• Housing"
-    $categoriesContent += "• Insurance"
-    $categoriesContent += "• Internet & Phone"
-    $categoriesContent += "• Public Transportation"
-    $categoriesContent += "• Pharmacy & Health"
-    $categoriesContent += "• Restaurants & Dining"
-    $categoriesContent += "• Online Shopping"
-    $categoriesContent += "• Electronics & Technology"
-    $categoriesContent += "• Streaming & Subscriptions"
-    $categoriesContent += "• Bank Fees"
-    $categoriesContent += "• Taxes"
-    $categoriesContent += "• Health"
-    $categoriesContent += "• Donations"
-    $categoriesContent += "• Memberships"
-    $categoriesContent += "• Education"
-    $categoriesContent += "• Clothing"
-    $categoriesContent += "• Entertainment"
-    $categoriesContent += "• Consulting & Legal"
-    $categoriesContent += "• Taxi & Ridesharing"
+    $categoriesContent += "- Groceries"
+    $categoriesContent += "- Fuel"
+    $categoriesContent += "- Housing"
+    $categoriesContent += "- Insurance"
+    $categoriesContent += "- Internet & Phone"
+    $categoriesContent += "- Public Transportation"
+    $categoriesContent += "- Pharmacy & Health"
+    $categoriesContent += "- Restaurants & Dining"
+    $categoriesContent += "- Online Shopping"
+    $categoriesContent += "- Electronics & Technology"
+    $categoriesContent += "- Streaming & Subscriptions"
+    $categoriesContent += "- Bank Fees"
+    $categoriesContent += "- Taxes"
+    $categoriesContent += "- Health"
+    $categoriesContent += "- Donations"
+    $categoriesContent += "- Memberships"
+    $categoriesContent += "- Education"
+    $categoriesContent += "- Clothing"
+    $categoriesContent += "- Entertainment"
+    $categoriesContent += "- Consulting & Legal"
+    $categoriesContent += "- Taxi & Ridesharing"
     $categoriesContent += ""
     $categoriesContent += (t "processor.categories_instructions")
     $categoriesContent += (t "processor.categories_step1")
