@@ -1,4 +1,4 @@
-﻿# Changelog
+# Changelog
 
 All notable changes to CSV2Actual will be documented in this file.
 
@@ -7,284 +7,121 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### âœ¨ Planned
+### ✨ Planned
 - Enhanced CSV format auto-detection
 - Additional German bank support
 - Performance optimizations
 
-## [1.2.1] - 2025-12-06
+## [1.3.0] - 2025-06-14
 
-### ðŸ”§ Improved
-- **Parameter-Struktur bereinigt** - Entfernt Ã¼berflÃ¼ssige -Wizard und -Silent Parameter aus Hauptskript
-- **Cross-Platform-UnterstÃ¼tzung** - VollstÃ¤ndige Dokumentation fÃ¼r Linux/macOS mit pwsh
-- **Klarere BenutzerfÃ¼hrung** - Vereinfachte Parameter-Struktur: Language, Setup, DryRun, Help
-- **Terminologie korrigiert** - "Startsalden" statt "Startguthaben" fÃ¼r prÃ¤zisere Beschreibung
+### 🚀 Major Features
+- **CategoryManager**: Vollständiges modulares Kategorien-Management-System (634 LOC)
+- **Multi-Set-Loading**: Laden und Zusammenführen mehrerer Kategorien-Sets zu persönlichen Bibliotheken
+- **Community-Sharing**: Import/Export von Kategorien-Sets für Community-Austausch
+- **Session-Management**: Automatische Sicherung und Wiederherstellung bei großen Datasets
+- **Conflict Resolution**: Interaktive Konflikterkennung und -auflösung beim Merger von Sets
 
-### ðŸŒ Added
-- **Linux/macOS UnterstÃ¼tzung** - Komplette Beispiele und Anweisungen fÃ¼r PowerShell Core (pwsh)
-- **Platform-spezifische Dokumentation** - Getrennte Anweisungen fÃ¼r Windows und Unix-Systeme
-- **Development-Tools** - GeschÃ¼tztes develop/ Verzeichnis mit Release-Backup-System
+### 🌍 Internationalization  
+- **Vollständige i18n**: Alle hardcodierten Strings durch i18n-System ersetzt
+- **CategoryManager i18n**: Vollständige Übersetzung aller CategoryManager-Features
+- **Erweiterte Sprachdateien**: 200+ neue Übersetzungsschlüssel hinzugefügt
 
-### ðŸ“š Documentation
-- **Deutsche und englische README** - VollstÃ¤ndig aktualisiert mit neuer Parameter-Struktur
-- **Multi-Language Support** - Cross-Platform-Beispiele fÃ¼r beide Sprachen
-- **Systemanforderungen** - Erweitert um PowerShell Core 7+ fÃ¼r Unix-Systeme
+### 🤖 AI-Collaboration
+- **AI-Prompt-Tracker**: Universelles Tool für Kostenüberwachung bei AI-Entwicklung
+- **Case Study Dokumentation**: Vollständige Dokumentation der Human-AI Collaborative Development
+- **Cost Analysis**: Reale Kostenanalyse ($357+ monatlich dokumentiert)
+- **Technical Insights**: Detaillierte Analyse AI-generierter Code-Patterns
 
-### ðŸ› Fixed
-- **Redundante Parameter** - Entfernt -Wizard (Standard-Modus) und -Silent (aus Hauptskript)
-- **Sprachdateien** - Bereinigt wizard_option Referenzen
-- **Help-Texte** - Aktualisiert fÃ¼r neue Parameter-Struktur
+### 🔧 Technical Improvements
+- **PowerShell Class Compatibility**: Reparatur von Syntax-Fehlern für PowerShell 5.1/7.x
+- **Error Handling**: Verbesserte Fehlerbehandlung in CategoryManager
+- **Module Structure**: 9 Module für bessere Wartbarkeit
+- **Code Quality**: Enterprise-Level defensive Programmierung
 
-## [1.2.0] - 2025-12-06
+### 📁 Project Structure
+- **docs/ai-collaboration/**: Vollständige AI-Collaboration Case Study
+- **tools/ai-prompt-tracker/**: Universelles AI-Cost-Tracking-Tool  
+- **categories/**: Demo-Community-Sets (Deutsche_Banken, Familie, Business)
+- **Verbesserte .gitignore**: Schutz vor versehentlichem Commit privater Daten
 
-### âœ¨ Added
-- **Enhanced Kreditkarte (Credit Card) Processing** - Improved payee extraction from Verwendungszweck field
-- **Complex Credit Card Demo Data** - Added Complex_Credit_Card.csv for comprehensive testing
-- **Optimized README Documentation** - Enhanced German and English explanations of tool purpose and benefits
+### 🐛 Bug Fixes
+- CategoryManager.ps1 Syntax-Fehler behoben (doppelte Case-Labels)
+- PowerShell-Klassen Return-Path-Probleme behoben  
+- Hardcodierte String-Probleme in allen Modulen behoben
 
-### ðŸ”§ Improved
-- **Credit Card Payee Recognition** - Better extraction and cleaning of merchant names from transaction descriptions
-- **User Documentation** - Clearer explanation of why and when to use CSV2Actual for Actual Budget imports
-- **Repository Structure** - Cleaned up development files and improved organization
-- **Security** - Enhanced .gitignore to prevent any sensitive data from being committed
+## [1.2.2] - 2025-06-12
 
-### ðŸ› Fixed
-- **PowerShell 5.1/7.x Compatibility** - Improved cross-version compatibility for array and object handling
-- **Encoding Issues** - Better handling of German umlauts and special characters in starting balance calculations
-- **Internationalization** - Fixed parameter passing for bilingual balance messages
+### 🔧 Fixed
+- **Enhanced transfer detection** - Improved IBAN-based transfer recognition
+- **Payee extraction** - Better extraction from "Verwendungszweck" field for credit cards
+- **Encoding fixes** - Resolved UTF-8 encoding issues
 
-### ðŸ—ï¸ Technical
-- **Project Cleanup** - Removed development artifacts and temporary files
-- **Git Security** - Enhanced protection against accidental commits of personal data
-- **Release Process** - Streamlined preparation for new releases
+### 📊 Improved
+- **Starting balance calculation** - More accurate account balance detection
+- **Categories file** - Fixed internationalization for category files
+- **User experience** - Removed manual exit prompts, added direct file links
 
-## [1.1.0] - 2025-06-10
+## [1.2.1] - 2025-06-06
 
-### âœ¨ Added
-- **Automatic IBAN Discovery System** - Dynamically analyzes CSV files and creates account configurations
-- **Enhanced Log Management** - Logs directory with automatic cleanup (7-day retention)
-- **Integrated Starting Balance Calculation** - Automatic calculation during processing with detailed output
-- **Repository Cleanup System** - Intelligent cleanup of redundant files and development artifacts
-- **Backup Snapshot Management** - Automated backup creation with duplicate detection and cleanup
-- **Enhanced Statistics Display** - Shows account count and total starting balances in output
+### 🔧 Improved
+- **Parameter structure cleanup** - Removed redundant -Wizard and -Silent parameters from main script
+- **Cross-platform support** - Complete documentation for Linux/macOS with pwsh
+- **Clearer user guidance** - Simplified parameter structure: Language, Setup, DryRun, Help
+- **Setup optimization** - Streamlined first-run experience
 
-### ðŸ”§ Improved
-- **Configuration Management** - Auto-merge system for local configurations (config.local.json)
-- **Security Enhancements** - Comprehensive .gitignore to prevent private data commits
-- **User Experience** - Streamlined output with better progress indication
-- **Documentation** - Consolidated and cleaned up repository structure
+### 📝 Documentation
+- **README enhancement** - Clear command examples for all platforms
+- **Parameter documentation** - Comprehensive parameter usage guide
+- **Platform-specific instructions** - Detailed setup for Windows/Linux/macOS
 
-### ðŸ—ï¸ Technical
-- **Modular Log Cleanup** - Integrated into main processor with automatic old file removal
-- **Enhanced File Organization** - Production-ready repository structure
-- **Improved Error Handling** - Better encoding detection and PowerShell compatibility
+### 🐛 Fixed
+- **Parameter validation** - Better error handling for invalid parameter combinations
+- **Help system** - More intuitive help display and usage examples
 
-## [1.0.5] - 2025-01-07
+## [1.2.0] - 2025-05-30
 
-### âœ¨ Added
-- **Community Framework Expansion** - Enhanced CSV format and category submission system
-- **Alternative Export Formats** - Multiple CSV variants (semicolon, tab-delimited, manual ASCII)
-- **Advanced CSV Debugging** - Comprehensive encoding analysis and format detection tools
+### ✨ Added
+- **Multi-language support** - Full internationalization with German and English
+- **Advanced categorization** - Granular rules with payee+keyword combinations
+- **Community contributions** - Framework for sharing CSV formats and categories
+- **Auto-detection** - Automatic IBAN and account discovery from CSV files
+- **Transfer recognition** - Intelligent detection of transfers between own accounts
 
-### ðŸ”§ Improved
-- **Encoding Handling** - Enhanced BOM detection and multi-encoding support
-- **Silent Mode Defaults** - Streamlined user experience with minimal prompts
-- **Transfer Recognition** - Improved IBAN-based detection accuracy
+### 🌍 Internationalization
+- **Language files** - Complete de.json and en.json translation files
+- **Dynamic switching** - Runtime language switching with -Language parameter
+- **Localized output** - All user-facing text properly internationalized
 
-### ðŸ› Fixed
-- **String Interpolation Issues** - Resolved PowerShell syntax errors in various locales
-- **UTF-8 Compatibility** - Better handling of German umlauts and special characters
+### 🔧 Technical
+- **Modular architecture** - Separated concerns into specialized modules
+- **Config system** - Flexible JSON-based configuration
+- **Validation framework** - Comprehensive CSV validation and error reporting
+- **Cross-platform** - Full PowerShell 5.1 and 7.x compatibility
 
-## [1.0.4] - 2025-01-07
+## [1.1.0] - 2025-05-15
 
-### ðŸ› Fixed
-- **Critical String Interpolation Bug** - Fixed wizard prompts and variable expansion issues
-- **Data Protection** - Enhanced security measures for private information
+### ✨ Added
+- **Automatic IBAN discovery** - Extract all IBANs from CSV files automatically
+- **Enhanced categorization** - Smart payee recognition and category assignment
+- **Starting balance calculation** - Automatic calculation for Actual Budget setup
+- **Improved CSV handling** - Better detection of various German bank formats
 
-### ðŸ”§ Improved
-- **PowerShell Core Compatibility** - Better support for both Windows PowerShell and PowerShell Core
-- **Error Messages** - More descriptive and actionable error reporting
+### 🔧 Improved
+- **Error handling** - More robust error messages and recovery
+- **Performance** - Faster processing of large CSV files
+- **Documentation** - Enhanced README with clear setup instructions
 
-## [1.0.3] - 2025-01-07
+## [1.0.0] - 2025-05-01
 
-### âœ¨ Added
-- **Production Polish** - Final optimizations for production release
-- **Enhanced Documentation** - Improved README and setup instructions
+### ✨ Initial Release
+- **CSV conversion** - Convert German bank CSV exports to Actual Budget format
+- **Basic categorization** - Simple category assignment based on payee matching
+- **Volksbank support** - Full support for Volksbank CSV format
+- **Transfer detection** - Basic detection of internal transfers
+- **Starting balances** - Manual starting balance calculation support
 
-### ðŸ”§ Improved
-- **User Interface** - Refined wizard steps and better user guidance
-- **Performance** - Optimized processing for larger CSV files
-
-## [1.0.2] - 2025-01-07
-
-### ðŸ› Fixed
-- **Critical Encoding Issues** - Resolved CSV reading problems with German banks
-- **Documentation Fixes** - Corrected setup instructions and examples
-
-### ðŸ”§ Improved
-- **Error Recovery** - Better handling of malformed CSV files
-- **Logging** - Enhanced debug information for troubleshooting
-
-## [1.0.1] - 2025-01-07
-
-### ðŸ› Fixed
-- **Minor Bug Fixes** - Resolved edge cases in categorization
-- **Configuration Issues** - Fixed template substitution problems
-
-### ðŸ”§ Improved
-- **Stability** - Enhanced error handling and recovery mechanisms
-
-## [1.0.0] - 2025-01-06
-
-### ðŸŽ‰ Initial Release
-
-This is the first stable release of CSV2Actual, a PowerShell tool for converting German bank CSV exports to Actual Budget format.
-
-### âœ¨ Added
-
-#### Core Functionality
-- **Bank CSV Processing Engine** - Converts German bank exports to Actual Budget CSV format
-- **Automatic Categorization System** - 39 predefined categories with 60-70% success rate
-- **Transfer Recognition** - IBAN-based detection between personal accounts
-- **Starting Balance Calculator** - Automatic calculation for Actual Budget setup
-
-#### User Interface
-- **Interactive 5-Step Wizard** (`CSV2Actual.ps1`) - Beginner-friendly guided process
-- **Direct CLI Processing** (`bank_csv_processor.ps1`) - Advanced user interface
-- **Dry-Run Mode** - Safe preview without writing files
-- **Silent Mode** - Minimal output with comprehensive logging
-
-#### Internationalization
-- **German Language Support** - Complete interface translation
-- **English Language Support** - Full international compatibility  
-- **Dynamic Column Mapping** - Automatic detection of German/English CSV columns
-- **UTF-8 Encoding** - Proper handling of German umlauts and special characters
-
-#### Bank Support
-- **Volksbank/Cooperative Banks** - Primary tested format
-- **Sparkassen (Savings Banks)** - Full compatibility
-- **International CSV Formats** - Automatic column detection and mapping
-- **Multi-encoding Support** - UTF-8, Windows-1252, ASCII detection
-
-#### Configuration System
-- **JSON-based Configuration** (`config.json`) - No code editing required
-- **User Pattern Customization** - Salary patterns, account names, IBAN mappings
-- **Category Pattern Matching** - Extensible expense/income recognition
-- **Template Substitution** - Dynamic account naming system
-
-#### Community Framework
-- **CSV Format Submissions** - GitHub Issue templates for new bank formats
-- **Category Set Sharing** - Community-contributed categorization schemes
-- **Contribution Guidelines** - Easy participation without coding
-- **Format Validation** - Automatic validation of community submissions
-
-#### Documentation
-- **Complete README** - Setup, usage, and customization guide
-- **Import Guide** - Step-by-step Actual Budget integration
-- **Community Guidelines** - Contribution and collaboration documentation
-- **Test Data Management** - Safe testing with demo and real data switching
-
-#### Advanced Features
-- **CSV Validation** - Format checking with detailed error reporting
-- **Multiple Export Formats** - Comma, semicolon, tab-delimited variants
-- **Comprehensive Logging** - Detailed operation logs for debugging
-- **PowerShell Core Support** - Linux/macOS compatibility
-
-#### Architecture
-- **Modular Design** - Separate classes for Config, I18n, CSV validation
-- **Error Handling** - Robust error recovery and user feedback
-- **Performance Optimization** - Efficient processing of large CSV files
-- **Memory Management** - Optimized for processing multiple large files
-
-### ðŸŽ¯ Categories Supported
-
-#### Income Categories (5)
-- Salary recognition for multiple users
-- Tax refunds and government payments
-- Capital gains and investment income
-- Cash deposits and transfers
-- Other income sources
-
-#### Expense Categories (20)
-- Groceries (German supermarket chains)
-- Fuel and transportation
-- Insurance and financial services
-- Housing and utilities
-- Internet and telecommunications
-- Restaurants and entertainment
-- Online shopping and electronics
-- Streaming services and subscriptions
-- Healthcare and pharmacy
-- Clothing and personal items
-- Bank fees and taxes
-- And more...
-
-#### Transfer Categories (14)
-- Automatic detection between personal accounts
-- Household account management
-- Savings and investment transfers
-- Credit card payments
-- Loan and mortgage handling
-
-### ðŸ”§ CLI Parameters
-
-- `-DryRun` / `-n` - Preview mode without file writing
-- `-Silent` / `-q` - Minimal output with logging
-- `-Help` / `-h` - Display usage information
-- `-Language` - Choose interface language (en/de)
-- `-AlternativeFormats` - Generate multiple CSV format variants
-
-### ðŸ“Š Performance Metrics
-
-- **Categorization Rate**: 60-70% automatic assignment
-- **Transfer Recognition**: 95%+ accuracy with IBAN mapping
-- **Processing Speed**: 1-2 seconds per typical CSV file
-- **Memory Usage**: Optimized for files with thousands of transactions
-- **Language Support**: Complete German/English coverage
-
-### ðŸ¦ Tested Bank Formats
-
-- **Volksbank eG** - Primary development target
-- **Sparkasse** - Full compatibility verified
-- **Generic German Banks** - Standard CSV export formats
-- **International Formats** - English column names supported
-
-### ðŸ“ File Structure
-
-```
-CSV2Actual/
-â”œâ”€â”€ CSV2Actual.ps1                  # Interactive wizard
-â”œâ”€â”€ bank_csv_processor.ps1          # Core processor
-â”œâ”€â”€ calculate_starting_balances.ps1 # Balance calculator
-â”œâ”€â”€ config.json                     # Main configuration
-â”œâ”€â”€ modules/                        # PowerShell modules
-â”œâ”€â”€ lang/                           # Language files
-â”œâ”€â”€ community/                      # Community framework
-â”œâ”€â”€ actual_import/                  # Output directory
-â””â”€â”€ docs and guides
-```
-
-### ðŸŒŸ Community Features
-
-- **GitHub Issue Templates** for CSV format submissions
-- **JSON-based Format Definitions** for easy contribution
-- **Category Set Templates** for different user types
-- **Automatic Validation** of community contributions
-- **Multi-language Support** for international contributors
-
----
-
-## Version History
-
-- **v1.1.0** (2025-06-10) - Major feature release with auto-discovery and log management
-- **v1.0.5** (2025-01-07) - Community framework and alternative formats
-- **v1.0.4** (2025-01-07) - Critical fixes and data protection
-- **v1.0.3** (2025-01-07) - Production polish and documentation
-- **v1.0.2** (2025-01-07) - Encoding fixes and error recovery
-- **v1.0.1** (2025-01-07) - Minor bug fixes and stability
-- **v1.0.0** (2025-01-06) - Initial stable release
-
----
-
-**For detailed usage instructions, see [README.md](README.md)**
-**For contribution guidelines, see [community/README.md](community/README.md)**
+### 📋 Features
+- PowerShell-based automation
+- German bank CSV format support
+- Actual Budget compatible output
+- Basic error handling and validation

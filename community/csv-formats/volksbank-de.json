@@ -19,6 +19,8 @@
     "payee": "Name Zahlungsbeteiligter", 
     "memo": "Verwendungszweck",
     "iban": "IBAN Zahlungsbeteiligter",
+    "accountIban": "IBAN Auftragskonto",
+    "accountName": "Bezeichnung Auftragskonto",
     "balance": "Saldo nach Buchung"
   },
   "columnMappingEnglish": {
@@ -26,7 +28,9 @@
     "amount": "Amount",
     "payee": "Payee Name",
     "memo": "Purpose",
-    "iban": "Payee IBAN", 
+    "iban": "Payee IBAN",
+    "accountIban": "Account IBAN",
+    "accountName": "Account Description", 
     "balance": "Balance After Transaction"
   },
   "sampleData": [

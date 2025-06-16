@@ -128,20 +128,17 @@ class Config {
         $mapping = $this.Get("accounts.ibanMapping")
         $result = @{}
         
-        # Add mappings from main config
+        # Process all IBAN mappings (local config is already merged via MergeHashtables)
         if ($mapping) {
             foreach ($iban in $mapping.Keys) {
-                $accountKey = $mapping[$iban]
-                $result[$iban] = $this.GetAccountName($accountKey)
-            }
-        }
-        
-        # Add mappings from local config (these take precedence)
-        $localMapping = $this.localData.accounts.ibanMapping
-        if ($localMapping) {
-            foreach ($iban in $localMapping.Keys) {
-                $accountName = $localMapping[$iban]
-                $result[$iban] = $accountName
+                $accountValue = $mapping[$iban]
+                # If it looks like a template (contains {{}}), process it
+                if ($accountValue -match '\{\{.*\}\}') {
+                    $result[$iban] = $this.GetAccountName($accountValue)
+                } else {
+                    # Direct mapping from local config
+                    $result[$iban] = $accountValue
+                }
             }
         }
         

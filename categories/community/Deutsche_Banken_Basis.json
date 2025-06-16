@@ -1,0 +1,49 @@
+{
+  "metadata": {
+    "name": "Deutsche Banken Basis-Set",
+    "description": "Grundlegende Kategorien für deutsche Banktransaktionen - Sparkasse, Volksbank, DKB, ING, etc.",
+    "author": "CSV2Actual Community",
+    "created": "2025-06-14 12:00:00",
+    "version": "1.0",
+    "language": "de",
+    "totalMappings": 25,
+    "tags": ["german_banks", "basic", "sparkasse", "volksbank", "community"],
+    "license": "CC0-1.0",
+    "compatible": ["PowerShell_5.1", "PowerShell_7.x"]
+  },
+  "categoryMappings": {
+    "REWE": "Lebensmittel",
+    "EDEKA": "Lebensmittel",
+    "LIDL": "Lebensmittel",
+    "ALDI": "Lebensmittel",
+    "KAUFLAND": "Lebensmittel",
+    "PENNY": "Lebensmittel",
+    "dm-drogerie markt": "Drogerie & Gesundheit",
+    "ROSSMANN": "Drogerie & Gesundheit",
+    "MÜLLER": "Drogerie & Gesundheit",
+    "AMAZON": "Online Shopping",
+    "Amazon Payments": "Online Shopping",
+    "PAYPAL": "Online Shopping",
+    "Netflix": "Streaming & Abos",
+    "Spotify": "Streaming & Abos",
+    "Disney Plus": "Streaming & Abos",
+    "SHELL": "Kraftstoff",
+    "ARAL": "Kraftstoff",
+    "ESSO": "Kraftstoff",
+    "TOTAL": "Kraftstoff",
+    "Deutsche Bahn": "Öffentliche Verkehrsmittel",
+    "DB Vertrieb": "Öffentliche Verkehrsmittel",
+    "TARGOBANK": "Bankgebühren",
+    "Volksbank": "Bankgebühren",
+    "Sparkasse": "Bankgebühren",
+    "DKB": "Bankgebühren",
+    "ING": "Bankgebühren"
+  },
+  "granularRules": [],
+  "usage_notes": [
+    "Dieses Set enthält die häufigsten deutschen Händler und Dienstleister",
+    "Optimiert für Sparkasse, Volksbank, DKB, ING und ähnliche deutsche Banken",
+    "Kann als Basis-Set verwendet und individuell erweitert werden",
+    "Kompatibel mit der granularen Kategorisierung für spezielle Fälle"
+  ]
+}

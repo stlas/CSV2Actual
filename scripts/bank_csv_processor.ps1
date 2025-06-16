@@ -20,6 +20,7 @@ param(
 . "$PSScriptRoot/../modules/Config.ps1"
 . "$PSScriptRoot/../modules/I18n.ps1"
 . "$PSScriptRoot/../modules/CsvValidator.ps1"
+. "$PSScriptRoot/../modules/CategoryEngine.ps1"
 
 # Initialize configuration and i18n
 try {
@@ -29,6 +30,17 @@ try {
     $projectRoot = Split-Path $PSScriptRoot -Parent
     $absoluteLangDir = Join-Path $projectRoot $langDir
     $global:i18n = [I18n]::new($absoluteLangDir, $Language)
+    
+    # Initialize CategoryEngine
+    try {
+        $global:categoryEngine = [CategoryEngine]::new("$projectRoot/categories.json", $Language)
+        if (-not $Silent) {
+            Write-Host "CategoryEngine initialisiert (Sprache: $Language)" -ForegroundColor Green
+        }
+    } catch {
+        Write-Warning "Fehler beim Initialisieren der CategoryEngine: $($_.Exception.Message)"
+        $global:categoryEngine = $null
+    }
 }
 catch {
     Write-Host "ERROR: Could not load configuration or language files. Please ensure config.json and lang/ folder exist." -ForegroundColor Red
@@ -364,11 +376,15 @@ function Start-CategoryScanner {
                     if ($row.PSObject.Properties.Name -contains "IBAN Zahlungsbeteiligter" -and $row."IBAN Zahlungsbeteiligter") {
                         $targetIBAN = $row."IBAN Zahlungsbeteiligter".Trim()
                     }
+                    # Fallback: Extract IBAN from memo text
+                    elseif ($row.notes -and $row.notes -match 'IBAN:\s*([A-Z]{2}\d{2}[A-Z0-9]+)') {
+                        $targetIBAN = $matches[1]
+                    }
                     
                     $isTransfer = $false
                     
                     # 1. IBAN-based transfer recognition (highest priority)
-                    if ($targetIBAN -and $OwnIBANs.ContainsKey($targetIBAN)) {
+                    if ($targetIBAN -and ($OwnIBANs.Keys -contains $targetIBAN)) {
                         $isTransfer = $true
                     }
                     # 2. Fallback: keyword-based transfer recognition
@@ -398,9 +414,35 @@ function Start-CategoryScanner {
                         continue  # Skip transfer transactions completely
                     }
                     
-                    $patternKey = $payeeText.ToLower()
+                    # PayPal transactions need special handling to avoid grouping different merchants
+                    if ($payeeText -match "^PP\*PAYPAL\s+(.+?)(?:\*|$)") {
+                        # Credit card PayPal transactions: PP*PAYPAL MERCHANT*ITEM
+                        $extractedMerchant = $matches[1].Trim()
+                        $patternKey = "paypal_cc_" + $extractedMerchant.ToLower()
+                    } elseif ($payeeText -match "(?i)paypal" -and $memoText -match "pp\.|paypal") {
+                        # Regular PayPal wire transfers: extract merchant from memo
+                        $merchantName = "Unknown"
+                        # Extract merchant name from PayPal memo - simple approach
+                        if ($memoText -match "mullvad") {
+                            $merchantName = "Mullvad VPN"
+                        } elseif ($memoText -match "pp\.\d+") {
+                            # Simple text extraction without complex regex
+                            if ($memoText -match "mullvad\s+vpn") {
+                                $merchantName = "Mullvad VPN"
+                            } elseif ($memoText -match "netflix") {
+                                $merchantName = "Netflix"
+                            } elseif ($memoText -match "spotify") {
+                                $merchantName = "Spotify"
+                            } else {
+                                $merchantName = "PayPal Service"
+                            }
+                        }
+                        $patternKey = "paypal_wire_" + $merchantName.ToLower()
+                    } else {
+                        $patternKey = $payeeText.ToLower()
+                    }
                     
-                    if (-not $uncategorizedTransactions.ContainsKey($patternKey)) {
+                    if (-not ($uncategorizedTransactions.Keys -contains $patternKey)) {
                         $uncategorizedTransactions[$patternKey] = @{
                             payee = $payeeText
                             memo = $row.notes
@@ -477,11 +519,15 @@ function Start-CategoryScanner {
         }
         
         Write-Host ""
-        Write-Host "Kategorie eingeben (oder 's' Ã¼berspringen, 'q' beenden): " -NoNewline -ForegroundColor Cyan
+        Write-Host "Kategorie eingeben (oder 's' Ã¼berspringen, 'x'/'q' beenden): " -NoNewline -ForegroundColor Cyan
         $category = Read-Host
         
-        if ($category -eq "q") {
+        if ($category -eq "q" -or $category -eq "x") {
             Write-Host "Scanner beendet." -ForegroundColor Gray
+            # Check if we need to trigger categorization stop for main script
+            if ($global:CategorizationStopped -ne $null) {
+                $global:CategorizationStopped = $true
+            }
             break
         }
         
@@ -511,6 +557,75 @@ function Start-CategoryScanner {
     Write-Host ""
 }
 
+function Get-IncomeCategory {
+    param(
+        [string]$payee,
+        [string]$memo,
+        [string]$amount
+    )
+    
+    # Only process positive amounts (income)
+    if ($amount -match '^[0-9]+' -and $amount -notmatch '^-') {
+        $payeeLower = if ($payee) { $payee.ToLower() } else { "" }
+        $memoLower = if ($memo) { $memo.ToLower() } else { "" }
+        
+        # Lohn/Gehalt - Primary income from employer
+        if ($memoLower -match "lohn.*gehalt|gehalt.*abrechnung|bezuege|salary" -or 
+            $payeeLower -match "osiandersche.*buchhandlung|luxor.*solar") {
+            return $global:i18n.Get("categories.income")
+        }
+        
+        # Dividenden/Kapitalerträge - Investment income
+        if ($memoLower -match "dividende|gewinn.*gewinnsparen|kapitalertrag|capital.*gain" -or
+            $payeeLower -match "volksbank.*pur.*eg" -and $memoLower -match "gewinn") {
+            return $global:i18n.Get("categories.capital_gains")
+        }
+        
+        # Bareinzahlungen - Cash deposits
+        if ($memoLower -match "bareinzahlung|einzahlung|cash.*deposit") {
+            return $global:i18n.Get("categories.cash_deposits")
+        }
+        
+        # Verkaufserlöse - Sales income
+        if ($memoLower -match "verkauf|secondhand|dein.*verkauf.*hessnatur" -or
+            $payeeLower -match "rs.*recommerce.*technologies") {
+            return $global:i18n.Get("categories.other_income")
+        }
+        
+        # Steuerrückzahlungen - Tax refunds
+        if ($memoLower -match "steuer.*rückzahlung|tax.*refund|finanzamt") {
+            return $global:i18n.Get("categories.tax_refunds")
+        }
+        
+        # Rückzahlungen/Erstattungen - General refunds
+        if ($memoLower -match "rückzahlung|erstattung|zurück|refund" -and 
+            $memoLower -notmatch "kk\d+/\d+") {
+            return $global:i18n.Get("categories.other_income")
+        }
+        
+        # Kreditkarten-Kompensation - Credit card compensations (treated as transfers)
+        if ($memoLower -match "kk\d+/\d+.*überweisungsgutschr|kreditkarte.*\d+/\d+") {
+            return "Transfer (Credit Card Payment)"
+        }
+        
+        # Geschenke/Zuwendungen - Gifts
+        if ($memoLower -match "geschenk|gift|zuwendung" -or
+            ($payeeLower -match "stefan.*laszczyk|alessandra.*schmid" -and 
+             $memoLower -match "kontext.*gutschrift|geschenk")) {
+            return $global:i18n.Get("categories.other_income")
+        }
+        
+        # Sonstige Einkünfte aus regelmäßigen kleinen Beträgen
+        if ($payeeLower -match "stefan.*laszczyk|alessandra.*schmid" -and 
+            $memoLower -match "überweisungsgutschr|gutschrift" -and
+            $memoLower -notmatch "kk\d+/\d+|kreditkarte") {
+            return $global:i18n.Get("categories.other_income")
+        }
+    }
+    
+    return $null
+}
+
 function Get-AutoCategory {
     param(
         [string]$payee, 
@@ -532,6 +647,12 @@ function Get-AutoCategory {
         $salaryCategory = $global:config.CheckSalaryPattern($text, $Language)
         if ($salaryCategory) {
             return $salaryCategory
+        }
+        
+        # Enhanced automatic income categorization
+        $incomeCategory = Get-IncomeCategory -payee $payee -memo $memo -amount $amount.ToString()
+        if ($incomeCategory) {
+            return $incomeCategory
         }
         
         # Tax refunds
@@ -651,7 +772,7 @@ function Get-TransferCategory {
     $notesLower = $memo.ToLower()
     
     # IBAN-based transfer recognition (main logic)
-    if ($targetIBAN -and $OwnIBANs.ContainsKey($targetIBAN)) {
+    if ($targetIBAN -and ($OwnIBANs.Keys -contains $targetIBAN)) {
         $targetAccountName = $OwnIBANs[$targetIBAN]
         
         # Create unique transfer names by combining account name with payee for disambiguation
@@ -1165,6 +1286,32 @@ function Process-BankCSV {
                 }
             }
             
+            # PayPal-specific payee enhancement for wire transfers
+            if ($payee -match "(?i)paypal" -and $purposeColumn -and $row.$purposeColumn) {
+                $memoText = $row.$purposeColumn.ToLower()
+                $merchantName = ""
+                # Extract merchant name from PayPal memo - simple approach
+                if ($memoText -match "mullvad") {
+                    $merchantName = "Mullvad VPN"
+                } elseif ($memoText -match "pp\.\d+") {
+                    # Simple text extraction without complex regex
+                    if ($memoText -match "mullvad\s+vpn") {
+                        $merchantName = "Mullvad VPN"
+                    } elseif ($memoText -match "netflix") {
+                        $merchantName = "Netflix"
+                    } elseif ($memoText -match "spotify") {
+                        $merchantName = "Spotify"
+                    } else {
+                        $merchantName = "PayPal Service"
+                    }
+                }
+                
+                if ($merchantName -and $merchantName -ne "") {
+                    $payee = "PayPal ($merchantName)"
+                    Write-LogOnly "PayPal wire transfer detected: '$payee' from memo '$($row.$purposeColumn)'" "DEBUG"
+                }
+            }
+            
             # Credit card specific payee extraction from Verwendungszweck
             if (-not $payee -or $payee -eq '') {
                 if ($purposeColumn -and $row.$purposeColumn) {
@@ -1191,7 +1338,8 @@ function Process-BankCSV {
                     }
                     # Pattern 4: "PP*PAYPAL MERCHANT*ITEM" (PayPal transactions)
                     elseif ($purpose -match '^PP\*PAYPAL\s+(.+?)(?:\*|$)') {
-                        $extractedPayee = $matches[1].Trim()
+                        $extractedMerchant = $matches[1].Trim()
+                        $extractedPayee = "PayPal ($extractedMerchant)"  # Add PayPal prefix to distinguish from direct transactions
                         Write-LogOnly "Credit card pattern 4 (PayPal) matched: '$extractedPayee' from '$purpose'" "DEBUG"
                     }
                     # Pattern 5: "NETFLIX.COM*DESCRIPTION" or "SPOTIFY*DESCRIPTION"
@@ -1293,6 +1441,13 @@ function Process-BankCSV {
                         break
                     }
                 }
+                
+                # Fallback: Extract IBAN from memo text (for banks that put IBAN in notes)
+                if (-not $targetIBAN -and $notes) {
+                    if ($notes -match 'IBAN:\s*([A-Z]{2}\d{2}[A-Z0-9]+)') {
+                        $targetIBAN = $matches[1]
+                    }
+                }
             }
             
             # Kategorie ermitteln
@@ -1304,8 +1459,23 @@ function Process-BankCSV {
                 $category = $transferCategory
                 $transferCount++
             }
-            # 2. Auto-Kategorisierung
-            else {
+            # 2. CategoryEngine (höchste Priorität für Benutzer-spezifische Kategorisierung)
+            elseif ($global:categoryEngine) {
+                $transaction = @{
+                    payee = $payee
+                    memo = $notes
+                    buchungstext = ""
+                    amount = $amount
+                }
+                $engineCategory = $global:categoryEngine.CategorizeTransaction($transaction)
+                if ($engineCategory -and $engineCategory.Trim() -ne "") {
+                    $category = $engineCategory
+                    $categorizedCount++
+                }
+            }
+            
+            # 3. Fallback: Auto-Kategorisierung (Legacy-System)
+            if (-not $category) {
                 $autoCategory = Get-AutoCategory -payee $payee -memo $notes -amount $amount
                 if ($autoCategory) {
                     $category = $autoCategory
@@ -1822,7 +1992,7 @@ if (-not $isDryRun) {
             foreach ($row in $processedData) {
                 if ($row.category -and $row.category.Trim() -ne "") {
                     $category = $row.category.Trim()
-                    if (-not $allUsedCategories.ContainsKey($category)) {
+                    if (-not ($allUsedCategories.Keys -contains $category)) {
                         $allUsedCategories[$category] = 0
                     }
                     $allUsedCategories[$category]++
@@ -1847,7 +2017,7 @@ if (-not $isDryRun) {
     }
     
     # Create dynamic categories list
-    $categoriesFile = Join-Path $OutputDir "KATEGORIEN_LISTE.txt"
+    $categoriesFile = Join-Path $OutputDir "kategorien_liste.txt"
     $categoriesContent = @()
     $categoriesContent += (t "processor.categories_file_header")
     $categoriesContent += (t "processor.categories_file_separator")
@@ -1966,7 +2136,7 @@ if ($isSilent) {
         Write-Host (t "processor.quick_access") -ForegroundColor Cyan
         
         $actualImportPath = (Resolve-Path "actual_import").Path
-        $categoriesFile = Join-Path $actualImportPath "KATEGORIEN_LISTE.txt"
+        $categoriesFile = Join-Path $actualImportPath "kategorien_liste.txt"
         $latestBalanceFile = Get-Item (Join-Path $OutputDir "starting_balances.txt") -ErrorAction SilentlyContinue
         
         $importFolderMessage = $global:i18n.Get("processor.open_import_folder", @($actualImportPath))

@@ -1,13 +1,18 @@
-# Persönliche/sensible Daten - NIEMALS COMMITTEN!
+# ⚠️ KRITISCH: Persönliche/sensible Daten - NIEMALS COMMITTEN!
 *_personal.csv
 *_private.csv
 *_real.csv
+*Alessandra*
+*Stefan*
+*Gemeinsames*
+*Immobilien*
 
 # Test- und echte CSV-Daten (nicht auf GitHub!)
 source/*.csv
 source/**/*.csv
 actual_import/*.csv
 actual_import/**/*.csv
+starting_balances.txt
 
 # Aber Demo-Daten erlauben
 !test_data/demo_csvs/*.csv
@@ -47,10 +52,18 @@ config.personal.json
 *_personal.json
 *_real.json
 
-# Log-Dateien
+# Log-Dateien (können private Daten enthalten)
 logs/
 *.log
 csv_processor_*.log
+scripts/logs/
+debug_kategorisierung.log
+*_debug*.log
+debug_run*.ps1
+debug_output_*.log
+debug_errors_*.log
+debug_simple_*.log
+debug_verbose_*.log
 
 # Temporary files
 *.tmp
@@ -94,5 +107,51 @@ actual_import/*.csv
 # Output logging
 wizard_output_*.log
 
+# AI-Entwicklungstools (contain cost data and development metrics)
+tools/ai-prompt-tracker/ai-*.json
+tools/ai-prompt-tracker/ai-tracker-config.json
+
 # Community contributions (preserve templates but not submissions)
 # Note: Approved contributions will be manually added to community/ directories
+
+# Archive und Releases (enthalten potentiell private Daten)
+*.tar.gz
+*.zip
+release_backups/
+CSV2Actual_v*.tar.gz
+CSV2Actual_v*.zip
+backup_*/
+snapshots/
+archive/
+
+# SL 16.06.2025
+# Claude Präprozessor
+claude-with-context.sh
+.claude-context
+
+# Development Tools (öffentlich, aber AI-Tracker-Daten privat)
+dev/tools/ai-prompt-tracker/*.json
+dev/tools/ai-prompt-tracker/*.log
+
+# AI Development artifacts
+.dev-protocol.md
+.session-state.json
+.context-snapshot.md
+.claude-*
+.setup-progress.json
+
+# Integration backups
+integration_backups/
+
+# Cost optimization files
+.claude-costs.json
+
+# Local development
+config.local.json
+
+
+# Archiv-Verzeichnis für veraltete Dateien
+
+archive/legacy_ai_collab_*/
+
+

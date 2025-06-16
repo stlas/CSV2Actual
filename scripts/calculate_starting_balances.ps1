@@ -213,21 +213,31 @@ Write-Host ""
 # Startsalden in Datei speichern
 $balanceOutput = @()
 $balanceOutput += "# STARTING BALANCES FOR ACTUAL BUDGET"
-$balanceOutput += "# Generated on: $(Get-Date -Format 'MM/dd/yyyy HH:mm')"
+$balanceOutput += "# Generated on: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
+$balanceOutput += "# Formula: Oldest balance in CSV - transaction amount"
 $balanceOutput += ""
-$balanceOutput += "Account Name                   | Starting Balance $currency | Date"
-$balanceOutput += ("-" * 65)
+$balanceOutput += "ACCOUNT SETUP FOR ACTUAL BUDGET:"
+$balanceOutput += "================================"
+$balanceOutput += ""
 
 foreach ($account in $sortedAccounts) {
     $name = $account.Key
     $data = $account.Value
     $balance = "{0:N2}" -f $data.balance
-    $date = $data.date
-    $balanceOutput += "$($name.PadRight(30)) | $($balance.PadLeft(12)) | $date"
+    $date = $data.date -replace "/", "."
+    $balanceOutput += "Account: $name"
+    $balanceOutput += "  Starting Balance: $balance $currency"
+    $balanceOutput += "  Date: $date"
+    $balanceOutput += ""
 }
 
-$balanceOutput += ("-" * 65)
-$balanceOutput += "$("TOTAL BALANCE".PadRight(30)) | $(("{0:N2}" -f $totalBalance).PadLeft(12)) |"
+$balanceOutput += "================================"
+$balanceOutput += "TOTAL STARTING BALANCE: $(("{0:N2}" -f $totalBalance)) $currency"
+$balanceOutput += ""
+$balanceOutput += "INSTRUCTIONS:"
+$balanceOutput += "1. Create these accounts in Actual Budget"
+$balanceOutput += "2. Set the starting balances as shown above"
+$balanceOutput += "3. Import CSV files from actual_import/ folder"
 
 $outputFile = "starting_balances.txt"
 $balanceOutput | Out-File -FilePath $outputFile -Encoding UTF8

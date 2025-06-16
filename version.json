@@ -1,0 +1,12 @@
+{
+    "current_version": "1.0.0",
+    "last_release": "",
+    "auto_increment": "patch",
+    "release_notes": {
+        "1.0.0": {
+            "date": "",
+            "changes": ["Integration of AI collaboration systems"],
+            "backup_created": false
+        }
+    }
+}

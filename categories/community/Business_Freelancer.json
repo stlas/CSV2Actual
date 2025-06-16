@@ -1,0 +1,102 @@
+{
+  "metadata": {
+    "name": "Business & Freelancer",
+    "description": "Kategorien für Selbständige, Freelancer und kleine Unternehmen - Bürobedarf, Software, Hardware, etc.",
+    "author": "CSV2Actual Community",
+    "created": "2025-06-14 12:00:00",
+    "version": "1.0",
+    "language": "de",
+    "totalMappings": 30,
+    "tags": ["business", "freelancer", "selbständig", "büro", "community"],
+    "license": "CC0-1.0",
+    "compatible": ["PowerShell_5.1", "PowerShell_7.x"]
+  },
+  "categoryMappings": {
+    "Microsoft": "Software & Lizenzen",
+    "Adobe": "Software & Lizenzen",
+    "JetBrains": "Software & Lizenzen",
+    "GitHub": "Software & Lizenzen",
+    "Google Workspace": "Software & Lizenzen",
+    "Office 365": "Software & Lizenzen",
+    "Dropbox": "Software & Lizenzen",
+    "Slack": "Software & Lizenzen",
+    "Zoom": "Software & Lizenzen",
+    "AWS": "Professional Services",
+    "Microsoft Azure": "Professional Services",
+    "Google Cloud": "Professional Services",
+    "DigitalOcean": "Professional Services",
+    "Hetzner": "Professional Services",
+    "Domain-Provider": "Professional Services",
+    "STRATO": "Professional Services",
+    "1&1 IONOS": "Professional Services",
+    "STAPLES": "Bürobedarf",
+    "Viking": "Bürobedarf",
+    "McPaper": "Bürobedarf",
+    "IKEA Business": "Büromöbel",
+    "Apple Store": "Hardware & Technik",
+    "Cyberport": "Hardware & Technik",
+    "MediaMarkt": "Hardware & Technik",
+    "Saturn": "Hardware & Technik",
+    "Conrad": "Hardware & Technik",
+    "Steuerberater": "Beratung & Recht",
+    "Rechtsanwalt": "Beratung & Recht",
+    "Wirtschaftsprüfer": "Beratung & Recht",
+    "Unternehmensberater": "Beratung & Recht",
+    "IHK": "Beratung & Recht",
+    "Finanzamt": "Steuern",
+    "Gewerbesteuer": "Steuern",
+    "Umsatzsteuer": "Steuern",
+    "Berufsgenossenschaft": "Versicherungen",
+    "Betriebshaftpflicht": "Versicherungen",
+    "Berufshaftpflicht": "Versicherungen",
+    "Hotel": "Reisekosten",
+    "Bahn": "Reisekosten", 
+    "Lufthansa": "Reisekosten",
+    "Tankstelle": "Fahrtkosten",
+    "Maut": "Fahrtkosten",
+    "Weiterbildung": "Bildung & Fortbildung",
+    "Seminar": "Bildung & Fortbildung",
+    "Konferenz": "Bildung & Fortbildung",
+    "Fachliteratur": "Bildung & Fortbildung",
+    "Xing": "Networking & Marketing",
+    "LinkedIn": "Networking & Marketing",
+    "Messe": "Networking & Marketing",
+    "Werbung": "Networking & Marketing"
+  },
+  "granularRules": [
+    {
+      "mode": "PAYEE_KEYWORDS",
+      "criteria": {
+        "payee": "AMAZON",
+        "keywords": ["Büro", "Office", "Laptop", "Monitor", "Drucker"]
+      },
+      "category": "Bürobedarf",
+      "created": "2025-06-14 12:00:00"
+    },
+    {
+      "mode": "PAYEE_KEYWORDS",
+      "criteria": {
+        "payee": "AMAZON",
+        "keywords": ["AWS", "Cloud", "Server", "Hosting"]
+      },
+      "category": "Professional Services",
+      "created": "2025-06-14 12:00:00"
+    },
+    {
+      "mode": "PAYEE_AMOUNT",
+      "criteria": {
+        "payee": "Microsoft",
+        "amount": "6,99"
+      },
+      "category": "Software & Lizenzen",
+      "created": "2025-06-14 12:00:00"
+    }
+  ],
+  "usage_notes": [
+    "Optimiert für deutsche Freelancer und kleine Unternehmen",
+    "Berücksichtigt steuerlich relevante Kategorien",
+    "Granulare Regeln für Amazon Business-Käufe",
+    "Kompatibel mit gängigen Buchhaltungssoftware-Kategorien",
+    "Kann mit anderen Sets kombiniert werden"
+  ]
+}

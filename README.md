@@ -6,32 +6,47 @@
 
 ## 🇩🇪 Deutsch
 
-Konvertiert deutsche Bank-CSV-Exporte automatisch zu Actual Budget mit intelligenter Kategorisierung und Transfer-Erkennung.
+Konvertiert deutsche Bank-CSV-Exporte automatisch zu Actual Budget mit **intelligenter CategoryEngine** und Transfer-Erkennung.
 
-[![PowerShell](https://img.shields.io/badge/PowerShell-5.1%2B-blue)](https://docs.microsoft.com/en-us/powershell/)
+[![PowerShell](https://img.shields.io/badge/PowerShell-5.1%2B%20%7C%207.x-blue)](https://docs.microsoft.com/en-us/powershell/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Auto-Discovery](https://img.shields.io/badge/Auto--Discovery-IBAN%20%7C%20Categories-brightgreen)](README.md)
+[![CategoryEngine](https://img.shields.io/badge/CategoryEngine-I18n%20%7C%20Smart%20Rules-brightgreen)](README.md)
+[![Cross-Platform](https://img.shields.io/badge/Cross--Platform-Windows%20%7C%20Linux%20%7C%20macOS-blue)](README.md)
 
-### 🚀 Ein-Klick Start (Empfohlen)
+### 🚀 Schnellstart
 
-**Windows:**
+**Windows PowerShell:**
 ```powershell
-powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1
+powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Language de
 ```
 
-**Linux/macOS:**
+**Linux/macOS PowerShell:**
 ```bash
-pwsh -File CSV2Actual.ps1
+pwsh -File CSV2Actual.ps1 -Language de
 ```
 
-**Das war's!** Das Tool:
-- 🔍 **Erkennt automatisch** alle IBANs und Konten aus Ihren CSV-Dateien
-- 🏷️ **Kategorisiert automatisch** 60-70% aller Transaktionen  
-- 🔄 **Erkennt Transfers** zwischen Ihren Konten
-- 💰 **Berechnet Startguthaben** automatisch für Actual Budget Setup
-- 📊 **Erstellt Statistiken** über verarbeitete Daten
-- 🗂️ **Log-Management** mit automatischer Bereinigung
-- 💾 **Speichert alles** im `actual_import/` Ordner für Actual Budget
+**Erste Nutzung (Setup):**
+```powershell
+powershell -File CSV2Actual.ps1 -Setup -Language de
+```
+
+### ✨ **Neue Features v1.3.0**
+
+- 🧠 **CategoryEngine:** Intelligente, regel-basierte Kategorisierung mit Prioritätslogik
+- 🌍 **Vollständige I18n:** Deutsche und englische Oberfläche + Kategorien
+- 🔄 **Cross-Platform:** Windows PowerShell 5.1/7.x + Linux/macOS PowerShell 7.x
+- 📊 **64%+ Kategorisierung:** Automatische Erkennung durch smarte Algorithmen
+- 🎯 **Modulares Design:** Wartbar, testbar, erweiterbar
+
+### 🎯 **Was CSV2Actual leistet:**
+
+- 🔍 **Auto-Discovery:** Erkennt alle IBANs und Konten aus CSV-Dateien
+- 🏷️ **Smart Categorization:** 64%+ automatische Kategorisierung mit CategoryEngine
+- 🔄 **Transfer-Erkennung:** Automatische Erkennung interner Überweisungen
+- 💰 **Startsaldo-Berechnung:** Automatische Berechnung für Actual Budget Setup
+- 📊 **Detaillierte Statistiken:** Verarbeitungsübersicht und Kategorisierungsraten
+- 🗂️ **Intelligentes Logging:** Strukturierte Logs mit automatischer Bereinigung
+- 💾 **Ready-to-Import:** Fertige CSV-Dateien für direkten Actual Budget Import
 
 ### ✨ Wozu dieses Skript?
 
@@ -54,10 +69,37 @@ Für eine Übersicht über einen längeren Zeitraum müssen Sie aus der Banking-
 - Erstellt automatisch Konto-Zuordnungen basierend auf Dateinamen
 - Erkennt Benutzer-Namen (z.B. aus "Max_Girokonto.csv" → "Max")
 
-#### 🏷️ **Intelligente Kategorisierung**
-- **Transfer-Kategorien**: Geld zwischen Ihren eigenen Konten
-- **Gehalts-Kategorien**: Automatische Arbeitgeber-Erkennung
-- **Ausgaben-Kategorien**: REWE, EDEKA, Amazon, PayPal, etc.
+#### 🧠 **CategoryEngine - Intelligente Kategorisierung**
+
+Die CategoryEngine ist das Herzstück der automatischen Kategorisierung mit einer **Prioritäts-basierten Regel-Engine:**
+
+1. **🎯 Exakte Payee-Matches** (höchste Priorität)
+   - Direkte Zuordnung von Empfängernamen zu Kategorien
+   - Beispiel: "ALDI SUED" → "Supermarkt"
+
+2. **🔍 Payee-Keywords** (mittlere Priorität)
+   - Keyword-basierte Suche in Empfängernamen
+   - Beispiel: "ALDI" → "Supermarkt", "SHELL" → "Kraftstoff"
+
+3. **📝 Memo-Keywords** (niedrige Priorität)
+   - Textsuche in Verwendungszweck/Memo-Feldern
+   - Beispiel: "Tankstelle" → "Kraftstoff"
+
+4. **💰 Buchungstext-Patterns** (Fallback)
+   - Pattern-Matching für spezielle Transaktionstypen
+   - Beispiel: "SB-Einzahlung" → "Bareinzahlungen"
+
+**Automatische Kategorien:**
+- **🔄 Transfer-Kategorien:** Geld zwischen Ihren eigenen Konten
+- **💼 Gehalts-Kategorien:** Automatische Arbeitgeber-Erkennung  
+- **🛒 Ausgaben-Kategorien:** ALDI, REWE, EDEKA, Amazon, PayPal, etc.
+- **🏦 Banking-Kategorien:** Bankgebühren, Kapitalerträge, Steuern
+- **🌍 Mehrsprachig:** Deutsche und englische Kategorie-Namen
+
+**Konfiguration:**
+- Kategorien werden in `config.local.json` definiert
+- Keywords per Kategorie: `"Supermarkt": "EDEKA,ALDI,REWE,Penny,Netto,LIDL"`
+- Automatische Speicherung und Wiederverwendung der Regeln
 
 #### 📊 **Beispiel-Ausgabe**
 ```
@@ -95,10 +137,14 @@ powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1
 pwsh -File CSV2Actual.ps1
 ```
 
-#### 3️⃣ **Ergebnisse importieren**
+#### 3️⃣ **Konten in Actual Budget einrichten**
+- **WICHTIG:** Zuerst Konten anhand der `starting_balances.txt` anlegen
+- Die exakten Kontonamen und Startsalden aus der Datei verwenden
+- Startdatum für jedes Konto entsprechend setzen
+
+#### 4️⃣ **Ergebnisse importieren**
 - Dateien aus `actual_import/` Ordner in Actual Budget importieren
 - Kategorien automatisch erstellen lassen
-- Startguthaben aus `starting_balances.txt` übernehmen
 
 **Fertig!** 🎉
 
@@ -114,10 +160,12 @@ powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 [PARAMETER]
 
 | Parameter | Kurz | Beschreibung | Beispiel |
 |-----------|------|--------------|----------|
-| `-Language` | `-l` | Sprache wählen (`de`, `en`) | `-Language de` |
-| `-Setup` | `-s` | Erstkonfiguration erzwingen (First run/Setup) | `-Setup` |
-| `-DryRun` | `-n` | Vorschau ohne Dateien zu schreiben | `-DryRun` |
-| `-Help` | `-h` | Hilfe anzeigen | `-Help` |
+| `-Language` | `-l` | **Sprache:** `de` (Deutsch) oder `en` (English) | `-Language de` |
+| `-Setup` | `-s` | **Erstkonfiguration:** Erzwingt vollständiges Setup (Konten, Kategorien, Startdaten) | `-Setup` |
+| `-DryRun` | `-n` | **Vorschau-Modus:** Zeigt nur an was passieren würde, schreibt keine Dateien | `-DryRun` |
+| `-Categorize` | `-c` | **Interaktive Kategorisierung:** Startet direkt den Kategorie-Scanner | `-Categorize` |
+| `-Help` | `-h` | **Hilfe:** Zeigt Parameterübersicht | `-Help` |
+| `-NoScreenClear` | | **Debug-Modus:** Deaktiviert Screen-Clearing für Fehleranalyse | `-NoScreenClear` |
 
 #### **Bank CSV Processor: scripts/bank_csv_processor.ps1**
 
@@ -143,10 +191,13 @@ powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1
 powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Language de
 
 # 👀 Vorschau was passieren würde (ohne Dateien zu schreiben):
-powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -DryRun
+powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -DryRun -Language de
 
 # 🔧 Setup neu konfigurieren (First run erzwingen):
-powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Setup
+powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Setup -Language de
+
+# 🏷️ Direkt zur interaktiven Kategorisierung:
+powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Categorize -Language de
 ```
 
 **Linux/macOS:**
@@ -158,10 +209,13 @@ pwsh -File CSV2Actual.ps1
 pwsh -File CSV2Actual.ps1 -Language de
 
 # 👀 Vorschau was passieren würde (ohne Dateien zu schreiben):
-pwsh -File CSV2Actual.ps1 -DryRun
+pwsh -File CSV2Actual.ps1 -DryRun -Language de
 
 # 🔧 Setup neu konfigurieren (First run erzwingen):
-pwsh -File CSV2Actual.ps1 -Setup
+pwsh -File CSV2Actual.ps1 -Setup -Language de
+
+# 🏷️ Direkt zur interaktiven Kategorisierung:
+pwsh -File CSV2Actual.ps1 -Categorize -Language de
 ```
 
 **Zusätzliche Optionen (alle Plattformen):**
@@ -224,7 +278,7 @@ powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1
 #### **Keine IBANs erkannt**
 - Prüfen Sie, dass CSV-Dateien IBAN-Spalten enthalten
 - Tool analysiert automatisch die häufigsten Spalten-Namen
-- Bei Problemen: Interaktiven Modus verwenden (`-Language de`)
+- Bei Problemen: Setup-Modus verwenden (`-Setup`)
 
 #### **Encoding-Probleme**
 - Das Tool erkennt automatisch die meisten Encoding-Formate
@@ -234,7 +288,20 @@ powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1
 
 ## 🇺🇸 English
 
-Automatically converts German bank CSV exports to Actual Budget with intelligent categorization and transfer detection.
+Automatically converts German bank CSV exports to Actual Budget with **intelligent CategoryEngine** and transfer detection.
+
+[![PowerShell](https://img.shields.io/badge/PowerShell-5.1%2B%20%7C%207.x-blue)](https://docs.microsoft.com/en-us/powershell/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![CategoryEngine](https://img.shields.io/badge/CategoryEngine-I18n%20%7C%20Smart%20Rules-brightgreen)](README.md)
+[![Cross-Platform](https://img.shields.io/badge/Cross--Platform-Windows%20%7C%20Linux%20%7C%20macOS-blue)](README.md)
+
+### ✨ **New Features v1.3.0**
+
+- 🧠 **CategoryEngine:** Intelligent, rule-based categorization with priority logic
+- 🌍 **Full I18n:** German and English interface + categories
+- 🔄 **Cross-Platform:** Windows PowerShell 5.1/7.x + Linux/macOS PowerShell 7.x
+- 📊 **64%+ Categorization:** Automatic recognition through smart algorithms
+- 🎯 **Modular Design:** Maintainable, testable, extensible
 
 ### 🚀 One-Click Start (Recommended)
 
@@ -248,14 +315,15 @@ powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1
 pwsh -File CSV2Actual.ps1
 ```
 
-**That's it!** The tool:
-- 🔍 **Automatically detects** all IBANs and accounts from your CSV files
-- 🏷️ **Automatically categorizes** 60-70% of all transactions  
-- 🔄 **Detects transfers** between your accounts
-- 💰 **Calculates account balances** automatically for Actual Budget setup
-- 📊 **Creates statistics** about processed data
-- 🗂️ **Log management** with automatic cleanup
-- 💾 **Saves everything** in the `actual_import/` folder for Actual Budget
+### 🎯 **What CSV2Actual delivers:**
+
+- 🔍 **Auto-Discovery:** Detects all IBANs and accounts from CSV files
+- 🏷️ **Smart Categorization:** 64%+ automatic categorization with CategoryEngine
+- 🔄 **Transfer Detection:** Automatic detection of internal transfers
+- 💰 **Starting Balance Calculation:** Automatic calculation for Actual Budget setup
+- 📊 **Detailed Statistics:** Processing overview and categorization rates
+- 🗂️ **Intelligent Logging:** Structured logs with automatic cleanup
+- 💾 **Ready-to-Import:** Finished CSV files for direct Actual Budget import
 
 ### ✨ Why this script?
 
@@ -278,18 +346,45 @@ For an overview over a longer period, you need to import CSV files exported from
 - Automatically creates account mappings based on filenames
 - Detects user names (e.g., from "Max_Checking.csv" → "Max")
 
-#### 🏷️ **Intelligent Categorization**
-- **Transfer categories**: Money between your own accounts
-- **Salary categories**: Automatic employer detection
-- **Expense categories**: REWE, EDEKA, Amazon, PayPal, etc.
+#### 🧠 **CategoryEngine - Intelligent Categorization**
+
+The CategoryEngine is the core of automatic categorization with a **Priority-based Rule Engine:**
+
+1. **🎯 Exact Payee Matches** (highest priority)
+   - Direct mapping of payee names to categories
+   - Example: "ALDI SUED" → "Groceries"
+
+2. **🔍 Payee Keywords** (medium priority)
+   - Keyword-based search in payee names
+   - Example: "ALDI" → "Groceries", "SHELL" → "Gas"
+
+3. **📝 Memo Keywords** (low priority)
+   - Text search in memo/reference fields
+   - Example: "Gas Station" → "Gas"
+
+4. **💰 Transaction Patterns** (fallback)
+   - Pattern matching for special transaction types
+   - Example: "ATM Deposit" → "Cash Deposits"
+
+**Automatic Categories:**
+- **🔄 Transfer Categories:** Money between your own accounts
+- **💼 Salary Categories:** Automatic employer detection
+- **🛒 Expense Categories:** ALDI, REWE, EDEKA, Amazon, PayPal, etc.
+- **🏦 Banking Categories:** Bank fees, capital gains, taxes
+- **🌍 Multi-language:** German and English category names
+
+**Configuration:**
+- Categories are defined in `config.local.json`
+- Keywords per category: `"Groceries": "EDEKA,ALDI,REWE,Penny,Netto,LIDL"`
+- Automatic saving and reuse of rules
 
 #### 📊 **Example Output**
 ```
 STATISTICS:
-  📁 Processed files: 8
-  💳 Total transactions: 445
-  🏷️ Categorized: 312 (70.1%)
-  🔄 Transfers between accounts: 28
+  📁 Processed files: 11
+  💳 Total transactions: 618
+  🏷️ Categorized: 396 (64.1%)
+  🔄 Transfers between accounts: 214
 ```
 
 ### 🏦 Supported Banks
@@ -319,10 +414,14 @@ powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1
 pwsh -File CSV2Actual.ps1
 ```
 
-#### 3️⃣ **Import results**
+#### 3️⃣ **Set up accounts in Actual Budget**
+- **IMPORTANT:** First create accounts based on `starting_balances.txt`
+- Use the exact account names and starting balances from the file
+- Set the start date for each account accordingly
+
+#### 4️⃣ **Import results**
 - Import files from `actual_import/` folder into Actual Budget
 - Let categories be created automatically
-- Use account balances from `starting_balances.txt`
 
 **Done!** 🎉
 
@@ -338,10 +437,12 @@ powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 [PARAMETER]
 
 | Parameter | Short | Description | Example |
 |-----------|-------|-------------|---------|
-| `-Language` | `-l` | Choose language (`de`, `en`) | `-Language en` |
-| `-Setup` | `-s` | Force initial setup (First run/Setup) | `-Setup` |
-| `-DryRun` | `-n` | Preview without writing files | `-DryRun` |
-| `-Help` | `-h` | Show help | `-Help` |
+| `-Language` | `-l` | **Language:** `de` (German) or `en` (English) | `-Language en` |
+| `-Setup` | `-s` | **Initial setup:** Force complete setup (accounts, categories, start dates) | `-Setup` |
+| `-DryRun` | `-n` | **Preview mode:** Shows only what would happen, writes no files | `-DryRun` |
+| `-Categorize` | `-c` | **Interactive categorization:** Starts directly the category scanner | `-Categorize` |
+| `-Help` | `-h` | **Help:** Shows parameter overview | `-Help` |
+| `-NoScreenClear` | | **Debug mode:** Disables screen clearing for error analysis | `-NoScreenClear` |
 
 #### **Bank CSV Processor: scripts/bank_csv_processor.ps1**
 
@@ -371,6 +472,9 @@ powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -DryRun
 
 # 🔧 Reconfigure setup (force First run):
 powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Setup
+
+# 🏷️ Directly to interactive categorization:
+powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Categorize
 ```
 
 **Linux/macOS:**
@@ -386,6 +490,9 @@ pwsh -File CSV2Actual.ps1 -DryRun
 
 # 🔧 Reconfigure setup (force First run):
 pwsh -File CSV2Actual.ps1 -Setup
+
+# 🏷️ Directly to interactive categorization:
+pwsh -File CSV2Actual.ps1 -Categorize
 ```
 
 **Additional options (all platforms):**
@@ -413,6 +520,9 @@ powershell -ExecutionPolicy Bypass -File scripts/bank_csv_processor.ps1 -Alterna
 
 # Force setup in English:
 powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Language en -Setup
+
+# Direct categorization in English:
+powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Language en -Categorize
 ```
 
 ### 🔐 Privacy & Security
@@ -448,7 +558,7 @@ powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1
 #### **No IBANs detected**
 - Check that CSV files contain IBAN columns
 - Tool automatically analyzes the most common column names
-- If problems persist: Use interactive mode (`-Language en`)
+- If problems persist: Use setup mode (`-Setup`)
 
 #### **Encoding problems**
 - Tool automatically detects most encoding formats
@@ -477,6 +587,31 @@ powershell -ExecutionPolicy Bypass -File CSV2Actual.ps1 -Language en
 ```bash
 pwsh -File CSV2Actual.ps1 -Language en
 ```
+
+---
+
+---
+
+## 🤖👨‍💻 AI-Collaborative Development Case Study
+
+CSV2Actual ist ein **Proof-of-Concept für Human-AI Collaborative Development**. Dieses Projekt demonstriert die Möglichkeiten und Grenzen der kooperativen Softwareentwicklung zwischen Mensch und KI.
+
+### 📊 Projekt-Highlights:
+- **2000+ Lines of Code** (75% AI-generiert, 25% human-guided)
+- **Enterprise-Level Features**: Modulare Klassen, i18n, Community-Sharing
+- **Entwicklungszeit**: 4+ Wochen statt geschätzte 8+ Wochen traditional
+- **Reale Kostenanalyse**: $357+ monatlich für AI-Entwicklung dokumentiert
+
+### 📖 Vollständige Dokumentation:
+- **[AI-Collaboration Overview](docs/ai-collaboration/README.md)** - Überblick und Quick Start
+- **[Development Journey](docs/ai-collaboration/development-journey.md)** - Chronologische Entwicklungsreise
+- **[Cost Analysis](docs/ai-collaboration/cost-analysis.md)** - Prompt-Statistiken und Kostenanalyse
+- **[Benefits & Challenges](docs/ai-collaboration/benefits-challenges.md)** - Lessons Learned
+- **[Technical Insights](docs/ai-collaboration/technical-insights.md)** - Code-Patterns und Komplexität
+- **[Live Metrics](docs/ai-collaboration/metrics.json)** - Entwicklungs-Statistiken
+
+### 🎯 Für andere Entwickler:
+Dieses Projekt zeigt, wie komplexe Software-Tools durch Human-AI Collaboration in einem Bruchteil der traditionellen Zeit entwickelt werden können. Die vollständige Dokumentation bietet praktische Einblicke für eigene AI-unterstützte Projekte.
 
 ---
 

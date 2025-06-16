@@ -1,0 +1,38 @@
+{
+  "bankName": "Generic German Bank",
+  "country": "DE", 
+  "language": "de",
+  "description": "Generisches deutsches CSV-Format mit flexibler Spalten-Erkennung",
+  "author": "CSV2Actual Community",
+  "dateCreated": "2025-12-06",
+  "csvFormat": {
+    "delimiter": ";",
+    "encoding": "UTF8",
+    "hasHeader": true,
+    "dateFormat": "DD.MM.YYYY",
+    "decimalSeparator": ",",
+    "thousandsSeparator": "."
+  },
+  "columnMapping": {
+    "date": ["Buchungstag", "Datum", "Date", "Buchungsdatum", "Wertstellung"],
+    "amount": ["Betrag", "Umsatz", "Amount", "Summe", "Wert"],
+    "payee": ["Name Zahlungsbeteiligter", "Empfänger", "Payee", "Partner", "Zahlungsempfänger"], 
+    "memo": ["Verwendungszweck", "Zweck", "Purpose", "Beschreibung", "Reference", "Grund"],
+    "iban": ["IBAN Zahlungsbeteiligter", "Partner IBAN", "Empfänger IBAN", "Payee IBAN"],
+    "accountIban": ["IBAN Auftragskonto", "Konto IBAN", "Account IBAN", "Eigene IBAN", "IBAN"],
+    "accountName": ["Bezeichnung Auftragskonto", "Kontobezeichnung", "Account Name", "Konto", "Account"],
+    "balance": ["Saldo nach Buchung", "Kontostand", "Balance", "Saldo", "Running Balance"]
+  },
+  "patterns": {
+    "date": ["buchungstag", "datum", "date", "buchung", "wertstellung"],
+    "amount": ["betrag", "umsatz", "amount", "summe", "wert", "value"],
+    "payee": ["name.*zahlungsbeteiligter", "empfänger", "payee", "partner", "zahlungsempfänger"],
+    "memo": ["verwendungszweck", "zweck", "purpose", "beschreibung", "reference", "grund"],
+    "iban": ["iban.*zahlungsbeteiligter", "partner.*iban", "empfänger.*iban", "payee.*iban"],
+    "accountIban": ["iban.*auftragskonto", "konto.*iban", "account.*iban", "eigene.*iban", "^iban$"],
+    "accountName": ["bezeichnung.*auftragskonto", "kontobezeichnung", "account.*name", "^konto$", "^account$"],
+    "balance": ["saldo.*nach.*buchung", "kontostand", "balance", "saldo", "running.*balance"]
+  },
+  "notes": "Universelles deutsches Format mit flexiblen Pattern-Matching für verschiedene Banken. Unterstützt dynamische Spalten-Erkennung.",
+  "notesEnglish": "Universal German format with flexible pattern matching for different banks. Supports dynamic column detection."
+}

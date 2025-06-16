@@ -1,0 +1,89 @@
+﻿KATEGORIEN FÜR ACTUAL BUDGET
+==================================
+Diese Kategorien wurden in Ihren CSV-Dateien gefunden.
+Erstellen Sie diese exakt so in Actual Budget für optimale Zuordnung.
+
+# Dynamisch generierte Liste basierend auf tatsächlich verwendeten Kategorien
+# Anzahl verwendeter Kategorien: 69
+# Gesamtverwendungen: 696
+
+TRANSFER-KATEGORIEN:
+- Transfer (5 Verwendungen)
+- Transfer (Haushaltsbeitrag) (14 Verwendungen)
+- Transfer nach Alessandra-Girokonto (37 Verwendungen)
+- Transfer nach Alessandra-Sparbuch (12 Verwendungen)
+- Transfer nach Gemeinsames-Girokonto (32 Verwendungen)
+- Transfer nach Immobilienförderkredit (5 Verwendungen)
+- Transfer nach Immobilienkredit (5 Verwendungen)
+- Transfer nach Stefan Geschäftsanteile (1 Verwendungen)
+- Transfer nach Stefan-Girokonto (8 Verwendungen)
+- Transfer von Alessandra-Girokonto (28 Verwendungen)
+- Transfer von Alessandra-Sparbuch (10 Verwendungen)
+- Transfer von Alessandra-Variokonto (2 Verwendungen)
+- Transfer von Gemeinsames-Girokonto (31 Verwendungen)
+- Transfer von Stefan Geschäftsanteile (1 Verwendungen)
+- Transfer von Stefan-Girokonto (28 Verwendungen)
+
+EINNAHMEN-KATEGORIEN:
+- Bareinzahlungen (13 Verwendungen)
+- Einkommen (12 Verwendungen)
+
+AUSGABEN-KATEGORIEN:
+- ALDI (25 Verwendungen)
+- Aliexpress (1 Verwendungen)
+- Ask. o .6110 (1 Verwendungen)
+- Bankgebühren (21 Verwendungen)
+- Barauszahlung (5 Verwendungen)
+- Bausparen (10 Verwendungen)
+- Bildung (12 Verwendungen)
+- Boettcherag (1 Verwendungen)
+- Dhlexpressg (1 Verwendungen)
+- Drogerie & Gesundheit (25 Verwendungen)
+- EDEKA (6 Verwendungen)
+- Edeka fedele (1 Verwendungen)
+- Elektronik & Technik (5 Verwendungen)
+- Genuss (8 Verwendungen)
+- Geschenke (1 Verwendungen)
+- Geteilte Kosten (7 Verwendungen)
+- Gewinn (13 Verwendungen)
+- Haushaltsausgaben (3 Verwendungen)
+- Heise (1 Verwendungen)
+- Hellofresh (22 Verwendungen)
+- Internet & Telefon (6 Verwendungen)
+- Kapitalerträge (4 Verwendungen)
+- Karsde66 (1 Verwendungen)
+- KAUFLAND (4 Verwendungen)
+- Kleidung (2 Verwendungen)
+- Kraftstoff (17 Verwendungen)
+- Kredit (9 Verwendungen)
+- Lebensmittel (29 Verwendungen)
+- Leihe (2 Verwendungen)
+- LIDL (2 Verwendungen)
+- Lotterie (6 Verwendungen)
+- Miete Garage (5 Verwendungen)
+- Nebenkosten (19 Verwendungen)
+- Netto (3 Verwendungen)
+- Online Shopping (2 Verwendungen)
+- ÖPNV (8 Verwendungen)
+- Osiander (1 Verwendungen)
+- Parken (7 Verwendungen)
+- Porto (2 Verwendungen)
+- Reisen (2 Verwendungen)
+- Restaurants & Ausgehen (5 Verwendungen)
+- REWE (19 Verwendungen)
+- Server (11 Verwendungen)
+- Sonstige Einnahmen (44 Verwendungen)
+- Sparen (15 Verwendungen)
+- Spenden (17 Verwendungen)
+- Steuern (3 Verwendungen)
+- Streaming & Abos (16 Verwendungen)
+- Taxi & Ridesharing (4 Verwendungen)
+- The pi hut (1 Verwendungen)
+- Versicherungen (16 Verwendungen)
+- Whitealbumi (1 Verwendungen)
+
+ANLEITUNG:
+1. Öffnen Sie Actual Budget
+2. Gehen Sie zu 'Kategorien'
+3. Erstellen Sie diese Kategorien exakt wie oben aufgelistet
+4. Importieren Sie dann die CSV-Dateien aus diesem Ordner

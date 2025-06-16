@@ -1,0 +1,38 @@
+{
+  "bankName": "Generic International Bank",
+  "country": "INT", 
+  "language": "en",
+  "description": "Generic international CSV format with flexible column detection",
+  "author": "CSV2Actual Community",
+  "dateCreated": "2025-12-06",
+  "csvFormat": {
+    "delimiter": ",",
+    "encoding": "UTF8",
+    "hasHeader": true,
+    "dateFormat": "YYYY-MM-DD",
+    "decimalSeparator": ".",
+    "thousandsSeparator": ","
+  },
+  "columnMapping": {
+    "date": ["Date", "Transaction Date", "Booking Date", "Value Date"],
+    "amount": ["Amount", "Value", "Transaction Amount", "Sum"],
+    "payee": ["Payee", "Recipient", "Partner", "Counterparty", "Beneficiary"], 
+    "memo": ["Description", "Purpose", "Reference", "Memo", "Details", "Transaction Details"],
+    "iban": ["Payee IBAN", "Recipient IBAN", "Partner IBAN", "Counterparty IBAN"],
+    "accountIban": ["Account IBAN", "Own IBAN", "Source IBAN", "IBAN"],
+    "accountName": ["Account Name", "Account Description", "Account", "Source Account"],
+    "balance": ["Balance", "Running Balance", "Account Balance", "Balance After Transaction"]
+  },
+  "patterns": {
+    "date": ["date", "transaction.*date", "booking.*date", "value.*date"],
+    "amount": ["amount", "value", "transaction.*amount", "sum"],
+    "payee": ["payee", "recipient", "partner", "counterparty", "beneficiary"],
+    "memo": ["description", "purpose", "reference", "memo", "details", "transaction.*details"],
+    "iban": ["payee.*iban", "recipient.*iban", "partner.*iban", "counterparty.*iban"],
+    "accountIban": ["account.*iban", "own.*iban", "source.*iban", "^iban$"],
+    "accountName": ["account.*name", "account.*description", "^account$", "source.*account"],
+    "balance": ["balance", "running.*balance", "account.*balance", "balance.*after.*transaction"]
+  },
+  "notes": "Universal international format with flexible pattern matching for different banks. Supports dynamic column detection.",
+  "notesEnglish": "Universal international format with flexible pattern matching for different banks. Supports dynamic column detection."
+}

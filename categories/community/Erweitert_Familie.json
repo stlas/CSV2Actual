@@ -1,0 +1,77 @@
+{
+  "metadata": {
+    "name": "Erweiterte Familienausgaben",
+    "description": "Detaillierte Kategorien für Familien mit Kindern - Bildung, Spielzeug, Kinderbetreuung, etc.",
+    "author": "CSV2Actual Community",
+    "created": "2025-06-14 12:00:00",
+    "version": "1.0",
+    "language": "de",
+    "totalMappings": 35,
+    "tags": ["familie", "kinder", "bildung", "erweitert", "community"],
+    "license": "CC0-1.0",
+    "compatible": ["PowerShell_5.1", "PowerShell_7.x"]
+  },
+  "categoryMappings": {
+    "SPIELWAREN KURTZ": "Spielzeug & Kinderartikel",
+    "TOYS R US": "Spielzeug & Kinderartikel", 
+    "LEGO": "Spielzeug & Kinderartikel",
+    "ERNSTING'S FAMILY": "Kleidung Kinder",
+    "H&M": "Kleidung",
+    "C&A": "Kleidung",
+    "KINDERGARTEN": "Kinderbetreuung",
+    "KITA": "Kinderbetreuung",
+    "Musikschule": "Bildung & Kurse",
+    "Schwimmverein": "Sport & Freizeit",
+    "Fußballverein": "Sport & Freizeit",
+    "Kinderarzt": "Gesundheit Kinder",
+    "Zahnarzt": "Gesundheit",
+    "Apotheke": "Gesundheit",
+    "Schulmaterialien": "Bildung",
+    "Bücher Thalia": "Bildung",
+    "Osiander": "Bildung",
+    "Schulbuchverlag": "Bildung",
+    "Klassenfahrt": "Bildung",
+    "Nachhilfe": "Bildung & Kurse",
+    "Babysitter": "Kinderbetreuung",
+    "McDonald's": "Restaurants & Fast Food",
+    "Burger King": "Restaurants & Fast Food",
+    "Eisdiele": "Restaurants & Fast Food",
+    "Zoo": "Freizeit & Unterhaltung",
+    "Freizeitpark": "Freizeit & Unterhaltung",
+    "Kino": "Freizeit & Unterhaltung",
+    "Schwimmbad": "Sport & Freizeit",
+    "Bibliothek": "Bildung",
+    "Wochenmarkt": "Lebensmittel",
+    "Bäckerei": "Lebensmittel",
+    "Metzgerei": "Lebensmittel",
+    "Familienvater": "Haushaltsgeld",
+    "Familienmutter": "Haushaltsgeld",
+    "Taschengeld": "Kinder Taschengeld"
+  },
+  "granularRules": [
+    {
+      "mode": "PAYEE_KEYWORDS",
+      "criteria": {
+        "payee": "AMAZON",
+        "keywords": ["Spielzeug", "LEGO", "Puppe", "Spiel"]
+      },
+      "category": "Spielzeug & Kinderartikel",
+      "created": "2025-06-14 12:00:00"
+    },
+    {
+      "mode": "PAYEE_KEYWORDS", 
+      "criteria": {
+        "payee": "AMAZON",
+        "keywords": ["Schulsachen", "Hefte", "Stifte", "Schulbuch"]
+      },
+      "category": "Bildung",
+      "created": "2025-06-14 12:00:00"
+    }
+  ],
+  "usage_notes": [
+    "Speziell für Familien mit schulpflichtigen Kindern entwickelt",
+    "Unterscheidet zwischen Kinderkleidung und Erwachsenenkleidung",
+    "Granulare Regeln für Amazon-Käufe (Spielzeug vs. Schulsachen)",
+    "Kann mit dem Basis-Set kombiniert werden"
+  ]
+}
