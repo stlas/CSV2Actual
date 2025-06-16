@@ -48,6 +48,9 @@ CLAUDE*
 
 # Lokale Konfiguration mit echten IBANs (NIEMALS COMMITTEN!)
 config.local.json
+config.local.json.*
+*.backup
+*.final_backup
 config.personal.json
 *_personal.json
 *_real.json
