@@ -1,12 +1,18 @@
 {
-    "current_version": "1.0.0",
-    "last_release": "",
-    "auto_increment": "patch",
+    "current_version": "2.0.0",
+    "last_release": "1.3.0",
+    "auto_increment": "minor",
     "release_notes": {
-        "1.0.0": {
-            "date": "",
-            "changes": ["Integration of AI collaboration systems"],
-            "backup_created": false
+        "2.0.0": {
+            "date": "2025-06-16",
+            "changes": [
+                "🧹 GitHub-ready cleanup with preserved development tools",
+                "🛠️ Complete dev/ structure with reusable frameworks",
+                "🔒 Enhanced privacy protection for sensitive data",
+                "📊 AI-cost-tracker as universal development tool",
+                "🏗️ Professional project structure for open source"
+            ],
+            "backup_created": true
         }
     }
 }
